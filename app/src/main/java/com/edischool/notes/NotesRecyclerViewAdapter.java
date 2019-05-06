@@ -13,17 +13,15 @@ import java.util.List;
 public class NotesRecyclerViewAdapter extends RecyclerView.Adapter<NotesRecyclerViewAdapter.ViewHolder> {
 
     private final List<Note> mValues;
-    private final NotesActivityFragment.OnListFragmentInteractionListener mListener;
 
-    public NotesRecyclerViewAdapter(List<Note> items, NotesActivityFragment.OnListFragmentInteractionListener listener) {
+    public NotesRecyclerViewAdapter(List<Note> items) {
         mValues = items;
-        mListener = listener;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.fragment_notes, parent, false);
+                .inflate(R.layout.notes_item, parent, false);
         return new ViewHolder(view);
     }
 
@@ -34,17 +32,6 @@ public class NotesRecyclerViewAdapter extends RecyclerView.Adapter<NotesRecycler
         holder.tvMatiere.setText(n.getMatiere());
         holder.tvNote.setText(n.getNote() + " " + n.getObservation());
         holder.tvSequence.setText(n.getSequence());
-
-        holder.mView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (null != mListener) {
-                    // Notify the active callbacks interface (the activity, if the
-                    // fragment is attached to one) that an item has been selected.
-                    mListener.onListFragmentInteraction(holder.mItem);
-                }
-            }
-        });
     }
 
     @Override

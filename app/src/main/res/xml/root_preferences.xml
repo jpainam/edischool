@@ -43,12 +43,14 @@
         <SwitchPreferenceCompat
             app:key="accept_notifications"
             app:iconSpaceReserved="false"
+            app:defaultValue="true"
             app:title="New message notification" />
 
         <SwitchPreferenceCompat
             app:dependency="accept_notifications"
             app:key="notification_vibrate"
             app:iconSpaceReserved="false"
+            app:defaultValue="true"
             app:summaryOff="Vibrate on new notification"
             app:summaryOn="Vibrate on new notification"
             app:title="Vibrate" />
@@ -61,6 +63,7 @@
         <SwitchPreferenceCompat
             app:key="sync"
             app:iconSpaceReserved="false"
+            app:defaultValue="true"
             app:summaryOff="@string/sync_summary_off"
             app:summaryOn="@string/sync_summary_on"
             app:title="@string/sync_title" />

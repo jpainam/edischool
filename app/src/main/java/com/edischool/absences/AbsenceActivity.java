@@ -30,8 +30,8 @@ public class AbsenceActivity extends AppCompatActivity {
     Context context;
     List<Absence> absenceList = new ArrayList<>();
     AlertDialog dialog = null;
-    TextView studentDetail;
-    TextView classeDetail;
+    /*TextView studentDetail;
+    TextView classeDetail;*/
     Student currentStudent;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,10 +48,16 @@ public class AbsenceActivity extends AppCompatActivity {
         Intent i = getIntent();
         currentStudent = (Student) i.getSerializableExtra("student");
         Log.e(TAG, currentStudent.getFirstName() + " " + currentStudent.getLastName());
-        studentDetail = findViewById(R.id.studentDetail);
+        if(getSupportActionBar() != null){
+            getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+            getSupportActionBar().setHomeButtonEnabled(false);
+            getSupportActionBar().setTitle("Absences");
+            getSupportActionBar().setSubtitle(currentStudent.getFirstName() + " - " + currentStudent.getClasse());
+        }
+        /*studentDetail = findViewById(R.id.studentDetail);
         classeDetail = findViewById(R.id.classeDetail);
         studentDetail.setText(currentStudent.getFirstName());
-        classeDetail.setText("Absences: " + currentStudent.getClasse());
+        classeDetail.setText("Absences: " + currentStudent.getClasse());*/
 
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
