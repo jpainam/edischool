@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "353649983040",
+    "firebase_url": "https://eschool-f2dc1.firebaseio.com",
+    "project_id": "eschool-f2dc1",
+    "storage_bucket": "eschool-f2dc1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:353649983040:android:f96c8276ec6f588e",
+        "android_client_info": {
+          "package_name": "com.edischool"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "353649983040-tbvo5ps67f2o5u1ok7o9o6enhh9c8u2r.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1LdXgUAQjN4gvnpx7jPNrE0BbQoOQ_m4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "353649983040-tbvo5ps67f2o5u1ok7o9o6enhh9c8u2r.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,4 +1,4 @@
-package com.edischool;
+package com.edischool.news;
 
 import android.content.Context;
 import android.net.Uri;
@@ -9,17 +9,18 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+
+import com.edischool.R;
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link StudentFragment.OnFragmentInteractionListener} interface
+ * {@link NewsFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link StudentFragment#newInstance} factory method to
+ * Use the {@link NewsFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class StudentFragment extends Fragment {
+public class NewsFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -31,7 +32,7 @@ public class StudentFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    public StudentFragment() {
+    public NewsFragment() {
         // Required empty public constructor
     }
 
@@ -41,11 +42,11 @@ public class StudentFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment StudentFragment.
+     * @return A new instance of fragment NewsFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static StudentFragment newInstance(String param1, String param2) {
-        StudentFragment fragment = new StudentFragment();
+    public static NewsFragment newInstance(String param1, String param2) {
+        NewsFragment fragment = new NewsFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -65,9 +66,8 @@ public class StudentFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        TextView textView = new TextView(getActivity());
-        textView.setText(R.string.hello_blank_fragment);
-        return textView;
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_news, container, false);
     }
 
     // TODO: Rename method, update argument and hook method into UI event

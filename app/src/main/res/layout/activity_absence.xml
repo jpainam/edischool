@@ -1,0 +1,47 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="5dp"
+        android:id="@+id/headerMenu"
+        android:orientation="vertical"
+        android:background="@android:color/holo_blue_dark">
+        <TextView
+            android:id="@+id/studentDetail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/white"
+            android:text="Main menu"/>
+        <TextView
+            android:id="@+id/classeDetail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/white"
+            android:text="Manuel scolaire"/>
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/recyclerView"
+        android:name="com.edis.eschool.absence.AbsenceActivity"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="5dp"
+        android:layout_below="@+id/headerMenu"
+        android:scrollbars="vertical"
+        app:layoutManager="LinearLayoutManager"
+        tools:context=".absences.AbsenceActivity"
+        tools:listitem="@layout/absence_item" />
+
+
+</RelativeLayout>

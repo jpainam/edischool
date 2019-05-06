@@ -1,0 +1,67 @@
+<androidx.cardview.widget.CardView
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/card_view"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    card_view:cardCornerRadius="4dp"
+    android:layout_margin="5dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tvMatiere"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:background="@color/bkg_card"
+            android:text="Libelle matiere"
+            android:gravity="center_vertical"
+            android:textColor="@android:color/white"
+            android:textSize="14dp"/>
+
+        <TextView
+            android:id="@+id/tvManuel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Titre du Manuel"
+            android:gravity="center_vertical"
+            android:textSize="14dp"
+            android:layout_below="@id/tvMatiere"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="5dp"/>
+
+        <TextView
+            android:id="@+id/tvEditeurs"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Editeurs"
+            android:gravity="center_vertical"
+            android:textSize="14dp"
+            android:layout_below="@id/tvManuel"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="5dp"/>
+
+        <TextView
+            android:id="@+id/tvAuteurs"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Auteurs"
+            android:textSize="14dp"
+            android:layout_marginTop="10dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="150dp"
+            android:layout_alignBaseline="@id/tvManuel"/>
+        <TextView
+            android:id="@+id/tvPrix"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Prix"
+            android:textSize="14dp"
+            android:layout_marginTop="10dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="150dp"
+            android:layout_alignBaseline="@id/tvEditeurs"/>
+    </RelativeLayout>
+</androidx.cardview.widget.CardView>

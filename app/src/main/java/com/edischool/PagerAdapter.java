@@ -5,9 +5,13 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 
+import com.edischool.news.NewsFragment;
+import com.edischool.notification.ListeNotifications;
+import com.edischool.student.StudentFragment;
+
 public class PagerAdapter extends FragmentStatePagerAdapter {
 
-    String[] tabArray = new String[]{"Elèves", "Notifications", "Settings"};
+    String[] tabArray = new String[]{"Home", "Notifs", "News"};
     private int numberOfTabs;
 
 
@@ -23,10 +27,10 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
                 StudentFragment studentFragment = new StudentFragment();
                 return studentFragment;
             case  1:
-                NotificationFragment notificationFragment = new NotificationFragment();
+                ListeNotifications notificationFragment = new ListeNotifications();
                 return notificationFragment;
             case 2:
-                SettingFragment settingFragment = new SettingFragment();
+                NewsFragment settingFragment = new NewsFragment();
                 return settingFragment;
                 default:
                     return null;

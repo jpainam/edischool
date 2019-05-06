@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_margin="8dp"
+
+    android:layout_height="wrap_content"
+    android:id="@+id/itemnotification"
+    >
+
+    <TextView
+        android:id="@+id/icone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:textStyle="bold"
+        android:textSize="30dp"
+        android:text="A"/>
+
+    <TextView
+        android:id="@+id/titre"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="messaggerefsssqg"
+        android:layout_alignTop="@+id/icone"
+        android:layout_toRightOf="@+id/icone"
+
+        android:layout_marginLeft="18dp"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:textColor="@color/colorAccent"
+        android:layout_toEndOf="@+id/icone" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="mkqmqlfqlfjslkddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+        android:id="@+id/message"
+        android:textSize="12sp"
+        android:layout_marginTop="2dp"
+        android:layout_below="@+id/titre"
+        android:layout_alignLeft="@+id/titre"
+        android:layout_alignStart="@+id/titre" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:layout_below="@+id/message"
+        android:layout_alignLeft="@+id/message"
+        android:layout_alignStart="@+id/message"
+        android:orientation="horizontal"
+        android:id="@+id/linear"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="12:25:164"
+            android:id="@+id/date"
+            android:textSize="12sp"
+
+
+
+           />
+
+        <ImageView
+            android:id="@+id/notiflu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:src="@drawable/ic_check_black_24dp"
+            />
+
+    </LinearLayout>
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorPrimary"
+        android:layout_below="@+id/linear"
+        android:layout_alignLeft="@+id/linear"
+        android:layout_marginTop="8dp"
+        />
+
+</RelativeLayout>

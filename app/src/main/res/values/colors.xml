@@ -3,4 +3,8 @@
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
+    <color name="colorLightGray">#f1f1f1</color>
+    <color name="colorCaption">#000</color>
+    <color name="bkg_card">#8C9EFF</color>
+    <color name="colorBlack">#000</color>
 </resources>

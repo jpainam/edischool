@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="6dip">
+    <TextView
+        android:id="@+id/tvAbsence"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:text="Jan Koum"
+        android:layout_marginRight="6dp"
+        android:layout_marginEnd="6dp"
+        style="@style/Caption"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/tvJour"
+        android:layout_below="@id/tvAbsence"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:layout_marginTop="4dp"
+        android:text="Hey! How are you?"
+        android:textSize="12sp" />
+</RelativeLayout>
