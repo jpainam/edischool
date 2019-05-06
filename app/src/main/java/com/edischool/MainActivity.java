@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
+import com.edischool.innermenu.InnerActivity;
 import com.edischool.news.NewsFragment;
 import com.edischool.pojo.Student;
 import com.edischool.sql.DatabaseHelper;
