@@ -105,4 +105,14 @@
     <string name="menu_news">News</string>
     <string name="menu_help"><![CDATA[Help & Feedback]]></string>
     <string name="delete_account">delete_account</string>
+
+    <string name="monday">Mon</string>
+    <string name="tuesday">Tues</string>
+    <string name="wednesday">Wed</string>
+    <string name="thursday">Thurs</string>
+    <string name="friday">Frid</string>
+    <string name="saturday">Satur</string>
+    <string name="sunday">Sun</string>
+    <string name="select_snackbar">Please, select one item.</string>
+    <string name="selected">Selected</string>
 </resources>

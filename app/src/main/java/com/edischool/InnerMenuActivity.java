@@ -17,6 +17,7 @@ import com.edischool.manuelscolaires.ManuelscolaireActivity;
 import com.edischool.notes.NotesActivity;
 import com.edischool.pojo.Student;
 import com.edischool.punitions.PunitionActivity;
+import com.edischool.timetable.activities.TimeTableActivity;
 
 public class InnerMenuActivity extends AppCompatActivity implements View.OnClickListener{
     private static final String TAG = "InnerMenuActivity";
@@ -107,7 +108,7 @@ public class InnerMenuActivity extends AppCompatActivity implements View.OnClick
                 intent = new Intent(context, FinanceActivity.class);
                 break;
             case R.id.emploiCard:
-                intent = new Intent(context, EmploiActivity.class);
+                intent = new Intent(context, TimeTableActivity.class);
                 break;
             case R.id.convocationCard:
                 intent = new Intent(context, ConvocationActivity.class);

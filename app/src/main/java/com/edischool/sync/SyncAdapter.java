@@ -25,6 +25,8 @@ import com.edischool.pojo.Manuelscolaire;
 import com.edischool.pojo.Note;
 import com.edischool.pojo.Student;
 import com.edischool.student.StudentDao;
+import com.edischool.timetable.model.Week;
+import com.edischool.timetable.utils.DbHelper;
 import com.edischool.utils.Constante;
 import com.google.gson.JsonArray;
 
@@ -175,6 +177,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                         syncManuelscolaires(data.getJSONArray("manuels"));
                         syncAbsences(data.getJSONArray("absences"));
                         syncEmplois(data.getJSONArray("emplois"));
+                        syncTimetable(data.getJSONArray("timetable"));
                     }
                     SharedPreferences pref = getContext().getSharedPreferences(
                             getContext().getString(R.string.shared_preference_file),
@@ -259,6 +262,25 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
             a.setEndHour(item.getString("end_hour"));
             a.setDay(item.getString("day"));
             dao.insert(a);
+        }
+    }
+    private void syncTimetable(JSONArray data) throws JSONException{
+        DbHelper dao = new DbHelper(getContext());
+        if(data.length() > 0){
+            dao.emptyTable();
+        }
+        for(int i = 0; i < data.length(); i++){
+            JSONObject item = data.getJSONObject(i);
+            Week a = new Week();
+            a.setId(item.getInt("id"));
+            a.setSubject(item.getString("subject"));
+            a.setFragment(item.getString("day"));
+            a.setTeacher(item.getString("teacher"));
+            a.setRoom(item.getString("room"));
+            a.setFromTime(item.getString("fromtime"));
+            a.setToTime(item.getString("totime"));
+            a.setColor((int)Math.random()%255);
+            dao.insertWeek(a);
         }
     }
     private void syncStudent(JSONArray data) throws JSONException {

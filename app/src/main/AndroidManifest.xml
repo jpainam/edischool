@@ -25,6 +25,7 @@
         <activity android:name=".finances.FinanceActivity" />
         <activity android:name=".punitions.PunitionActivity" />
         <activity android:name=".innermenu.InnerActivity"></activity>
+        <activity android:name=".timetable.activities.TimeTableActivity" android:parentActivityName=".MainActivity"></activity>
         <activity
             android:name=".notes.NotesActivity"
             android:screenOrientation="portrait" />

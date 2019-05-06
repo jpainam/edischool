@@ -11,6 +11,7 @@ import com.edischool.notes.NotesDao;
 import com.edischool.notification.NotificationDao;
 import com.edischool.pojo.Emploi;
 import com.edischool.student.StudentDao;
+import com.edischool.timetable.utils.DbHelper;
 import com.edischool.user.UserDao;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
@@ -110,6 +111,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 EmploiDao.COL_MATIERE + " TEXT, " +
                 EmploiDao.COL_DAY + " TEXT)");
 
+        String CREATE_TIMETABLE = "CREATE TABLE " + DbHelper.TIMETABLE + "("
+                + DbHelper.WEEK_ID + " INTEGER,"
+                + DbHelper.WEEK_SUBJECT + " TEXT,"
+                + DbHelper.WEEK_FRAGMENT + " TEXT,"
+                + DbHelper.WEEK_TEACHER + " TEXT,"
+                + DbHelper.WEEK_ROOM + " TEXT,"
+                + DbHelper.WEEK_FROM_TIME + " TEXT,"
+                + DbHelper.WEEK_TO_TIME + " TEXT,"
+                + DbHelper.WEEK_COLOR + " INTEGER" + ")";
+
+        db.execSQL(CREATE_TIMETABLE);
+
         db.execSQL("create table " + UserDao.TABLE_USER + " (" + COL_USER_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                 COL_USER_VISITE + " INTEGER," + COL_USER_TOKEN + " TEXT)");
         db.execSQL("create table " + UserDao.TABLE_NAME1 + " (" + COL_21 + " INTEGER," + COL_22 + " TEXT," +
@@ -127,6 +140,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + ManuelscolaireDao.TABLE_MANUEL_SCOLAIRE);
         db.execSQL("DROP TABLE IF EXISTS " + AbsenceDao.TABLE_ABSENCE);
         db.execSQL("DROP TABLE IF EXISTS " + EmploiDao.TABLE_EMPLOI);
+        db.execSQL("DROP TABLE IF EXISTS " + DbHelper.TIMETABLE);
         onCreate(db);
     }
 }
