@@ -16,14 +16,17 @@ import android.util.Log;
 
 import com.edischool.R;
 import com.edischool.absences.AbsenceDao;
+import com.edischool.emplois.EmploiDao;
 import com.edischool.manuelscolaires.ManuelscolaireDao;
 import com.edischool.notes.NotesDao;
 import com.edischool.pojo.Absence;
+import com.edischool.pojo.Emploi;
 import com.edischool.pojo.Manuelscolaire;
 import com.edischool.pojo.Note;
 import com.edischool.pojo.Student;
 import com.edischool.student.StudentDao;
 import com.edischool.utils.Constante;
+import com.google.gson.JsonArray;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -171,6 +174,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                         syncNotes(data.getJSONArray("notes"));
                         syncManuelscolaires(data.getJSONArray("manuels"));
                         syncAbsences(data.getJSONArray("absences"));
+                        syncEmplois(data.getJSONArray("emplois"));
                     }
                     SharedPreferences pref = getContext().getSharedPreferences(
                             getContext().getString(R.string.shared_preference_file),
@@ -191,6 +195,22 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         }
     }
 
+    private void syncEmplois(JSONArray data) throws JSONException{
+        EmploiDao dao = new EmploiDao(getContext());
+        if(data.length() > 0){
+            dao.emptyTable();
+        }
+        for(int i = 0; i < data.length(); i++){
+            JSONObject item = data.getJSONObject(i);
+            Emploi n = new Emploi();
+            n.setIdemploi(item.getInt("id"));
+            n.setIdstudent(item.getInt("id_student"));
+            n.setHour(item.getString("hour"));
+            n.setMatiere(item.getString("matiere"));
+            n.setDay(item.getString("day"));
+            dao.insert(n);
+        }
+    }
     private void syncNotes(JSONArray data) throws JSONException{
         NotesDao dao = new NotesDao(getContext());
         if(data.length() > 0){

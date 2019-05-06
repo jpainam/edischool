@@ -5,9 +5,11 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.edischool.absences.AbsenceDao;
+import com.edischool.emplois.EmploiDao;
 import com.edischool.manuelscolaires.ManuelscolaireDao;
 import com.edischool.notes.NotesDao;
 import com.edischool.notification.NotificationDao;
+import com.edischool.pojo.Emploi;
 import com.edischool.student.StudentDao;
 import com.edischool.user.UserDao;
 
@@ -101,6 +103,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 AbsenceDao.COL_END_HOUR + " TEXT, " +
                 AbsenceDao.COL_DAY + " TEXT)");
 
+        db.execSQL("create table " + EmploiDao.TABLE_EMPLOI +
+                " (" + EmploiDao.COL_EMPLOI_ID + " INTEGER, " +
+                EmploiDao.COL_STUDENT_ID + " INTEGER, " +
+                EmploiDao.COL_HOUR + " TEXT, " +
+                EmploiDao.COL_MATIERE + " TEXT, " +
+                EmploiDao.COL_DAY + " TEXT)");
 
         db.execSQL("create table " + UserDao.TABLE_USER + " (" + COL_USER_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                 COL_USER_VISITE + " INTEGER," + COL_USER_TOKEN + " TEXT)");
@@ -118,6 +126,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + NotesDao.TABLE_NOTE);
         db.execSQL("DROP TABLE IF EXISTS " + ManuelscolaireDao.TABLE_MANUEL_SCOLAIRE);
         db.execSQL("DROP TABLE IF EXISTS " + AbsenceDao.TABLE_ABSENCE);
+        db.execSQL("DROP TABLE IF EXISTS " + EmploiDao.TABLE_EMPLOI);
         onCreate(db);
     }
 }
