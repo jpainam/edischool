@@ -6,9 +6,13 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import com.google.android.material.snackbar.Snackbar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.appcompat.content.res.AppCompatResources;
 
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -35,6 +39,8 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
 
+import static androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_AUTO;
+
 
 /**
  * A login screen that offers login via email/password.
@@ -58,8 +64,11 @@ public class LoginActivity extends AppCompatActivity{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_login);
+
         // Set up the login form.
         mPhoneNumberView =  findViewById(R.id.phone_number);
         rootView = findViewById(R.id.rootView);
@@ -89,6 +98,15 @@ public class LoginActivity extends AppCompatActivity{
                 attemptLogin();
             }
         });
+
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1){
+            Log.e(TAG, "Manually setting drawableLeft");
+            //Drawable drawable = AppCompatResources.getDrawable(context, R.drawable.ic_action_phone);
+            //Drawable drawable = getApplicationContext().getResources().getDrawable(R.drawable.ic_action_phone);
+            //mPhoneNumberView.setCompoundDrawablesRelativeWithIntrinsicBounds(drawable, null, null, null);
+            // Idem syntaxe
+            //mPasswordView.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_action_pass, 0, 0, 0);
+        }
 
     }
 

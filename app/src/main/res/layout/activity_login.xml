@@ -24,37 +24,36 @@
         android:id="@+id/phone_number"
         android:layout_width="250dp"
         android:layout_height="40dp"
+        android:layout_marginBottom="20dp"
         android:background="#11000000"
-        android:drawableLeft="@drawable/ic_action_phone"
         android:ems="10"
-        android:text="698106057"
+        app:drawableLeftCompat="@drawable/ic_action_phone"
+        app:drawableStartCompat="@drawable/ic_action_phone"
+        android:drawableTint="@color/colorBlack"
         android:hint="Phone Number"
         android:inputType="phone"
-        android:textSize="16dp"
-        android:layout_marginBottom="35dp"
-        android:layout_above="@+id/password"
-        android:layout_centerHorizontal="true" />
+        android:text="698106057"
+        android:textSize="16sp" />
 
     <EditText
         android:id="@+id/password"
-        android:text="admin"
         android:layout_width="250dp"
         android:layout_height="40dp"
+        android:layout_marginBottom="50dp"
         android:background="#11000000"
-        android:drawableLeft="@drawable/ic_action_pass"
         android:ems="10"
+        android:drawableTint="@color/colorBlack"
         android:hint="Password"
         android:inputType="textPassword"
-        android:layout_marginBottom="75dp"
-        android:layout_alignBottom="@+id/cardView"
-        android:layout_alignLeft="@+id/phone_number"
-        android:layout_alignStart="@+id/phone_number" />
+        app:drawableLeftCompat="@drawable/ic_action_pass"
+        app:drawableStartCompat="@drawable/ic_action_pass"
+        android:text="admin" />
 
     <androidx.cardview.widget.CardView
         android:layout_width="250dp"
-        android:layout_height="50dp"
+        android:layout_height="40dp"
         app:cardBackgroundColor="@color/colorPrimary"
-        app:cardCornerRadius="25dp"
+        app:cardCornerRadius="15dp"
         app:cardElevation="10dp"
         android:id="@+id/cardView"
 >

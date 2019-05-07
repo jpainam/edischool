@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
+import com.crashlytics.android.Crashlytics;
 import com.edischool.innermenu.InnerActivity;
 import com.edischool.news.NewsFragment;
 import com.edischool.pojo.Student;
@@ -23,6 +24,7 @@ import com.google.android.material.snackbar.Snackbar;
 import android.util.Log;
 import android.view.View;
 
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.view.GravityCompat;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 
@@ -40,6 +42,7 @@ import androidx.viewpager.widget.ViewPager;
 import android.view.Menu;
 import android.widget.TableLayout;
 
+import io.fabric.sdk.android.Fabric;
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -56,9 +59,14 @@ public class MainActivity extends AppCompatActivity
     DatabaseHelper databaseHelper;
     ViewPager viewPager;
 
+    static {
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
+        //AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO);
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Fabric.with(this, new Crashlytics());
         SharedPreferences pref = getApplicationContext().getSharedPreferences(
                 getString(R.string.shared_preference_file), Context.MODE_PRIVATE);
         //if (!pref.contains(getString(R.string.visite))) {
@@ -83,8 +91,12 @@ public class MainActivity extends AppCompatActivity
             fab.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                            .setAction("Action", null).show();
+                    Intent intent = new Intent(android.content.Intent.ACTION_SEND);
+                    intent.setType("text/plain");
+                    String shareBodyText = "Your help message goes here";
+                    intent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Subject/Title");
+                    intent.putExtra(android.content.Intent.EXTRA_TEXT, shareBodyText);
+                    startActivity(Intent.createChooser(intent, "Choose message method"));
                 }
             });
             DrawerLayout drawer = findViewById(R.id.drawer_layout);

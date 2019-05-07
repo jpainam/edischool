@@ -28,6 +28,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.crashlytics.android.Crashlytics;
 import com.edischool.R;
 import com.edischool.SettingsActivity;
 import com.edischool.pojo.Student;
@@ -255,6 +256,9 @@ public class StudentFragment extends Fragment {
             case R.id.action_settings:
                 Intent intent = new Intent(getActivity().getApplicationContext(), SettingsActivity.class);
                 startActivity(intent);
+                return true;
+            case R.id.action_crash:
+                Crashlytics.getInstance().crash(); // Force a crash
                 return true;
                 default:
                     break;

@@ -31,12 +31,16 @@
             app:useSimpleSummaryProvider="true"
             />
         <Preference android:title="@string/pref_about"
+            app:key="about_preference"
             app:iconSpaceReserved="false"
             app:summary="Edischool - App"
-           >
-            <intent android:action="android.intent.action.VIEW"
-                android:data="http://www.example.com" />
-        </Preference>
+           />
+        <SwitchPreferenceCompat
+            app:key="@string/night_mode"
+            app:iconSpaceReserved="false"
+            app:defaultValue="false"
+            app:summary="Switch on to enable Night Mode"
+            app:title="Enable Night Mode" />
     </PreferenceCategory>
     <PreferenceCategory app:iconSpaceReserved="false"
         app:title="Notifications">

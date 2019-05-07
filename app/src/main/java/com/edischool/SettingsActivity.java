@@ -1,5 +1,6 @@
 package com.edischool;
 
+import android.app.UiModeManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -9,9 +10,12 @@ import android.util.Log;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceManager;
+import androidx.preference.SwitchPreference;
+import androidx.preference.SwitchPreferenceCompat;
 
 import com.edischool.sql.DatabaseHelper;
 
@@ -57,6 +61,26 @@ public class SettingsActivity extends AppCompatActivity {
                     return true;
                 }
             });
+            SwitchPreferenceCompat aboutPreference = (SwitchPreferenceCompat)findPreference(getString(R.string.night_mode));
+
+            if(aboutPreference != null) {
+               aboutPreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                   @Override
+                   public boolean onPreferenceChange(Preference preference, Object newValue) {
+                       boolean switched = ((SwitchPreferenceCompat) preference).isChecked();
+                       boolean set_night_mode = !switched;
+                       if(set_night_mode){
+                           AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                       }else{
+                           AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+
+                       }
+                       getActivity().recreate();
+                       Log.i(TAG, switched + "");
+                       return true;
+                   }
+               });
+            }
         }
     }
 

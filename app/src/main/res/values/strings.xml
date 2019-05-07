@@ -105,6 +105,7 @@
     <string name="menu_news">News</string>
     <string name="menu_help"><![CDATA[Help & Feedback]]></string>
     <string name="delete_account">delete_account</string>
+    <string name="night_mode">night_mode</string>
 
     <string name="monday">Mon</string>
     <string name="tuesday">Tues</string>

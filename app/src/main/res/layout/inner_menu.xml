@@ -1,320 +1,324 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_gravity="center">
+    android:background="#CCC"
+    android:paddingTop="5dp">
 
-    <RelativeLayout
+    <LinearLayout
+        android:id="@+id/row1"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingTop="5dp">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:showDividers="end">
 
-        <LinearLayout
-            android:id="@+id/row1"
+        <androidx.cardview.widget.CardView xmlns:cardview="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/noteCard"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:showDividers="end">
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:padding="@dimen/padding0"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="10dp">
 
-            <androidx.cardview.widget.CardView xmlns:cardview="http://schemas.android.com/apk/res-auto"
-                android:id="@+id/noteCard"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:layout_margin="10dp"
-                android:clickable="true"
-                android:foreground="?android:attr/selectableItemBackground"
-                cardview:cardCornerRadius="8dp">
+                android:background="#09A9FF"
+                android:orientation="vertical">
 
-                <LinearLayout
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp"
+                    android:scaleType="fitCenter"
+                    android:tint="@color/colorWhite"
+                    app:srcCompat="@drawable/ic_note_black_24dp" />
+
+                <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="#09A9FF"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="80dp"
-                        android:scaleType="fitCenter"
-                        android:tint="@color/colorWhite"
-                        app:srcCompat="@drawable/ic_note_black_24dp" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:text="Notes"
-                        android:textColor="@color/colorBlack"
-                        android:textSize="14sp" />
-                </LinearLayout>
+                    android:gravity="center"
+                    android:text="Notes"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="14sp" />
+            </LinearLayout>
 
 
-            </androidx.cardview.widget.CardView>
+        </androidx.cardview.widget.CardView>
 
-            <androidx.cardview.widget.CardView xmlns:cardview="http://schemas.android.com/apk/res-auto"
-                android:id="@+id/bulletinCard"
+        <androidx.cardview.widget.CardView xmlns:cardview="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/bulletinCard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:foreground="?android:attr/selectableItemBackground"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="10dp">
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_weight="1"
                 android:layout_height="match_parent"
-                android:layout_margin="10dp"
-                android:clickable="true"
-                android:foreground="?android:attr/selectableItemBackground"
-                cardview:cardCornerRadius="8dp">
+                android:background="#3E51B1"
+                android:orientation="vertical">
 
-                <LinearLayout
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp"
+                    android:scaleType="fitCenter"
+                    android:tint="@color/colorWhite"
+                    app:srcCompat="@drawable/ic_bulletin_black_24dp" />
+
+                <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="#3E51B1"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:scaleType="fitCenter"
-                        android:tint="@color/colorWhite"
-                        android:layout_height="80dp"
-                        app:srcCompat="@drawable/ic_bulletin_black_24dp" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:text="Bulletin"
-                        android:textColor="@color/colorBlack"
-                        android:textSize="14sp" />
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
-        </LinearLayout>
+                    android:gravity="center"
+                    android:text="Bulletin"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="14sp" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+    </LinearLayout>
 
 
-        <LinearLayout
-            android:id="@+id/row2"
-            android:layout_below="@+id/row1"
+    <LinearLayout
+        android:id="@+id/row2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/row1"
+        android:orientation="horizontal"
+        android:showDividers="end">
+
+        <androidx.cardview.widget.CardView xmlns:cardview="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/absenceCard"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:showDividers="end">
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:foreground="?android:attr/selectableItemBackground"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="10dp">
 
-            <androidx.cardview.widget.CardView xmlns:cardview="http://schemas.android.com/apk/res-auto"
-                android:id="@+id/absenceCard"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#673BB7"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp"
+                    android:scaleType="fitCenter"
+                    android:tint="@color/colorWhite"
+                    app:srcCompat="@drawable/ic_absence_black_24dp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="Absence"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView xmlns:cardview="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/punitionCard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:foreground="?android:attr/selectableItemBackground"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="10dp">
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_margin="10dp"
-                android:layout_weight="1"
-                android:clickable="true"
-                android:foreground="?android:attr/selectableItemBackground"
-                cardview:cardCornerRadius="8dp">
+                android:background="#4BAA50"
+                android:orientation="vertical">
 
-                <LinearLayout
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp"
+                    android:scaleType="fitCenter"
+                    android:tint="@color/colorWhite"
+                    app:srcCompat="@drawable/ic_punition_black_24dp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="Punitions"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="13sp" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/row3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/row2"
+        android:orientation="horizontal"
+        android:showDividers="end">
+
+        <androidx.cardview.widget.CardView xmlns:cardview="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/financeCard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:foreground="?android:attr/selectableItemBackground"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="10dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#F94336"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp"
+                    android:scaleType="fitCenter"
+                    android:tint="@color/colorWhite"
+                    app:srcCompat="@drawable/ic_attach_money_black_24dp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="Finances"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="14sp" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView xmlns:cardview="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/emploiCard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:foreground="?android:attr/selectableItemBackground"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="10dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#0A9B88"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp"
+                    android:scaleType="fitCenter"
+                    android:tint="@color/colorWhite"
+                    app:srcCompat="@drawable/ic_emplois_black_24dp" />
+
+                <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="#673BB7"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="80dp"
-                        android:scaleType="fitCenter"
-                        android:tint="@color/colorWhite"
-                        app:srcCompat="@drawable/ic_absence_black_24dp" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:text="Absence"
-                        android:textColor="@color/colorBlack"
-                        android:textSize="14sp" />
-                </LinearLayout>
+                    android:gravity="center"
+                    android:text="Emplois"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="14sp" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+    </LinearLayout>
 
 
-            </androidx.cardview.widget.CardView>
+    <LinearLayout
+        android:id="@+id/row4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/row3"
+        android:orientation="horizontal">
 
-            <androidx.cardview.widget.CardView xmlns:cardview="http://schemas.android.com/apk/res-auto"
-                android:id="@+id/punitionCard"
-                android:layout_width="match_parent"
-                android:layout_weight="1"
-                android:layout_height="match_parent"
-                android:layout_margin="10dp"
-                android:clickable="true"
-                android:foreground="?android:attr/selectableItemBackground"
-                cardview:cardCornerRadius="8dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="#4BAA50"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="80dp"
-                        android:scaleType="fitCenter"
-                        android:tint="@color/colorWhite"
-                        app:srcCompat="@drawable/ic_punition_black_24dp" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:text="Punitions"
-                        android:textColor="@color/colorBlack"
-                        android:textSize="13sp" />
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
-        </LinearLayout>
-
-
-        <LinearLayout
-            android:id="@+id/row3"
-            android:layout_below="@id/row2"
+        <androidx.cardview.widget.CardView xmlns:cardview="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/convocationCard"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:showDividers="end">
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:foreground="?android:attr/selectableItemBackground"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="10dp">
 
-            <androidx.cardview.widget.CardView xmlns:cardview="http://schemas.android.com/apk/res-auto"
-                android:id="@+id/financeCard"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:clickable="true"
-                android:foreground="?android:attr/selectableItemBackground"
-                cardview:cardCornerRadius="8dp">
+                android:background="#458"
+                android:orientation="vertical">
 
-                <LinearLayout
+                <ImageView
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="#F94336"
-                    android:orientation="vertical">
+                    android:layout_height="80dp"
+                    android:scaleType="fitCenter"
+                    android:tint="@color/colorWhite"
+                    app:srcCompat="@drawable/ic_convocation_black_24dp" />
 
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="80dp"
-                        android:scaleType="fitCenter"
-                        android:tint="@color/colorWhite"
-                        app:srcCompat="@drawable/ic_attach_money_black_24dp" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:text="Finances"
-                        android:textColor="@color/colorBlack"
-                        android:textSize="14sp" />
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView xmlns:cardview="http://schemas.android.com/apk/res-auto"
-                android:id="@+id/emploiCard"
-                android:layout_width="match_parent"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:clickable="true"
-                android:foreground="?android:attr/selectableItemBackground"
-                cardview:cardCornerRadius="8dp">
-
-                <LinearLayout
+                <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="#0A9B88"
-                    android:orientation="vertical">
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Convocations"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="14sp" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
 
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="80dp"
-                        android:scaleType="fitCenter"
-                        android:tint="@color/colorWhite"
-                        app:srcCompat="@drawable/ic_emplois_black_24dp" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:text="Emplois"
-                        android:textColor="@color/colorBlack"
-                        android:textSize="14sp" />
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
-        </LinearLayout>
-
-
-        <LinearLayout
-            android:id="@+id/row4"
-            android:layout_below="@id/row3"
+        <androidx.cardview.widget.CardView xmlns:cardview="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/manuelCard"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:foreground="?android:attr/selectableItemBackground"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="10dp">
 
-            <androidx.cardview.widget.CardView xmlns:cardview="http://schemas.android.com/apk/res-auto"
-                android:id="@+id/convocationCard"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:layout_weight="1"
-                android:clickable="true"
-                android:foreground="?android:attr/selectableItemBackground"
-                cardview:cardCornerRadius="8dp">
+                android:background="#117"
+                android:orientation="vertical">
 
-                <LinearLayout
+                <ImageView
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="#458"
-                    android:orientation="vertical">
+                    android:layout_height="80dp"
+                    android:scaleType="fitCenter"
+                    android:tint="@color/colorWhite"
+                    app:srcCompat="@drawable/ic_manuel_black_24dp" />
 
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="80dp"
-                        android:scaleType="fitCenter"
-                        android:tint="@color/colorWhite"
-                        app:srcCompat="@drawable/ic_convocation_black_24dp" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:text="Convocations"
-                        android:textColor="@color/colorWhite"
-                        android:textSize="14sp" />
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView xmlns:cardview="http://schemas.android.com/apk/res-auto"
-                android:id="@+id/manuelCard"
-                android:layout_width="match_parent"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:clickable="true"
-                android:foreground="?android:attr/selectableItemBackground"
-                cardview:cardCornerRadius="8dp">
-
-                <LinearLayout
+                <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="#117"
-                    android:orientation="vertical">
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Manuels"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="14sp" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+    </LinearLayout>
 
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="80dp"
-                        android:scaleType="fitCenter"
-                        android:tint="@color/colorWhite"
-                        app:srcCompat="@drawable/ic_manuel_black_24dp" />
+</RelativeLayout>
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:text="Manuels"
-                        android:textColor="@color/colorWhite"
-                        android:textSize="14sp" />
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
-        </LinearLayout>
-
-    </RelativeLayout>
-
-</ScrollView>
