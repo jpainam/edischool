@@ -9,9 +9,8 @@ import com.edischool.emplois.EmploiDao;
 import com.edischool.manuelscolaires.ManuelscolaireDao;
 import com.edischool.notes.NotesDao;
 import com.edischool.notification.NotificationDao;
-import com.edischool.pojo.Emploi;
 import com.edischool.student.StudentDao;
-import com.edischool.timetable.utils.DbHelper;
+import com.edischool.timetable.TimeTableDao;
 import com.edischool.user.UserDao;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
@@ -111,15 +110,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 EmploiDao.COL_MATIERE + " TEXT, " +
                 EmploiDao.COL_DAY + " TEXT)");
 
-        String CREATE_TIMETABLE = "CREATE TABLE " + DbHelper.TIMETABLE + "("
-                + DbHelper.WEEK_ID + " INTEGER,"
-                + DbHelper.WEEK_SUBJECT + " TEXT,"
-                + DbHelper.WEEK_FRAGMENT + " TEXT,"
-                + DbHelper.WEEK_TEACHER + " TEXT,"
-                + DbHelper.WEEK_ROOM + " TEXT,"
-                + DbHelper.WEEK_FROM_TIME + " TEXT,"
-                + DbHelper.WEEK_TO_TIME + " TEXT,"
-                + DbHelper.WEEK_COLOR + " INTEGER" + ")";
+        String CREATE_TIMETABLE = "CREATE TABLE " + TimeTableDao.TIMETABLE + "("
+                + TimeTableDao.WEEK_ID + " INTEGER,"
+                + TimeTableDao.WEEK_SUBJECT + " TEXT,"
+                + TimeTableDao.WEEK_FRAGMENT + " TEXT,"
+                + TimeTableDao.WEEK_TEACHER + " TEXT,"
+                + TimeTableDao.WEEK_ROOM + " TEXT,"
+                + TimeTableDao.WEEK_FROM_TIME + " TEXT,"
+                + TimeTableDao.WEEK_TO_TIME + " TEXT,"
+                + TimeTableDao.WEEK_COLOR + " INTEGER" + ")";
 
         db.execSQL(CREATE_TIMETABLE);
 
@@ -140,7 +139,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + ManuelscolaireDao.TABLE_MANUEL_SCOLAIRE);
         db.execSQL("DROP TABLE IF EXISTS " + AbsenceDao.TABLE_ABSENCE);
         db.execSQL("DROP TABLE IF EXISTS " + EmploiDao.TABLE_EMPLOI);
-        db.execSQL("DROP TABLE IF EXISTS " + DbHelper.TIMETABLE);
+        db.execSQL("DROP TABLE IF EXISTS " + TimeTableDao.TIMETABLE);
         onCreate(db);
     }
 }

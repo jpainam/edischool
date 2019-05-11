@@ -57,7 +57,7 @@ public class StudentRecyclerViewAdapter extends RecyclerView.Adapter<StudentRecy
         }
         //holder.mStudentName.setText(mValues.get(position).id);
         //holder.mStudentNotifs.setText((int)(Math.random()*10) + "");
-        holder.mStudentDescription.setText(st.getEtablissement());
+        holder.mStudentDescription.setText(st.getInstitution());
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -23,7 +23,7 @@ public class UserDao {
         Cursor res = db.rawQuery("select * from " + UserDao.TABLE_USER, null);
         if (res.moveToFirst()) {
             User user = new User();
-            user.setIduser(res.getString(res.getColumnIndex(COL_USER_ID)));
+            user.setId(res.getString(res.getColumnIndex(COL_USER_ID)));
             user.setToken(res.getString(res.getColumnIndex(COL_USER_TOKEN)));
             return user;
         }

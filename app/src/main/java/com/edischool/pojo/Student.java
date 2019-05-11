@@ -1,72 +1,54 @@
 package com.edischool.pojo;
 
-import com.google.gson.annotations.SerializedName;
+import android.os.Parcel;
+import android.os.Parcelable;
 
-import java.io.Serializable;
-
-public class Student implements Serializable {
+public class Student implements Parcelable {
+    private String studentId;
+    private String firstName;
+    private String lastName;
+    private String institution;
+    private String photo;
+    private String form;
+    private int id;
+    private String sexe;
 
     public Student(){
 
     }
-    public Student(int id, String firstName, String lastName, String sexe, String classe, String etablissement) {
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.classe = classe;
-        this.etablissement = etablissement;
-        this.sexe = sexe;
+    protected Student(Parcel in) {
+        studentId = in.readString();
+        firstName = in.readString();
+        lastName = in.readString();
+        institution = in.readString();
+        photo = in.readString();
+        form = in.readString();
+        id = in.readInt();
     }
 
-    @Override
-    public String toString() {
-        return "Student{" +
-                "id=" + id +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", classe='" + classe + '\'' +
-                ", etablissement='" + etablissement + '\'' +
-                ", sexe='" + sexe + '\'' +
-                ", photo='" + photo + '\'' +
-                '}';
+    public static final Creator<Student> CREATOR = new Creator<Student>() {
+        @Override
+        public Student createFromParcel(Parcel in) {
+            return new Student(in);
+        }
+
+        @Override
+        public Student[] newArray(int size) {
+            return new Student[size];
+        }
+    };
+
+    public Student(int anInt, String string, String string1, String string2, String string3, String string4) {
     }
 
-    @SerializedName("id")
-    private int id;
-
-    @SerializedName("firstName")
-    private String firstName;
-
-    @SerializedName("lastName")
-    private String lastName;
-
-    @SerializedName("classe")
-    private String classe;
-
-    @SerializedName("etablissement")
-    private String etablissement;
-
-    @SerializedName("sexe")
-    private String sexe;
-
-    @SerializedName("photo")
-    private String photo;
-
-
-    public int getId() {
-        return id;
+    public String getStudentId() {
+        return studentId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setStudentId(String studentId) {
+        this.studentId = studentId;
     }
 
-    public String getSexe(){
-        return this.sexe;
-    }
-    public void setSexe(String sexe){
-        this.sexe = sexe;
-    }
     public String getFirstName() {
         return firstName;
     }
@@ -83,20 +65,12 @@ public class Student implements Serializable {
         this.lastName = lastName;
     }
 
-    public String getClasse() {
-        return classe;
+    public String getInstitution() {
+        return institution;
     }
 
-    public void setClasse(String classe) {
-        this.classe = classe;
-    }
-
-    public String getEtablissement() {
-        return etablissement;
-    }
-
-    public void setEtablissement(String etablissement) {
-        this.etablissement = etablissement;
+    public void setInstitution(String institution) {
+        this.institution = institution;
     }
 
     public String getPhoto() {
@@ -105,5 +79,45 @@ public class Student implements Serializable {
 
     public void setPhoto(String photo) {
         this.photo = photo;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(studentId);
+        dest.writeString(firstName);
+        dest.writeString(lastName);
+        dest.writeString(institution);
+        dest.writeString(photo);
+        dest.writeString(form);
+        dest.writeInt(id);
+    }
+
+    public String getForm() {
+        return form;
+    }
+
+    public void setForm(String form) {
+        this.form = form;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getSexe() {
+        return sexe;
+    }
+
+    public void setSexe(String sexe) {
+        this.sexe = sexe;
     }
 }

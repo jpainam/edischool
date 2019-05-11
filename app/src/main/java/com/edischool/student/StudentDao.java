@@ -60,8 +60,8 @@ public class StudentDao {
         contentValues.put(COL_STUDENT_FIRSTNAME, st.getFirstName());
         contentValues.put(COL_STUDENT_LASTNAME, st.getLastName());
         contentValues.put(COL_STUDENT_SEXE, st.getSexe());
-        contentValues.put(COL_STUDENT_CLASSE, st.getClasse());
-        contentValues.put(COL_STUDENT_ETABLISSEMENT, st.getEtablissement());
+        contentValues.put(COL_STUDENT_CLASSE, st.getForm());
+        contentValues.put(COL_STUDENT_ETABLISSEMENT, st.getInstitution());
         contentValues.put(COL_STUDENT_PHOTO, st.getPhoto());
         long result = db.insert(TABLE_STUDENT, null, contentValues);
         Log.i(TAG, result + "");
@@ -89,8 +89,8 @@ public class StudentDao {
             contentValues.put(COL_STUDENT_FIRSTNAME, st.getFirstName());
             contentValues.put(COL_STUDENT_LASTNAME, st.getLastName());
             contentValues.put(COL_STUDENT_SEXE, st.getSexe());
-            contentValues.put(COL_STUDENT_CLASSE, st.getClasse());
-            contentValues.put(COL_STUDENT_ETABLISSEMENT, st.getEtablissement());
+            contentValues.put(COL_STUDENT_CLASSE, st.getForm());
+            contentValues.put(COL_STUDENT_ETABLISSEMENT, st.getInstitution());
             db.insertOrThrow(TABLE_STUDENT, null, contentValues);
             db.setTransactionSuccessful();
         }

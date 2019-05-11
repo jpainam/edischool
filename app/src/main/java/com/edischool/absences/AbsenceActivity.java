@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
 import android.widget.TextView;
 
+import com.edischool.InnerMenuActivity;
 import com.edischool.R;
 import com.edischool.pojo.Absence;
 import com.edischool.pojo.Student;
@@ -52,7 +53,7 @@ public class AbsenceActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(false);
             getSupportActionBar().setHomeButtonEnabled(false);
             getSupportActionBar().setTitle("Absences");
-            getSupportActionBar().setSubtitle(currentStudent.getFirstName() + " - " + currentStudent.getClasse());
+            getSupportActionBar().setSubtitle(currentStudent.getFirstName() + " - " + currentStudent.getForm());
         }
         /*studentDetail = findViewById(R.id.studentDetail);
         classeDetail = findViewById(R.id.classeDetail);
@@ -78,7 +79,7 @@ public class AbsenceActivity extends AppCompatActivity {
             protected List<Absence> doInBackground(Void... voids) {
                 Log.i(TAG,"Starting InitView");
                 AbsenceDao dao = new AbsenceDao(context);
-                return dao.getAbsences(currentStudent.getId());
+                return dao.getAbsences(Integer.parseInt(currentStudent.getStudentId()));
             }
 
             @Override

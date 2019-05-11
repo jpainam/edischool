@@ -43,7 +43,7 @@ public class EmploiActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(false);
             getSupportActionBar().setHomeButtonEnabled(false);
             getSupportActionBar().setTitle("Time Table");
-            getSupportActionBar().setSubtitle(currentStudent.getFirstName() + " - " + currentStudent.getClasse());
+            getSupportActionBar().setSubtitle(currentStudent.getFirstName() + " - " + currentStudent.getForm());
         }
         recyclerView.setHasFixedSize(true);
         layoutManager = new GridLayoutManager(this, 6, RecyclerView.VERTICAL, false);

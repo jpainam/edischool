@@ -1,91 +1,50 @@
 package com.edischool.pojo;
 
-import com.google.gson.annotations.SerializedName;
+import java.util.List;
 
-import java.io.Serializable;
+public class User {
+    private String phoneNumber;
+    private List<Student> students;
+    private String location;
+    private String email;
+    private String password;
+    private String token;
+    private String id;
 
 
-public class User implements Serializable {
-    @SerializedName("iduser")
-    String iduser;
-    @SerializedName("num_phone")
-    String num_phone;
-    @SerializedName("password")
-    String password;
-    @SerializedName("Token")
-    String Token;
-    @SerializedName("Type")
-    String Type;
-    @SerializedName("Temps")
-    String Temps;
-    @SerializedName("Nom")
-    String Nom;
-    @SerializedName("Prenom")
-    String Prenom;
-    public User() {
-        this.iduser ="0";
-        this.num_phone =null;
-        this.password = null;
-        this.Token = null;
-        this.Type=null;
-        this.Temps=null;
-        this.Nom=null;
-        this.Prenom=null;
+    public User(){
+
+    }
+    public String getPhoneNumber() {
+        return phoneNumber;
     }
 
-    public User(String iduser, String num_phone, String password, String token) {
-        this.iduser = iduser;
-        this.num_phone = num_phone;
-        this.password = password;
-        this.Token = token;
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
-    public String getType() {
-        return Type;
+    public List<Student> getStudents() {
+        return students;
     }
 
-    public String getNom() {
-        return Nom;
+    public void setStudents(List<Student> students) {
+        this.students = students;
     }
 
-    public void setNom(String nom) {
-        Nom = nom;
+    public String getLocation() {
+        return location;
     }
 
-    public String getPrenom() {
-        return Prenom;
+    public void setLocation(String location) {
+        this.location = location;
     }
 
-    public void setPrenom(String prenom) {
-        Prenom = prenom;
+    public String getEmail() {
+        return email;
     }
 
-    public void setType(String type) {
-        Type = type;
-    }
-
-    public String getTemps() {
-        return Temps;
-    }
-
-    public void setTemps(String temps) {
-        Temps = temps;
-    }
-
-    public String getIduser() {
-        return iduser;
-    }
-
-    public void setIduser(String iduser) {
-        this.iduser = iduser;
-    }
-
-    public String getNum_phone() {
-        return num_phone;
-    }
-
-    public void setNum_phone(String num_phone) {
-        this.num_phone = num_phone;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getPassword() {
@@ -97,10 +56,18 @@ public class User implements Serializable {
     }
 
     public String getToken() {
-        return Token;
+        return token;
     }
 
     public void setToken(String token) {
-        this.Token = token;
+        this.token = token;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

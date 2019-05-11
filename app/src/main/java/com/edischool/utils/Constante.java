@@ -25,4 +25,9 @@ public class Constante {
     public static final int PHONE_NUMBER_LENGTH = 8;
 
     public static  final String IMG_DIR = "photos";
+
+    public static final String USERS_COLLECTION = "users";
+    public static final String PHONE_NUMBER_KEY = "phoneNumber";
+    public static final String MARKS_COLLECTION = "marks";
+    public static final String STUDENT_KEY = "studentId";
 }

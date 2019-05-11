@@ -25,10 +25,9 @@ import com.edischool.pojo.Manuelscolaire;
 import com.edischool.pojo.Note;
 import com.edischool.pojo.Student;
 import com.edischool.student.StudentDao;
-import com.edischool.timetable.model.Week;
-import com.edischool.timetable.utils.DbHelper;
+import com.edischool.pojo.Week;
+import com.edischool.timetable.TimeTableDao;
 import com.edischool.utils.Constante;
-import com.google.gson.JsonArray;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -265,7 +264,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         }
     }
     private void syncTimetable(JSONArray data) throws JSONException{
-        DbHelper dao = new DbHelper(getContext());
+        TimeTableDao dao = new TimeTableDao(getContext());
         if(data.length() > 0){
             dao.emptyTable();
         }

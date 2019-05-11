@@ -3,22 +3,11 @@ package com.edischool.student;
 import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.app.AlertDialog;
-import android.content.BroadcastReceiver;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.os.AsyncTask;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
-
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -28,31 +17,46 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 import com.crashlytics.android.Crashlytics;
+import com.edischool.LoginActivity;
 import com.edischool.R;
 import com.edischool.SettingsActivity;
 import com.edischool.pojo.Student;
+import com.edischool.pojo.User;
 import com.edischool.utils.Constante;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.FirebaseFirestoreSettings;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
 import dmax.dialog.SpotsDialog;
 
-/**
- * A fragment representing a list of Items.
- * <p/>
- * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
- * interface.
- */
 public class StudentFragment extends Fragment {
     private static final String TAG = "StudentFragment";
+
     AlertDialog dialog = null;
     // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
-    // TODO: Customize parameters
-    private int mColumnCount = 1;
     private OnListFragmentInteractionListener mListener;
 
     RecyclerView recyclerView;
@@ -61,10 +65,9 @@ public class StudentFragment extends Fragment {
     public StudentRecyclerViewAdapter studentRecyclerViewAdapter = null;
     SwipeRefreshLayout swipeRefreshLayout;
     boolean swipeEnabled = false;
-    /**
-     * Mandatory empty constructor for the fragment manager to instantiate the
-     * fragment (e.g. upon screen orientation changes).
-     */
+    private String phoneNumber;
+
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
     public StudentFragment() {
     }
 
@@ -79,26 +82,39 @@ public class StudentFragment extends Fragment {
         return fragment;
     }
 
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
         setHasOptionsMenu(true);
-        if (getArguments() != null) {
-            mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
+        if (savedInstanceState != null) {
+            studentListJson = savedInstanceState.getString("studentList");
+            Type type = new TypeToken<List<Student>>() {
+            }.getType();
+            studentList = new Gson().fromJson(studentListJson, type);
+            if (studentRecyclerViewAdapter == null) {
+                studentRecyclerViewAdapter = new StudentRecyclerViewAdapter(getContext(),
+                        studentList, mListener);
+            }
+            studentRecyclerViewAdapter.notifyDataSetChanged();
         }
-        //if(savedInstanceState != null){
-        //    studentListJson = savedInstanceState.getString("studentList");
-         //   Type type = new TypeToken<List<Student>>(){}.getType();
-        //    studentList = new Gson().fromJson(studentListJson, type);
-        //    studentRecyclerViewAdapter.notifyDataSetChanged();
-       // }
-        if(dialog == null) {
+        if (dialog == null) {
             Log.e(TAG, "Instantiate dialog");
             dialog = new SpotsDialog.Builder()
                     .setContext(getContext()).setCancelable(true)
                     .setMessage(getString(R.string.loading_message))
                     .build();
+        }
+        SharedPreferences pref = getContext().getSharedPreferences(
+                getString(R.string.shared_preference_file), Context.MODE_PRIVATE);
+        phoneNumber = pref.getString(getString(R.string.phone_number), null);
+        Log.w(TAG, "phone number " + phoneNumber);
+        if (phoneNumber == null) {
+            Intent intent = new Intent(getContext(), LoginActivity.class);
+            startActivity(intent);
+            getActivity().finish();
+            return;
         }
     }
 
@@ -110,14 +126,11 @@ public class StudentFragment extends Fragment {
         // Set the adapter
         if (view instanceof SwipeRefreshLayout) {
             final Context context = view.getContext();
-            swipeRefreshLayout = (SwipeRefreshLayout)view;
+            swipeRefreshLayout = (SwipeRefreshLayout) view;
             recyclerView = view.findViewById(R.id.recyclerView);
-            if (mColumnCount <= 1) {
-                recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            } else {
-                recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
-            }
-            if(studentRecyclerViewAdapter == null) {
+            recyclerView.setLayoutManager(new LinearLayoutManager(context));
+
+            if (studentRecyclerViewAdapter == null) {
                 studentRecyclerViewAdapter = new StudentRecyclerViewAdapter(context,
                         studentList, mListener);
             }
@@ -126,10 +139,9 @@ public class StudentFragment extends Fragment {
                 @Override
                 public void onRefresh() {
                     swipeEnabled = true;
-                    doManualSyncAsync();
+                    readData(phoneNumber);
                 }
             });
-            // Configure the refreshing colors
             swipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
                     android.R.color.holo_green_light,
                     android.R.color.holo_orange_light,
@@ -138,10 +150,46 @@ public class StudentFragment extends Fragment {
         }
         return view;
     }
-    public void doManualSyncAsync(){
+
+    private void readData(String phoneNumber) {
+        CollectionReference usersRef = db.collection(Constante.USERS_COLLECTION);
+
+        Query query = usersRef.whereEqualTo(Constante.PHONE_NUMBER_KEY, phoneNumber);
+        if (!swipeEnabled) {
+            dialog.show();
+        }
+        query.addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException e) {
+                if (e != null){
+                    Log.w(TAG, "Error getting documents.", e);
+                    return;
+                }
+                for (QueryDocumentSnapshot document : value) {
+                    User user = document.toObject(User.class);
+                    Log.d(TAG, document.getId() + " => " + document.getData());
+                    studentList.clear();
+                    studentList.addAll(user.getStudents());
+                    studentRecyclerViewAdapter.notifyDataSetChanged();
+                    Gson gson = new Gson();
+                    studentListJson = gson.toJson(studentList);
+                }
+                if (swipeEnabled) {
+                    swipeRefreshLayout.setRefreshing(false);
+                    Toast.makeText(getContext(), getString(R.string.refreshed_message), Toast.LENGTH_SHORT).show();
+                    swipeEnabled = false;
+                } else {
+                    dialog.dismiss();
+                }
+
+            }
+        });
+    }
+
+    public void doManualSyncAsync() {
         AccountManager accManager = AccountManager.get(getContext());
         Account account = accManager.getAccountsByType(Constante.ACCOUNT_TYPE)[0];
-        if(account != null) {
+        if (account != null) {
             Bundle settingsBundle = new Bundle();
             settingsBundle.putBoolean(
                     ContentResolver.SYNC_EXTRAS_MANUAL, true);
@@ -155,70 +203,40 @@ public class StudentFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        if(studentList.isEmpty()) {
-            Log.i(TAG, "List is Empty, Call initView");
-            initView();
+        if (studentList.isEmpty()) {
+            Log.i(TAG, "Enter onview created");
+            readData(phoneNumber);
         }
     }
 
-    public void initView(){
-        Log.i(TAG, "Running initView");
-        studentList.clear();
-        AsyncTask<Void, Integer, List<Student>> asyncTask = new AsyncTask<Void, Integer, List<Student>>() {
-            @Override
-            protected List<Student> doInBackground(Void... voids) {
-                StudentDao dao = new StudentDao(getContext());
-                return dao.getStudentList();
-            }
-
-            @Override
-            protected void onPreExecute() {
-                super.onPreExecute();
-                Log.e(TAG, "Running Dialog");
-            }
-
-            @Override
-            protected void onPostExecute(List<Student> students) {
-                if(students.isEmpty()){
-                    doManualSyncAsync();
-                }else {
-                    studentList.addAll(students);
-                    studentRecyclerViewAdapter.notifyDataSetChanged();
-                    Gson gson = new Gson();
-                    studentListJson = gson.toJson(studentList);
-                }
-            }
-        };
-        asyncTask.execute();
-
-    }
-    private BroadcastReceiver myReceiver = new BroadcastReceiver() {
+/*private BroadcastReceiver myReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             String sAction = intent.getAction();
             Log.i(TAG, "Broacast Received " + sAction);
-            if(sAction.equals(getString(R.string.SYNC_STATUS_ACTION))){
+            if (sAction.equals(getString(R.string.SYNC_STATUS_ACTION))) {
                 String status = intent.getExtras().getString(getString(R.string.sync_status));
                 Log.e(TAG, "status " + status);
-                if(status.equals(getString(R.string.sync_running))){
+                if (status.equals(getString(R.string.sync_running))) {
                     Log.i(TAG, "Progress Bar Running");
-                    if(!swipeEnabled){
+                    if (!swipeEnabled) {
                         dialog.show();
                     }
-                }else if(status.equals(getString(R.string.sync_finished))){
+                } else if (status.equals(getString(R.string.sync_finished))) {
                     initView();
                     Log.i(TAG, "Progress Bar Finished");
-                    if(swipeEnabled){
+                    if (swipeEnabled) {
                         swipeRefreshLayout.setRefreshing(false);
                         Toast.makeText(context, getString(R.string.refreshed_message), Toast.LENGTH_SHORT).show();
                         swipeEnabled = false;
-                    }else {
+                    } else {
                         dialog.dismiss();
                     }
                 }
             }
         }
-    };
+    };*/
+
     @Override
     public void onAttach(Context context) {
         Log.i(TAG, "Attach Method - Register receiver");
@@ -233,9 +251,9 @@ public class StudentFragment extends Fragment {
         /**
          * Register the BroadcastReceiver e.g. in onAttach():
          */
-        IntentFilter myFilter = new IntentFilter();
+        /*IntentFilter myFilter = new IntentFilter();
         myFilter.addAction(getString(R.string.SYNC_STATUS_ACTION));
-        LocalBroadcastManager.getInstance(context).registerReceiver(myReceiver, myFilter);
+        LocalBroadcastManager.getInstance(context).registerReceiver(myReceiver, myFilter);*/
     }
 
 
@@ -249,9 +267,9 @@ public class StudentFragment extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
-            case  R.id.refresh_menu_item:
-                doManualSyncAsync();
+        switch (item.getItemId()) {
+            case R.id.refresh_menu_item:
+                readData(phoneNumber);
                 return true;
             case R.id.action_settings:
                 Intent intent = new Intent(getActivity().getApplicationContext(), SettingsActivity.class);
@@ -260,8 +278,8 @@ public class StudentFragment extends Fragment {
             case R.id.action_crash:
                 Crashlytics.getInstance().crash(); // Force a crash
                 return true;
-                default:
-                    break;
+            default:
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -271,7 +289,7 @@ public class StudentFragment extends Fragment {
         super.onDetach();
         mListener = null;
         /* unregister the */
-        LocalBroadcastManager.getInstance(getContext()).unregisterReceiver(myReceiver);
+        //LocalBroadcastManager.getInstance(getContext()).unregisterReceiver(myReceiver);
     }
 
 
@@ -280,6 +298,7 @@ public class StudentFragment extends Fragment {
         super.onSaveInstanceState(outState);
         outState.putString("studentList", studentListJson);
     }
+
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated

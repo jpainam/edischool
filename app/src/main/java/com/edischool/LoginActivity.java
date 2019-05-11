@@ -4,7 +4,12 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.content.res.AppCompatResources;
@@ -25,11 +30,20 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.edischool.utils.Constante;
+import com.google.firebase.FirebaseException;
+import com.google.firebase.FirebaseTooManyRequestsException;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.PhoneAuthCredential;
+import com.google.firebase.auth.PhoneAuthProvider;
 
 import org.json.JSONObject;
 
 
 import java.net.SocketTimeoutException;
+import java.util.concurrent.TimeUnit;
 
 import dmax.dialog.SpotsDialog;
 import okhttp3.FormBody;
@@ -39,37 +53,34 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
 
-import static androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_AUTO;
 
 
-/**
- * A login screen that offers login via email/password.
- */
+
 public class LoginActivity extends AppCompatActivity{
     private static final int AUTHENTIFICATION_SUCCESS = 1;
     private static String TAG = "LoginActivity";
-    /**
-     * Keep track of the login task to ensure we can cancel it if requested.
-     */
     private UserLoginTask mAuthTask = null;
+    private FirebaseAuth mAuth = null;
+    private String mVerificationId;
+    private PhoneAuthProvider.ForceResendingToken mResendToken;
+
+    boolean verificationInProgress = false;
     AlertDialog dialog = null;
     Context context;
-    // UI references.
     private EditText mPhoneNumberView;
     private EditText mPasswordView;
     LinearLayout rootView;
+    String phoneNumber;
+
     private static final int CONNEXION_TIMEOUT = 2;
     private static final int CONNEXION_FAILED = 3;
     private static final int AUTHENTIFICATION_FAILED = 4;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        //AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_login);
-
-        // Set up the login form.
+        mAuth = FirebaseAuth.getInstance();
         mPhoneNumberView =  findViewById(R.id.phone_number);
         rootView = findViewById(R.id.rootView);
         mPasswordView = (EditText) findViewById(R.id.password);
@@ -110,13 +121,102 @@ public class LoginActivity extends AppCompatActivity{
 
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if(verificationInProgress){
+            PhoneAuthProvider.getInstance().verifyPhoneNumber(
+                    phoneNumber,        // Phone number to verify
+                    60,                 // Timeout duration
+                    TimeUnit.SECONDS,   // Unit of timeout
+                    this,               // Activity (for callback binding)
+                    mCallbacks);        // OnVerificationStateChangedCallbacks
+        }
+    }
+    private void startPhoneNumberVerification(String phoneNumber){
+        PhoneAuthProvider.getInstance().verifyPhoneNumber(
+                phoneNumber,
+                60,
+                TimeUnit.SECONDS,
+                this,
+                mCallbacks);
+        verificationInProgress = true;
+    }
+    private PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
+        @Override
+        public void onVerificationCompleted(PhoneAuthCredential phoneAuthCredential) {
+            Log.d(TAG, "onVerificationCompleted: " + phoneAuthCredential);
+            String code = phoneAuthCredential.getSmsCode();
+            // Sometimes the code is not detected automatically
+            if(code != null){
+                mPasswordView.setText(code);
+                verifyVerificationCode(code);
+            }else{
+                Log.e(TAG, "Should not enter here - Let's try");
+            }
+        }
+
+        @Override
+        public void onCodeSent(String verificationId, PhoneAuthProvider.ForceResendingToken forceResendingToken) {
+            super.onCodeSent(verificationId, forceResendingToken);
+            Log.d(TAG, "onCodeSent:" + verificationId);
+            // Save verification ID and resending token so we can use them later
+            mVerificationId = verificationId;
+            mResendToken = forceResendingToken;
+        }
+
+        @Override
+        public void onVerificationFailed(FirebaseException e) {
+            if (e instanceof FirebaseAuthInvalidCredentialsException) {
+                Log.e(TAG, "Invalid request", e);
+                Snackbar.make(rootView, "Invalid request", Snackbar.LENGTH_LONG).show();
+            } else if (e instanceof FirebaseTooManyRequestsException) {
+                Log.e(TAG, "The SMS quota for the project has been exceeded", e);
+                Snackbar.make(rootView, "The SMS quota for the project has been exceeded", Snackbar.LENGTH_LONG).show();
+            }
+        }
+    };
+    private void verifyVerificationCode(String code){
+        PhoneAuthCredential credential = PhoneAuthProvider.getCredential(mVerificationId, code);
+        signInWithPhoneAuthCredential(credential);
+    }
+    private void signInWithPhoneAuthCredential(PhoneAuthCredential credential){
+        mAuth.signInWithCredential(credential).addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if(task.isSuccessful()){
+                    Log.d(TAG, "signInWithCredential:success");
+                    FirebaseUser user = task.getResult().getUser();
+                    Intent mainActivity = new Intent(getApplicationContext(), MainActivity.class);
+                    startActivity(mainActivity);
+                    finish();
+                }else{
+                    Log.e(TAG, "signInWithCredential:failure", task.getException());
+                    if(task.getException() instanceof FirebaseAuthInvalidCredentialsException){
+                        mPasswordView.setError("Invalid code");
+                        Snackbar.make(rootView, "Invalid code entered", Snackbar.LENGTH_LONG).show();
+                    }else{
+                        Snackbar.make(rootView, "Something is wrong, we will fix it soon", Snackbar.LENGTH_LONG).show();
+                    }
+                }
+            }
+        });
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        verificationInProgress = savedInstanceState.getBoolean("verificationInProgress");
+    }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putBoolean("verificationInProgress", verificationInProgress);
+    }
 
 
-    /**
-     * Attempts to sign in or register the account specified by the login form.
-     * If there are form errors (invalid email, missing fields, etc.), the
-     * errors are presented and no actual login attempt is made.
-     */
+
     private void attemptLogin() {
         if (mAuthTask != null) {
             return;
@@ -128,6 +228,7 @@ public class LoginActivity extends AppCompatActivity{
         // Store values at the time of the login attempt.
         String phone_number = mPhoneNumberView.getText().toString();
         String password = mPasswordView.getText().toString();
+
 
         boolean cancel = false;
         View focusView = null;

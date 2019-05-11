@@ -6,12 +6,24 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.WindowManager;
 
-import com.crashlytics.android.Crashlytics;
-import com.edischool.innermenu.InnerActivity;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.viewpager.widget.ViewPager;
+
 import com.edischool.news.NewsFragment;
 import com.edischool.pojo.Student;
 import com.edischool.sql.DatabaseHelper;
@@ -19,30 +31,12 @@ import com.edischool.student.StudentFragment;
 import com.edischool.utils.Constante;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-
-import android.util.Log;
-import android.view.View;
-
-import androidx.appcompat.app.AppCompatDelegate;
-import androidx.core.view.GravityCompat;
-import androidx.appcompat.app.ActionBarDrawerToggle;
-
-import android.view.MenuItem;
-
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreSettings;
 
-import androidx.drawerlayout.widget.DrawerLayout;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.viewpager.widget.ViewPager;
-
-import android.view.Menu;
-import android.widget.TableLayout;
-
-import io.fabric.sdk.android.Fabric;
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -56,17 +50,22 @@ public class MainActivity extends AppCompatActivity
 
     private static final String TAG = "MainActivity";
     Account mAccount;
-    DatabaseHelper databaseHelper;
     ViewPager viewPager;
 
     static {
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
         //AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO);
+        FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
+                .setPersistenceEnabled(true)
+                .setCacheSizeBytes(FirebaseFirestoreSettings.CACHE_SIZE_UNLIMITED)
+                .build();
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.setFirestoreSettings(settings);
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Fabric.with(this, new Crashlytics());
+        //Fabric.with(this, new Crashlytics());
         SharedPreferences pref = getApplicationContext().getSharedPreferences(
                 getString(R.string.shared_preference_file), Context.MODE_PRIVATE);
         //if (!pref.contains(getString(R.string.visite))) {
@@ -141,9 +140,11 @@ public class MainActivity extends AppCompatActivity
 
                 }
             });
+
             updateTokenAsync();
         }
     }
+
 
     private void updateTokenAsync(){
         AsyncTask<Void, Void, Boolean> asyncTask = new AsyncTask<Void, Void, Boolean>() {
@@ -236,7 +237,7 @@ public class MainActivity extends AppCompatActivity
         }
     }
     private void startLoginActivity() {
-        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+        Intent intent = new Intent(getApplicationContext(), AuthenticationActivity.class);
         startActivity(intent);
         finish();
     }
@@ -313,6 +314,7 @@ public class MainActivity extends AppCompatActivity
             SharedPreferences pref = getApplicationContext().getSharedPreferences(
                     getString(R.string.shared_preference_file), Context.MODE_PRIVATE);
             pref.edit().remove(getString(R.string.phone_number)).apply();
+            FirebaseAuth.getInstance().signOut();
             startLoginActivity();
             finish();
         }

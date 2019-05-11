@@ -1,13 +1,5 @@
-buildscript {
-    repositories {
-        maven { url 'https://maven.fabric.io/public' }
-    }
-
-    dependencies {
-        classpath 'io.fabric.tools:gradle:1.+'
-    }
-}
 apply plugin: 'com.android.application'
+apply plugin: 'com.google.firebase.firebase-perf'
 
 repositories {
     maven { url 'https://maven.fabric.io/public' }
@@ -18,7 +10,7 @@ android {
     compileSdkVersion 28
     defaultConfig {
         applicationId "com.edischool"
-        minSdkVersion 15
+        minSdkVersion 17
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
@@ -74,6 +66,18 @@ dependencies {
     implementation 'com.github.d-max:spots-dialog:1.1@aar'
     implementation 'androidx.appcompat:appcompat:1.1.0-alpha04'
     implementation 'com.crashlytics.sdk.android:crashlytics:2.10.0'
+    implementation 'com.google.firebase:firebase-perf:16.2.5'
+    implementation 'com.android.support:cardview-v7:28.0.0'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
+    implementation group: 'androidx.gridlayout', name: 'gridlayout', version: '1.0.0'
+    implementation 'com.android.support:gridlayout-v7:28.0.0'
+    implementation 'com.google.android.material:material:1.1.0-alpha06'
+    implementation 'com.google.firebase:firebase-firestore:19.0.0'
+    implementation 'com.google.firebase:firebase-auth:17.0.0'
+    implementation 'com.hbb20:ccp:2.2.9'
+    implementation 'com.shuhart.stepview:stepview:1.2.8'
+    implementation 'com.chaos.view:pinview:1.3.2'
+
 }
 
 apply plugin: 'com.google.gms.google-services'

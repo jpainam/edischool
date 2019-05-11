@@ -48,7 +48,7 @@ public class ManuelscolaireActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(false);
             getSupportActionBar().setHomeButtonEnabled(false);
             getSupportActionBar().setTitle("Manuels Scolaires");
-            getSupportActionBar().setSubtitle(currentStudent.getFirstName() + " - " + currentStudent.getClasse());
+            getSupportActionBar().setSubtitle(currentStudent.getFirstName() + " - " + currentStudent.getForm());
         }
         Log.e(TAG, currentStudent.getFirstName() + " " + currentStudent.getLastName());
         /*studentDetail = findViewById(R.id.studentDetail);

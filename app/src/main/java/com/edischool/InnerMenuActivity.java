@@ -11,13 +11,12 @@ import android.view.View;
 import com.edischool.absences.AbsenceActivity;
 import com.edischool.bulletins.BulletinActivity;
 import com.edischool.convocations.ConvocationActivity;
-import com.edischool.emplois.EmploiActivity;
 import com.edischool.finances.FinanceActivity;
 import com.edischool.manuelscolaires.ManuelscolaireActivity;
 import com.edischool.notes.NotesActivity;
 import com.edischool.pojo.Student;
 import com.edischool.punitions.PunitionActivity;
-import com.edischool.timetable.activities.TimeTableActivity;
+import com.edischool.timetable.TimeTableActivity;
 
 public class InnerMenuActivity extends AppCompatActivity implements View.OnClickListener{
     private static final String TAG = "InnerMenuActivity";
@@ -40,12 +39,12 @@ public class InnerMenuActivity extends AppCompatActivity implements View.OnClick
         setContentView(R.layout.inner_menu);
         context = getApplicationContext();
         Intent i = getIntent();
-        currentStudent = (Student) i.getSerializableExtra("student");
+        currentStudent = (Student) i.getParcelableExtra("student");
         if(getSupportActionBar() != null){
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setHomeButtonEnabled(true);
             getSupportActionBar().setTitle("Details");
-            getSupportActionBar().setSubtitle(currentStudent.getFirstName() + " - " + currentStudent.getClasse());
+            getSupportActionBar().setSubtitle(currentStudent.getFirstName() + " - " + currentStudent.getForm());
         }
 
         noteCard = findViewById(R.id.noteCard);
