@@ -1,20 +1,44 @@
 package com.edischool.pojo;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.List;
 
-public class User {
+public class User implements Parcelable {
     private String phoneNumber;
     private List<Student> students;
     private String location;
     private String email;
     private String password;
     private String token;
-    private String id;
 
 
     public User(){
 
     }
+
+    protected User(Parcel in) {
+        phoneNumber = in.readString();
+        students = in.createTypedArrayList(Student.CREATOR);
+        location = in.readString();
+        email = in.readString();
+        password = in.readString();
+        token = in.readString();
+    }
+
+    public static final Creator<User> CREATOR = new Creator<User>() {
+        @Override
+        public User createFromParcel(Parcel in) {
+            return new User(in);
+        }
+
+        @Override
+        public User[] newArray(int size) {
+            return new User[size];
+        }
+    };
+
     public String getPhoneNumber() {
         return phoneNumber;
     }
@@ -63,11 +87,18 @@ public class User {
         this.token = token;
     }
 
-    public String getId() {
-        return id;
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(phoneNumber);
+        dest.writeTypedList(students);
+        dest.writeString(location);
+        dest.writeString(email);
+        dest.writeString(password);
+        dest.writeString(token);
     }
 }

@@ -8,8 +8,9 @@
         android:id="@+id/expandableListView"
         android:layout_height="match_parent"
         android:layout_width="match_parent"
+        android:divider="@null"
         android:indicatorLeft="?android:attr/expandableListPreferredItemIndicatorLeft"
-        android:divider="#A4C739"
-        android:dividerHeight="1dp" />
+        android:transcriptMode="alwaysScroll"
+         />
 
 </RelativeLayout>

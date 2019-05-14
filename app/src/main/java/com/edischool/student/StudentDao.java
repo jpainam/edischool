@@ -56,10 +56,10 @@ public class StudentDao {
     public boolean insert(Student st) {
         SQLiteDatabase db = databaseHelper.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put(COL_STUDENT_ID, st.getId());
+        contentValues.put(COL_STUDENT_ID, Integer.parseInt(st.getStudentId()));
         contentValues.put(COL_STUDENT_FIRSTNAME, st.getFirstName());
         contentValues.put(COL_STUDENT_LASTNAME, st.getLastName());
-        contentValues.put(COL_STUDENT_SEXE, st.getSexe());
+        contentValues.put(COL_STUDENT_SEXE, st.getSex());
         contentValues.put(COL_STUDENT_CLASSE, st.getForm());
         contentValues.put(COL_STUDENT_ETABLISSEMENT, st.getInstitution());
         contentValues.put(COL_STUDENT_PHOTO, st.getPhoto());
@@ -85,10 +85,10 @@ public class StudentDao {
         db.beginTransaction();
         for (Student st : students) {
             ContentValues contentValues = new ContentValues();
-            contentValues.put(COL_STUDENT_ID, st.getId());
+            contentValues.put(COL_STUDENT_ID, Integer.parseInt(st.getStudentId()));
             contentValues.put(COL_STUDENT_FIRSTNAME, st.getFirstName());
             contentValues.put(COL_STUDENT_LASTNAME, st.getLastName());
-            contentValues.put(COL_STUDENT_SEXE, st.getSexe());
+            contentValues.put(COL_STUDENT_SEXE, st.getSex());
             contentValues.put(COL_STUDENT_CLASSE, st.getForm());
             contentValues.put(COL_STUDENT_ETABLISSEMENT, st.getInstitution());
             db.insertOrThrow(TABLE_STUDENT, null, contentValues);

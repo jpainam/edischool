@@ -11,6 +11,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.edischool.R;
 
+import com.edischool.pojo.Student;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.Calendar;
@@ -22,11 +23,13 @@ public class TimeTableActivity extends AppCompatActivity{
     private FragmentsTabAdapter adapter;
     private ViewPager viewPager;
     private boolean switchSevenDays;
+    private Student currentStudent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_timetable);
+        currentStudent = (Student)getIntent().getParcelableExtra("student");
         initAll();
     }
 
@@ -44,11 +47,11 @@ public class TimeTableActivity extends AppCompatActivity{
         TabLayout tabLayout = findViewById(R.id.tabLayout);
         Calendar calendar = Calendar.getInstance();
         int day = calendar.get(Calendar.DAY_OF_WEEK);
-        adapter.addFragment(new MondayFragment(), getResources().getString(R.string.monday));
-        adapter.addFragment(new TuesdayFragment(), getResources().getString(R.string.tuesday));
-        adapter.addFragment(new WednesdayFragment(), getResources().getString(R.string.wednesday));
-        adapter.addFragment(new ThursdayFragment(), getResources().getString(R.string.thursday));
-        adapter.addFragment(new FridayFragment(), getResources().getString(R.string.friday));
+        adapter.addFragment(MondayFragment.newInstance(currentStudent), getResources().getString(R.string.monday));
+        adapter.addFragment(TuesdayFragment.newInstance(currentStudent), getResources().getString(R.string.tuesday));
+        adapter.addFragment(WednesdayFragment.newInstance(currentStudent), getResources().getString(R.string.wednesday));
+        adapter.addFragment(ThursdayFragment.newInstance(currentStudent), getResources().getString(R.string.thursday));
+        adapter.addFragment(FridayFragment.newInstance(currentStudent), getResources().getString(R.string.friday));
         viewPager.setAdapter(adapter);
         viewPager.setCurrentItem(day == 1 ? 6 : day-2, true);
         tabLayout.setupWithViewPager(viewPager);
@@ -59,15 +62,15 @@ public class TimeTableActivity extends AppCompatActivity{
             TabLayout tabLayout = findViewById(R.id.tabLayout);
             Calendar calendar = Calendar.getInstance();
             int day = calendar.get(Calendar.DAY_OF_WEEK);
-            adapter.addFragment(new SaturdayFragment(), getResources().getString(R.string.saturday));
-            adapter.addFragment(new SundayFragment(), getResources().getString(R.string.sunday));
+            adapter.addFragment(SaturdayFragment.newInstance(currentStudent), getResources().getString(R.string.saturday));
+            adapter.addFragment(SundayFragment.newInstance(currentStudent), getResources().getString(R.string.sunday));
             viewPager.setAdapter(adapter);
             viewPager.setCurrentItem(day == 1 ? 6 : day-2, true);
             tabLayout.setupWithViewPager(viewPager);
         } else {
             if(adapter.getFragmentList().size() > 5) {
-                adapter.removeFragment(new SaturdayFragment(), 5);
-                adapter.removeFragment(new SundayFragment(), 5);
+                adapter.removeFragment(SaturdayFragment.newInstance(currentStudent), 5);
+                adapter.removeFragment(SundayFragment.newInstance(currentStudent), 5);
             }
         }
         adapter.notifyDataSetChanged();

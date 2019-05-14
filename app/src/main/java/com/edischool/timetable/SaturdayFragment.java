@@ -9,6 +9,7 @@ import android.widget.ListView;
 import androidx.fragment.app.Fragment;
 
 import com.edischool.R;
+import com.edischool.pojo.Student;
 
 public class SaturdayFragment extends Fragment {
 
@@ -16,6 +17,16 @@ public class SaturdayFragment extends Fragment {
     private TimeTableDao db;
     private ListView listView;
     private WeekAdapter adapter;
+
+
+    public static SaturdayFragment newInstance(Student student) {
+        SaturdayFragment f = new SaturdayFragment();
+        // Supply index input as an argument.
+        Bundle args = new Bundle();
+        args.putParcelable("student", student);
+        f.setArguments(args);
+        return f;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

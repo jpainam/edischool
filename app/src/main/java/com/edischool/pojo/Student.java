@@ -10,8 +10,8 @@ public class Student implements Parcelable {
     private String institution;
     private String photo;
     private String form;
-    private int id;
-    private String sexe;
+    private String sex;
+    private String formId;
 
     public Student(){
 
@@ -23,7 +23,7 @@ public class Student implements Parcelable {
         institution = in.readString();
         photo = in.readString();
         form = in.readString();
-        id = in.readInt();
+        formId = in.readString();
     }
 
     public static final Creator<Student> CREATOR = new Creator<Student>() {
@@ -94,7 +94,7 @@ public class Student implements Parcelable {
         dest.writeString(institution);
         dest.writeString(photo);
         dest.writeString(form);
-        dest.writeInt(id);
+        dest.writeString(formId);
     }
 
     public String getForm() {
@@ -105,19 +105,19 @@ public class Student implements Parcelable {
         this.form = form;
     }
 
-    public int getId() {
-        return id;
+    public String getSex() {
+        return sex;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setSex(String sex) {
+        this.sex = sex;
     }
 
-    public String getSexe() {
-        return sexe;
+    public String getFormId() {
+        return formId;
     }
 
-    public void setSexe(String sexe) {
-        this.sexe = sexe;
+    public void setFormId(String formId) {
+        this.formId = formId;
     }
 }

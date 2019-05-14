@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_gravity="top"
+     android:layout_height="wrap_content"
+    android:layout_width="wrap_content">
+    <androidx.cardview.widget.CardView
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/card_view"
+        card_view:cardBackgroundColor="@color/colorBlack"
+        android:layout_margin="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/card_background_selector"
+        card_view:cardCornerRadius="5dp"
+        card_view:cardElevation="5dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:background="@color/colorWhite"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/margin10"
+                android:paddingRight="@dimen/margin10"
+                android:paddingTop="@dimen/margin10"
+                android:paddingBottom="@dimen/margin10"
+                android:id="@+id/relative_layout">
+
+                <TextView
+                    android:id="@+id/tvDescription"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentLeft="true"
+                    android:textSize="16sp"
+                    android:textColor="@color/colorBlack"
+                    android:text="Description"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/tvPunishBy"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tvDescription"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="14dp"
+                    android:text="Puni Par" />
+
+
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@+id/tvPunishBy"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true" >
+                    <TextView
+                        android:id="@+id/tvPunishmentType"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="15sp"
+                        android:textColor="@color/colorBlack"
+                        android:text="Punishment Type"/>
+                </LinearLayout>
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0.001dp"
+                android:background="#000000"
+                android:id="@+id/line_divider"/>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/margin10"
+                android:paddingRight="@dimen/margin10"
+                android:paddingBottom="@dimen/margin10"
+                android:layout_marginTop="@dimen/margin10"
+                android:id="@+id/semesterInfoLinearLayout">
+
+                <TextView
+                    android:id="@+id/tvPunishmentDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="15dp"
+                    android:text="Date de Punition"
+                    android:textColor="@color/colorBlack"
+                    android:layout_weight="0.66" />
+                <TextView
+                    android:id="@+id/tvPunishmentPoint"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="15sp"
+                    android:text="-55"
+                    android:textColor="@color/colorBlack"
+                    android:layout_weight=".33"
+                    android:gravity="right" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+</LinearLayout>

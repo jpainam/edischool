@@ -3,22 +3,15 @@ package com.edischool;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
-import android.app.Application;
+import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.os.Build;
-import android.os.Handler;
-
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,6 +21,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.chaos.view.PinView;
+import com.edischool.utils.Constante;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
@@ -36,13 +30,19 @@ import com.google.firebase.FirebaseNetworkException;
 import com.google.firebase.FirebaseTooManyRequestsException;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.SetOptions;
 import com.hbb20.CountryCodePicker;
 import com.shuhart.stepview.StepView;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import dmax.dialog.SpotsDialog;
@@ -55,7 +55,7 @@ public class AuthenticationActivity extends AppCompatActivity {
     StepView stepView;
 
 
-    private static final String TAG = "FirebasePhoneNumAuth";
+    private static final String TAG = "AuthenticationActivity";
 
 
     private Button sendCodeButton;
@@ -182,6 +182,10 @@ public class AuthenticationActivity extends AppCompatActivity {
             }else if(e instanceof FirebaseNetworkException){
                 Snackbar.make(rootView, "A Network eror has occured", Snackbar.LENGTH_LONG).show();
                 Log.e(TAG, "A Network error", e);
+            }else if(e instanceof FirebaseAuthException){
+                Snackbar.make(rootView, "This app is not authorized to use Firebase Authentication", Snackbar.LENGTH_LONG).show();
+                Log.e(TAG, "This app is not authorized to use Firebase Authentication", e);
+
             }else{
                 Snackbar.make(rootView, "Something is wrong, we will fix it soon", Snackbar.LENGTH_LONG).show();
                 Log.e(TAG, "Something is wrong", e);
@@ -221,9 +225,26 @@ public class AuthenticationActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        if (currentStep > 0) {
+            currentStep--;
+            stepView.go(currentStep, true);
+            layout2.setVisibility(View.GONE);
+            layout1.setVisibility(View.VISIBLE);
+        }
+    }
+
     private void verifyVerificationCode(String code){
-        PhoneAuthCredential credential = PhoneAuthProvider.getCredential(mVerificationId, code);
-        signInWithPhoneAuthCredential(credential);
+        Log.e(TAG, "Verification Code started");
+        try {
+            PhoneAuthCredential credential = PhoneAuthProvider.getCredential(mVerificationId, code);
+            signInWithPhoneAuthCredential(credential);
+        }catch (Exception e){
+            Snackbar.make(rootView, "Cannot create PhoneAuthCredential", Snackbar.LENGTH_LONG).show();
+            dialog.dismiss();
+            Log.e(TAG, "Error", e);
+        }
     }
 
     private void signInWithPhoneAuthCredential(PhoneAuthCredential credential) {
@@ -244,6 +265,7 @@ public class AuthenticationActivity extends AppCompatActivity {
                     layout2.setVisibility(View.GONE);
                     Log.d(TAG, "signInWithCredential:success");
                     FirebaseUser user = task.getResult().getUser();
+                    registerUserToFirestore(user.getPhoneNumber());
                     Intent mainActivity = new Intent(getApplicationContext(), MainActivity.class);
                     startActivity(mainActivity);
                     finish();
@@ -260,5 +282,19 @@ public class AuthenticationActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+    private void registerUserToFirestore(String phoneNumber){
+        Log.i(TAG, "Register User to Firestore " + phoneNumber);
+        SharedPreferences pref = getApplicationContext().getSharedPreferences(
+                getString(R.string.shared_preference_file), Context.MODE_PRIVATE);
+        String token = pref.getString(getString(R.string.firebase_token), null);
+        Log.e(TAG, "Send token to server " + token);
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        Map<String, Object> map = new HashMap<>();
+        map.put("token", token);
+        map.put("phoneNumber", phoneNumber);
+        map.put("location", ccp.getSelectedCountryEnglishName());
+        db.collection(Constante.USERS_COLLECTION).document(phoneNumber)
+                .set(map, SetOptions.merge());
     }
 }

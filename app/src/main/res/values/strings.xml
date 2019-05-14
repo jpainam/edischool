@@ -116,6 +116,7 @@
     <string name="sunday">Sun</string>
     <string name="select_snackbar">Please, select one item.</string>
     <string name="selected">Selected</string>
+    <string name="firestore_user_id">firestore_user_id</string>
 
     <!-- TABLE REFERENCE -->
 </resources>

@@ -59,8 +59,8 @@ public class EmploiActivity extends AppCompatActivity {
             @Override
             protected List<Emploi> doInBackground(Void... voids) {
                 EmploiDao dao = new EmploiDao(context);
-                Log.i(TAG, currentStudent.getId() + "");
-                return dao.getEmplois(currentStudent.getId());
+                Log.i(TAG, currentStudent.getStudentId() + "");
+                return dao.getEmplois(Integer.parseInt(currentStudent.getStudentId()));
             }
 
             @Override

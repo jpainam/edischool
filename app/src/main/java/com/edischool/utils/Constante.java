@@ -30,4 +30,12 @@ public class Constante {
     public static final String PHONE_NUMBER_KEY = "phoneNumber";
     public static final String MARKS_COLLECTION = "marks";
     public static final String STUDENT_KEY = "studentId";
+    public static final String STUDENTS_COLLECTION = "students";
+    public static final String TEXTBOOKS_COLLECTION = "textbooks";
+    public static final String FORM_KEY = "formId";
+    public static final String ABSENCES_COLLECTION = "absences";
+    public static final String TIMETABLE_COLLECTION = "timetables";
+    public static final String INSTITUTION = "IPW";
+    public static final String FINANCES_COLLECTION = "finances";
+    public static final String PUNISHMENTS_COLLECTION = "punishments";
 }

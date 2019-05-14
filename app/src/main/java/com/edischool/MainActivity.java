@@ -22,6 +22,7 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.multidex.MultiDex;
 import androidx.viewpager.widget.ViewPager;
 
 import com.edischool.news.NewsFragment;
@@ -34,6 +35,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
 
@@ -51,6 +53,7 @@ public class MainActivity extends AppCompatActivity
     private static final String TAG = "MainActivity";
     Account mAccount;
     ViewPager viewPager;
+    private FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
     static {
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
@@ -71,78 +74,70 @@ public class MainActivity extends AppCompatActivity
         //if (!pref.contains(getString(R.string.visite))) {
         // TODO : Open the tuto page
         //}else
-        if (!pref.contains(getString(R.string.phone_number))) {
-            // User not authenticated
-            Log.i(TAG, "Start Login Activity - First time run");
-            startLoginActivity();
-        }else {
-            Fresco.initialize(this);
-            /**
-             * First run, force manual sync
-             */
-            if (!pref.contains(getString(R.string.last_time_sync))) {
-                mAccount = CreateSyncAccount(this);
+
+        Fresco.initialize(this);
+        /**
+         * First run, force manual sync
+         */
+        /*if (!pref.contains(getString(R.string.last_time_sync))) {
+            mAccount = CreateSyncAccount(this);
+        }*/
+        setContentView(R.layout.activity_main);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        FloatingActionButton fab = findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(android.content.Intent.ACTION_SEND);
+                intent.setType("text/plain");
+                String shareBodyText = "Your help message goes here";
+                intent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Subject/Title");
+                intent.putExtra(android.content.Intent.EXTRA_TEXT, shareBodyText);
+                startActivity(Intent.createChooser(intent, "Choose message method"));
             }
-            setContentView(R.layout.activity_main);
-            Toolbar toolbar = findViewById(R.id.toolbar);
-            setSupportActionBar(toolbar);
-            FloatingActionButton fab = findViewById(R.id.fab);
-            fab.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent intent = new Intent(android.content.Intent.ACTION_SEND);
-                    intent.setType("text/plain");
-                    String shareBodyText = "Your help message goes here";
-                    intent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Subject/Title");
-                    intent.putExtra(android.content.Intent.EXTRA_TEXT, shareBodyText);
-                    startActivity(Intent.createChooser(intent, "Choose message method"));
-                }
-            });
-            DrawerLayout drawer = findViewById(R.id.drawer_layout);
-            NavigationView navigationView = findViewById(R.id.nav_view);
-            ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                    this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-            drawer.addDrawerListener(toggle);
-            toggle.syncState();
-            navigationView.setNavigationItemSelectedListener(this);
+        });
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+        navigationView.setNavigationItemSelectedListener(this);
 
-            final TabLayout tabLayout = findViewById(R.id.tablayout);
-            //tabLayout.addTab(tabLayout.newTab().setText("Tab 1"));
-            //tabLayout.addTab(tabLayout.newTab().setText("Tab 2"));
-            //tabLayout.addTab(tabLayout.newTab().setText("Tab 3"));
+        final TabLayout tabLayout = findViewById(R.id.tablayout);
+        viewPager = findViewById(R.id.viewpager);
 
-            viewPager = findViewById(R.id.viewpager);
+        final PagerAdapter adapter = new PagerAdapter(getSupportFragmentManager());
+        viewPager.setAdapter(adapter);
+        tabLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                tabLayout.setupWithViewPager(viewPager);
+            }
+        });
+        // Use {@link #addOnPageChangeListener(OnPageChangeListener)}
+        viewPager.setOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
 
-            final PagerAdapter adapter = new PagerAdapter(getSupportFragmentManager());
-            viewPager.setAdapter(adapter);
-            tabLayout.post(new Runnable() {
-                @Override
-                public void run() {
-                    tabLayout.setupWithViewPager(viewPager);
-                }
-            });
-            // Use {@link #addOnPageChangeListener(OnPageChangeListener)}
-            viewPager.setOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                viewPager.setCurrentItem(tab.getPosition());
+            }
 
-            tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-                @Override
-                public void onTabSelected(TabLayout.Tab tab) {
-                    viewPager.setCurrentItem(tab.getPosition());
-                }
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
 
-                @Override
-                public void onTabUnselected(TabLayout.Tab tab) {
+            }
 
-                }
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
 
-                @Override
-                public void onTabReselected(TabLayout.Tab tab) {
+            }
+        });
 
-                }
-            });
+        updateTokenAsync();
 
-            updateTokenAsync();
-        }
     }
 
 
@@ -192,59 +187,10 @@ public class MainActivity extends AppCompatActivity
         asyncTask.execute();
     }
 
-    /**
-     * Create a new edis account for the sync adapter
-     *
-     * @param context The application context
-     */
-    public static Account CreateSyncAccount(Context context) {
-        // Create the account type and default account
-        Account newAccount = new Account(
-                Constante.ACCOUNT, Constante.ACCOUNT_TYPE);
-        // Get an instance of the Android account manager
-        AccountManager accountManager =
-                (AccountManager) context.getSystemService(
-                        ACCOUNT_SERVICE);
-        ContentResolver.setSyncAutomatically(newAccount, Constante.AUTHORITY, true);
-        /*
-         * Add the account and account type, no password or user data
-         * If successful, return the Account object, otherwise report an error.
-         */
-        if (accountManager.addAccountExplicitly(newAccount, null, null)) {
-            /*
-             * If you don't set android:syncable="true" in
-             * in your <provider> element in the manifest,
-             * then call context.setIsSyncable(account, AUTHORITY, 1)
-             * here.
-             */
-            if(ContentResolver.getIsSyncable(newAccount, Constante.AUTHORITY) == 0) {
-                ContentResolver.setIsSyncable(newAccount, Constante.AUTHORITY, 1);
-            }
-            ContentResolver.setSyncAutomatically(newAccount,
-                    Constante.AUTHORITY, false);
-            ContentResolver.addPeriodicSync(newAccount, Constante.AUTHORITY,
-                    new Bundle(), 86400 ); // 24hours = 86 400 seconds
-            Log.i(TAG,
-                    "Account " + Constante.ACCOUNT + " " + Constante.ACCOUNT_TYPE + " created");
-            return newAccount;
-        } else {
-            /*
-             * The account exists or some other error occurred. Log this, report it,
-             * or handle it internally.
-             */
-            Log.i(TAG, "Account already exists");
-            return newAccount;
-        }
-    }
-    private void startLoginActivity() {
-        Intent intent = new Intent(getApplicationContext(), AuthenticationActivity.class);
-        startActivity(intent);
-        finish();
-    }
 
     /*@Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        active.onActivityResult(requestCode, resultCode, data);
+        //active.onActivityResult(requestCode, resultCode, data);
     }*/
 
     @Override
@@ -257,29 +203,21 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    /*@Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(newBase);
+        MultiDex.install(this);
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
-            startActivity(intent);
-            return true;
+    protected void onStart() {
+        super.onStart();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if (currentUser == null) {
+            startActivity(new Intent(MainActivity.this, AuthenticationActivity.class));
+            finish();
         }
-
-        return super.onOptionsItemSelected(item);
-    }*/
+    }
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
@@ -315,7 +253,8 @@ public class MainActivity extends AppCompatActivity
                     getString(R.string.shared_preference_file), Context.MODE_PRIVATE);
             pref.edit().remove(getString(R.string.phone_number)).apply();
             FirebaseAuth.getInstance().signOut();
-            startLoginActivity();
+            Intent intent = new Intent(getApplicationContext(), AuthenticationActivity.class);
+            startActivity(intent);
             finish();
         }
 

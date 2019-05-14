@@ -9,7 +9,7 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
 
 import com.edischool.R;
-import com.edischool.pojo.Manuelscolaire;
+import com.edischool.pojo.Book;
 
 import java.util.HashMap;
 import java.util.List;
@@ -17,9 +17,9 @@ import java.util.List;
 public class ManuelExpandableListAdapter extends BaseExpandableListAdapter {
     private Context context;
     private List<String> subjectList;
-    private HashMap<String, List<Manuelscolaire>> manualList;
+    private HashMap<String, List<Book>> manualList;
 
-    public ManuelExpandableListAdapter(Context context, List<String> subjectList, HashMap<String, List<Manuelscolaire>> manualList){
+    public ManuelExpandableListAdapter(Context context, List<String> subjectList, HashMap<String, List<Book>> manualList){
         this.context = context;
         this.subjectList = subjectList;
         this.manualList = manualList;
@@ -77,7 +77,7 @@ public class ManuelExpandableListAdapter extends BaseExpandableListAdapter {
 
     @Override
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
-        final Manuelscolaire m = (Manuelscolaire)getChild(groupPosition, childPosition);
+        final Book m = (Book)getChild(groupPosition, childPosition);
         if(convertView == null){
             LayoutInflater layoutInflater = (LayoutInflater)this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = layoutInflater.inflate(R.layout.manual_child_item, null);
@@ -85,11 +85,13 @@ public class ManuelExpandableListAdapter extends BaseExpandableListAdapter {
         TextView tvManual = convertView.findViewById(R.id.tvManuel);
         TextView tvAuteurs = convertView.findViewById(R.id.tvAuteurs);
         TextView tvEditeurs = convertView.findViewById(R.id.tvEditeurs);
+        TextView tvEdition = convertView.findViewById(R.id.tvEdition);
         TextView tvPrix = convertView.findViewById(R.id.tvPrix);
-        tvManual.setText(m.getTitre());
-        tvAuteurs.setText(m.getAuteurs());
-        tvEditeurs.setText(m.getEditeurs());
-        tvPrix.setText(m.getPrix());
+        tvManual.setText(m.getTitle());
+        tvAuteurs.setText(m.getAuthors());
+        tvEditeurs.setText(m.getEditors());
+        tvPrix.setText(m.getPrice());
+        tvEdition.setText(m.getEdition());
         return convertView;
     }
 

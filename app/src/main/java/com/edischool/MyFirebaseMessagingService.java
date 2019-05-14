@@ -12,6 +12,8 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
+
+import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import android.util.Log;
@@ -19,6 +21,15 @@ import android.util.Log;
 import com.edischool.notification.NotificationDao;
 import com.edischool.pojo.Notifications;
 import com.edischool.sql.DatabaseHelper;
+import com.edischool.utils.Constante;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FieldValue;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
@@ -64,50 +75,32 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         SharedPreferences.Editor editor = pref.edit();
         editor.putString(getString(R.string.firebase_token), refreshedToken);
         editor.apply();
-        Log.i(TAG, "End of new token commit");
-        if (pref.contains(getString(R.string.phone_number))){
-            sendRegistrationToServer(refreshedToken, pref.getString(
-                    getString(R.string.phone_number), ""));
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null){
+            sendRegistrationToServer(refreshedToken, user.getPhoneNumber());
         }
     }
 
     private void sendRegistrationToServer(String token, String phone_number){
         Log.i(TAG, "Send Token to Server " + token);
-        AsyncTask<String, Void, Boolean> asyncTask = new AsyncTask<String, Void, Boolean>() {
-            @Override
-            protected Boolean doInBackground(String... params) {
-                String mToken = "";
-                if(params.length > 0) {
-                    mToken = params[0];
-                }
-                String phone = "";
-                if(params.length > 1 && params[1] != null) {
-                    phone = params[1];
-                }
-                String url = getString(R.string.update_token_url);
-                OkHttpClient client =new OkHttpClient();
-                Log.e(TAG, url);
-                RequestBody body =new FormBody.Builder()
-                        .add("phone_number", phone)
-                        .add("token", mToken)
-                        .build();
-                Request newReq=new Request.Builder()
-                        .url(url)
-                        .post(body)
-                        .build();
-                try {
-                    Response response = client.newCall(newReq).execute();
-                    String jsonData = response.body().string();
-                    Log.e(TAG, jsonData);
-                }catch (Exception ex){
-                    ex.printStackTrace();
-                    Log.e(TAG, ex.getMessage());
-                }
-                return  true;
-            }
+        SharedPreferences pref = getApplicationContext().getSharedPreferences(
+                getString(R.string.shared_preference_file), Context.MODE_PRIVATE);
 
-        };
-        asyncTask.execute(token, phone_number);
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection(Constante.USERS_COLLECTION).document(phone_number).update("token", token)
+        .addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Log.d(TAG, "Token successfully updated");
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.e(TAG, "errorr updating token", e);
+            }
+        });
+
+
     }
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {

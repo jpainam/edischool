@@ -93,9 +93,6 @@
                     android:fontFamily="sans-serif"
                     android:text="Tap Next to verify your account with your phone number. You don't need to manualy enter verification code if the number install in this phone..."/>
                 <com.google.android.material.button.MaterialButton
-                    android:background="@drawable/button_main_background"
-                    android:textColor="#fff"
-                    android:textStyle="bold"
                     android:id="@+id/submit1"
                     android:layout_marginTop="50dp"
                     android:layout_marginEnd="10dp"
@@ -159,11 +156,8 @@
                     app:lineWidth="2dp"
                     app:viewType="rectangle" />
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:layout_marginTop="25dp"
-                    android:background="@drawable/button_main_background"
-                    android:textStyle="bold"
-                    android:textColor="#fff"
                     android:id="@+id/submit2"
                     android:layout_marginEnd="20dp"
                     android:layout_marginStart="20dp"

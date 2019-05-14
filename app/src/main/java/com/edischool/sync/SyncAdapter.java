@@ -255,8 +255,8 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         for(int i = 0; i < data.length(); i++){
             JSONObject item = data.getJSONObject(i);
             Absence a = new Absence();
-            a.setIdabsence(item.getInt("id"));
-            a.setIdstudent(item.getInt("id_student"));
+            //a.setIdabsence(item.getInt("id"));
+            //a.setIdstudent(item.getInt("id_student"));
             a.setStartHour(item.getString("start_hour"));
             a.setEndHour(item.getString("end_hour"));
             a.setDay(item.getString("day"));
@@ -278,7 +278,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
             a.setRoom(item.getString("room"));
             a.setFromTime(item.getString("fromtime"));
             a.setToTime(item.getString("totime"));
-            a.setColor((int)Math.random()%255);
+            a.setColor(item.getString("color"));
             dao.insertWeek(a);
         }
     }

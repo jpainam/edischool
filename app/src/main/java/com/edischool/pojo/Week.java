@@ -1,21 +1,18 @@
 package com.edischool.pojo;
 
-/**
- * Created by Ulan on 07.09.2018.
- */
-public class Week {
+public class Week implements Comparable{
 
-    private String subject, fragment, teacher, room, fromtime, totime, time;
-    private int id, color;
+    private String subject, fragment, teacher, room, fromTime, toTime, time, color;
+    private int id;
 
     public Week() {}
 
-    public Week(String subject, String teacher, String room, String fromtime, String totime, int color) {
+    public Week(String subject, String teacher, String room, String fromTime, String toTime, String color) {
         this.subject = subject;
         this.teacher = teacher;
         this.room = room;
-        this.fromtime = fromtime;
-        this.totime = totime;
+        this.fromTime = fromTime;
+        this.toTime = toTime;
         this.color = color;
     }
 
@@ -36,19 +33,19 @@ public class Week {
     }
 
     public String getFromTime() {
-        return fromtime;
+        return fromTime;
     }
 
     public void setFromTime(String fromtime) {
-        this.fromtime = fromtime;
+        this.fromTime = fromtime;
     }
 
     public String getToTime() {
-        return totime;
+        return toTime;
     }
 
     public void setToTime(String totime) {
-        this.totime = totime;
+        this.toTime = totime;
     }
 
     public String getRoom() {
@@ -87,11 +84,18 @@ public class Week {
         this.time = time;
     }
 
-    public int getColor() {
+    public String getColor() {
         return color;
     }
 
-    public void setColor(int color) {
+    public void setColor(String color) {
         this.color = color;
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        String from = ((Week)o).getFromTime();
+        /* For Ascending order*/
+        return this.getFromTime().compareTo(from);
     }
 }

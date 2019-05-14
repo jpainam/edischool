@@ -5,6 +5,8 @@ import android.content.Intent;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.cardview.widget.CardView;
+
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -17,6 +19,17 @@ import com.edischool.notes.NotesActivity;
 import com.edischool.pojo.Student;
 import com.edischool.punitions.PunitionActivity;
 import com.edischool.timetable.TimeTableActivity;
+import com.edischool.utils.Constante;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import javax.annotation.Nullable;
 
 public class InnerMenuActivity extends AppCompatActivity implements View.OnClickListener{
     private static final String TAG = "InnerMenuActivity";
@@ -32,19 +45,18 @@ public class InnerMenuActivity extends AppCompatActivity implements View.OnClick
     CardView emploiCard;
     CardView financeCard;
     CardView convocationCard;
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.inner_menu);
         context = getApplicationContext();
-        Intent i = getIntent();
-        currentStudent = (Student) i.getParcelableExtra("student");
+
         if(getSupportActionBar() != null){
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setHomeButtonEnabled(true);
             getSupportActionBar().setTitle("Details");
-            getSupportActionBar().setSubtitle(currentStudent.getFirstName() + " - " + currentStudent.getForm());
         }
 
         noteCard = findViewById(R.id.noteCard);
@@ -74,6 +86,30 @@ public class InnerMenuActivity extends AppCompatActivity implements View.OnClick
     public void onBackPressed() {
         super.onBackPressed();
         finish();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        currentStudent = getIntent().getParcelableExtra("student");
+        Log.i(TAG, "Student id " + currentStudent.getStudentId() + " " + currentStudent.getFormId());
+        db.collection(Constante.STUDENTS_COLLECTION).whereEqualTo(Constante.STUDENT_KEY, currentStudent.getStudentId())
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot snapshots, @Nullable FirebaseFirestoreException e) {
+                        if (e != null){
+                            Log.w(TAG, "Error getting documents.", e);
+                            return;
+                        }
+                        for(DocumentSnapshot doc : snapshots){
+                            Log.i(TAG, doc.getData() + "");
+                            if(doc.get(Constante.STUDENT_KEY).equals(currentStudent.getStudentId())){
+                                currentStudent = doc.toObject(Student.class);
+                            }
+                        }
+                        getSupportActionBar().setSubtitle(currentStudent.getFirstName() + " - " + currentStudent.getForm());
+                    }
+                });
     }
 
     @Override

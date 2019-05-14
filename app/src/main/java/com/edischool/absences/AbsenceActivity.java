@@ -2,20 +2,27 @@ package com.edischool.absences;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.Intent;
-import android.os.AsyncTask;
-import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import android.util.Log;
-import android.widget.TextView;
 
-import com.edischool.InnerMenuActivity;
 import com.edischool.R;
 import com.edischool.pojo.Absence;
+import com.edischool.pojo.AbsenceListWrapper;
 import com.edischool.pojo.Student;
+import com.edischool.utils.Constante;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,9 +38,9 @@ public class AbsenceActivity extends AppCompatActivity {
     Context context;
     List<Absence> absenceList = new ArrayList<>();
     AlertDialog dialog = null;
-    /*TextView studentDetail;
-    TextView classeDetail;*/
     Student currentStudent;
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,20 +53,13 @@ public class AbsenceActivity extends AppCompatActivity {
                     .setMessage(getString(R.string.loading_message))
                     .build();
         }
-        Intent i = getIntent();
-        currentStudent = (Student) i.getSerializableExtra("student");
-        Log.e(TAG, currentStudent.getFirstName() + " " + currentStudent.getLastName());
+        currentStudent = (Student) getIntent().getParcelableExtra("student");
         if(getSupportActionBar() != null){
             getSupportActionBar().setDisplayHomeAsUpEnabled(false);
             getSupportActionBar().setHomeButtonEnabled(false);
             getSupportActionBar().setTitle("Absences");
             getSupportActionBar().setSubtitle(currentStudent.getFirstName() + " - " + currentStudent.getForm());
         }
-        /*studentDetail = findViewById(R.id.studentDetail);
-        classeDetail = findViewById(R.id.classeDetail);
-        studentDetail.setText(currentStudent.getFirstName());
-        classeDetail.setText("Absences: " + currentStudent.getClasse());*/
-
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
@@ -69,39 +69,34 @@ public class AbsenceActivity extends AppCompatActivity {
             mAdapter = new AbsenceRecyclerViewAdapter(this, absenceList);
         }
         recyclerView.setAdapter(mAdapter);
-
-        initData();
     }
 
-    private void initData(){
-        AsyncTask<Void, Integer, List<Absence>> asyncTask = new AsyncTask<Void, Integer, List<Absence>>() {
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if(dialog != null){
+            dialog.show();
+        }
+        CollectionReference absencesRef = db.collection(Constante.ABSENCES_COLLECTION);
+        Query query = absencesRef.whereEqualTo(Constante.STUDENT_KEY, currentStudent.getStudentId());
+        query.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
-            protected List<Absence> doInBackground(Void... voids) {
-                Log.i(TAG,"Starting InitView");
-                AbsenceDao dao = new AbsenceDao(context);
-                return dao.getAbsences(Integer.parseInt(currentStudent.getStudentId()));
-            }
-
-            @Override
-            protected void onPreExecute() {
-                super.onPreExecute();
-                if(dialog != null){
-                    dialog.show();
+            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException e) {
+                if (e != null) {
+                    Log.w(TAG, "Error getting documents.", e);
+                    return;
                 }
-            }
-
-            @Override
-            protected void onPostExecute(List<Absence> o) {
-                super.onPostExecute(o);
-                Log.i(TAG, "Init View Finished");
-                Log.i(TAG, o.toString());
-                absenceList.addAll(o);
+                absenceList.clear();
+                for (DocumentSnapshot doc : value) {
+                    Log.d(TAG, doc.getId() + " => " + doc.getData());
+                    AbsenceListWrapper wrapper = doc.toObject(AbsenceListWrapper.class);
+                    absenceList.addAll(wrapper.getAbsences());
+                }
                 mAdapter.notifyDataSetChanged();
                 if(dialog != null){
                     dialog.dismiss();
                 }
             }
-        };
-        asyncTask.execute();
+        });
     }
 }

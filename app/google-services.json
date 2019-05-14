@@ -15,6 +15,22 @@
       },
       "oauth_client": [
         {
+          "client_id": "353649983040-gqfa3sb22bo9cm9ivokugmjr3s1lofks.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.edischool",
+            "certificate_hash": "3314f154ad09e8d5c6f8f8d091ab80bd38c3b115"
+          }
+        },
+        {
+          "client_id": "353649983040-kdnc26bbpmufk8dhf89qv4p4pm2uak79.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.edischool",
+            "certificate_hash": "70826cf46c9dcdac3d34bfd566c4669be5954fcc"
+          }
+        },
+        {
           "client_id": "353649983040-tbvo5ps67f2o5u1ok7o9o6enhh9c8u2r.apps.googleusercontent.com",
           "client_type": 3
         }

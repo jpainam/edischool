@@ -3,16 +3,27 @@ package com.edischool.manuelscolaires;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.os.AsyncTask;
+
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ExpandableListView;
-import android.widget.TextView;
 
 import com.edischool.R;
-import com.edischool.pojo.Manuelscolaire;
+import com.edischool.pojo.Book;
 import com.edischool.pojo.Student;
+import com.edischool.pojo.TextBook;
+import com.edischool.utils.Constante;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.ListenerRegistration;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,16 +37,17 @@ public class ManuelscolaireActivity extends AppCompatActivity {
     ExpandableListView expandableListView;
     ManuelExpandableListAdapter manuelExpandableListAdapter;
     List<String> subjects = new ArrayList<>();
-    HashMap<String, List<Manuelscolaire>> manualscolaires = new HashMap<>();
+    HashMap<String, List<Book>> manualscolaires = new HashMap<>();
     Context context;
     AlertDialog dialog = null;
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manuelscolaire);
         context = getApplicationContext();
-        if(dialog == null) {
+        if (dialog == null) {
             dialog = new SpotsDialog.Builder()
                     .setContext(this)
                     .setCancelable(true)
@@ -43,60 +55,71 @@ public class ManuelscolaireActivity extends AppCompatActivity {
                     .build();
         }
         Intent i = getIntent();
-        currentStudent = (Student) i.getSerializableExtra("student");
-        if(getSupportActionBar() != null){
+
+        if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(false);
             getSupportActionBar().setHomeButtonEnabled(false);
-            getSupportActionBar().setTitle("Manuels Scolaires");
+            getSupportActionBar().setTitle("Textbooks");
+            currentStudent = (Student) i.getParcelableExtra("student");
             getSupportActionBar().setSubtitle(currentStudent.getFirstName() + " - " + currentStudent.getForm());
         }
         Log.e(TAG, currentStudent.getFirstName() + " " + currentStudent.getLastName());
-        /*studentDetail = findViewById(R.id.studentDetail);
-        classeDetail = findViewById(R.id.classeDetail);
-        studentDetail.setText(currentStudent.getFirstName());
-        classeDetail.setText("Manuels scolaires: " + currentStudent.getClasse());*/
         expandableListView = findViewById(R.id.expandableListView);
         manuelExpandableListAdapter = new ManuelExpandableListAdapter(context, subjects, manualscolaires);
         expandableListView.setAdapter(manuelExpandableListAdapter);
-        initView();
     }
 
-    private void initView(){
-        AsyncTask<Void, Integer, HashMap<String, List<Manuelscolaire>>> asyncTask = new AsyncTask<Void, Integer, HashMap<String, List<Manuelscolaire>>>() {
-            @Override
-            protected HashMap<String, List<Manuelscolaire>> doInBackground(Void... voids) {
-                Log.i(TAG,"Starting InitView");
-                ManuelscolaireDao dao = new ManuelscolaireDao(context);
-                return dao.getManualsBySubject(currentStudent.getId());
-            }
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (dialog != null) {
+            dialog.show();
+        }
 
+        CollectionReference textBooksRef = db.collection(Constante.TEXTBOOKS_COLLECTION);
+        Query query = textBooksRef.whereEqualTo(Constante.FORM_KEY, currentStudent.getFormId());
+        query.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
-            protected void onPreExecute() {
-                super.onPreExecute();
-                if(dialog != null){
-                    dialog.show();
+            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException e) {
+                if (e != null) {
+                    Log.w(TAG, "Error getting documents.", e);
+                    return;
                 }
-            }
-
-            @Override
-            protected void onPostExecute(HashMap<String, List<Manuelscolaire>> manualListHashMap) {
-                super.onPostExecute(manualListHashMap);
-                Log.i(TAG, "Init View Finished");
-                Log.i(TAG, manualListHashMap.toString());
-                manualscolaires.putAll(manualListHashMap);
-                subjects.addAll(manualListHashMap.keySet());
+                manualscolaires.clear();
+                subjects.clear();
+                for (QueryDocumentSnapshot doc : value) {
+                    Log.d(TAG, doc.getId() + " => " + doc.getData());
+                    String subject = doc.getString("subject");
+                    subjects.add(subject);
+                    TextBook textBook = doc.toObject(TextBook.class);
+                    List<Book> books = textBook.getBooks();
+                    manualscolaires.put(subject, books);
+                }
                 manuelExpandableListAdapter.notifyDataSetChanged();
                 // Expand the first group
-                if(manualscolaires.size() > 0) {
+                if (manualscolaires.size() > 0) {
                     expandableListView.expandGroup(0, true);
                 }
-                if(dialog != null){
+                if (dialog != null) {
                     dialog.dismiss();
                 }
             }
-        };
-        asyncTask.execute();
+        });
     }
 
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Query query = db.collection(Constante.TEXTBOOKS_COLLECTION).whereEqualTo(Constante.FORM_KEY, currentStudent.getFormId());
+        ListenerRegistration registration = query.addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot snapshots, @Nullable FirebaseFirestoreException e) {
+
+            }
+            // ...
+        });
+        // Stop listening to changes
+        registration.remove();
+    }
 }

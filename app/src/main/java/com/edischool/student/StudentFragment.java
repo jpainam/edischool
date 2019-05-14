@@ -34,7 +34,11 @@ import com.edischool.pojo.User;
 import com.edischool.utils.Constante;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
@@ -55,7 +59,6 @@ public class StudentFragment extends Fragment {
     private static final String TAG = "StudentFragment";
 
     AlertDialog dialog = null;
-    // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
     private OnListFragmentInteractionListener mListener;
 
@@ -71,7 +74,6 @@ public class StudentFragment extends Fragment {
     public StudentFragment() {
     }
 
-    // TODO: Customize parameter initialization
     @SuppressWarnings("unused")
     public static StudentFragment newInstance(int columnCount) {
         StudentFragment fragment = new StudentFragment();
@@ -108,7 +110,7 @@ public class StudentFragment extends Fragment {
         }
         SharedPreferences pref = getContext().getSharedPreferences(
                 getString(R.string.shared_preference_file), Context.MODE_PRIVATE);
-        phoneNumber = pref.getString(getString(R.string.phone_number), null);
+        phoneNumber = FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber();
         Log.w(TAG, "phone number " + phoneNumber);
         if (phoneNumber == null) {
             Intent intent = new Intent(getContext(), LoginActivity.class);
@@ -152,23 +154,22 @@ public class StudentFragment extends Fragment {
     }
 
     private void readData(String phoneNumber) {
-        CollectionReference usersRef = db.collection(Constante.USERS_COLLECTION);
+        DocumentReference userDoc = db.collection(Constante.USERS_COLLECTION).document(phoneNumber);
 
-        Query query = usersRef.whereEqualTo(Constante.PHONE_NUMBER_KEY, phoneNumber);
         if (!swipeEnabled) {
             dialog.show();
         }
-        query.addSnapshotListener(new EventListener<QuerySnapshot>() {
+        userDoc.addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
-            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException e) {
+            public void onEvent(@Nullable DocumentSnapshot snapshot, @Nullable FirebaseFirestoreException e) {
                 if (e != null){
                     Log.w(TAG, "Error getting documents.", e);
                     return;
                 }
-                for (QueryDocumentSnapshot document : value) {
-                    User user = document.toObject(User.class);
-                    Log.d(TAG, document.getId() + " => " + document.getData());
-                    studentList.clear();
+                User user = snapshot.toObject(User.class);
+                Log.d(TAG, snapshot.getId() + " => " + snapshot.getData());
+                studentList.clear();
+                if(user.getStudents() != null) {
                     studentList.addAll(user.getStudents());
                     studentRecyclerViewAdapter.notifyDataSetChanged();
                     Gson gson = new Gson();
@@ -181,24 +182,10 @@ public class StudentFragment extends Fragment {
                 } else {
                     dialog.dismiss();
                 }
-
             }
         });
     }
 
-    public void doManualSyncAsync() {
-        AccountManager accManager = AccountManager.get(getContext());
-        Account account = accManager.getAccountsByType(Constante.ACCOUNT_TYPE)[0];
-        if (account != null) {
-            Bundle settingsBundle = new Bundle();
-            settingsBundle.putBoolean(
-                    ContentResolver.SYNC_EXTRAS_MANUAL, true);
-            settingsBundle.putBoolean(
-                    ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
-            Log.i(TAG, "Starting Manual Sync");
-            ContentResolver.requestSync(account, Constante.AUTHORITY, settingsBundle);
-        }
-    }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -208,34 +195,6 @@ public class StudentFragment extends Fragment {
             readData(phoneNumber);
         }
     }
-
-/*private BroadcastReceiver myReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            String sAction = intent.getAction();
-            Log.i(TAG, "Broacast Received " + sAction);
-            if (sAction.equals(getString(R.string.SYNC_STATUS_ACTION))) {
-                String status = intent.getExtras().getString(getString(R.string.sync_status));
-                Log.e(TAG, "status " + status);
-                if (status.equals(getString(R.string.sync_running))) {
-                    Log.i(TAG, "Progress Bar Running");
-                    if (!swipeEnabled) {
-                        dialog.show();
-                    }
-                } else if (status.equals(getString(R.string.sync_finished))) {
-                    initView();
-                    Log.i(TAG, "Progress Bar Finished");
-                    if (swipeEnabled) {
-                        swipeRefreshLayout.setRefreshing(false);
-                        Toast.makeText(context, getString(R.string.refreshed_message), Toast.LENGTH_SHORT).show();
-                        swipeEnabled = false;
-                    } else {
-                        dialog.dismiss();
-                    }
-                }
-            }
-        }
-    };*/
 
     @Override
     public void onAttach(Context context) {
@@ -248,12 +207,6 @@ public class StudentFragment extends Fragment {
             throw new RuntimeException(context.toString()
                     + " must implement OnListFragmentInteractionListener");
         }
-        /**
-         * Register the BroadcastReceiver e.g. in onAttach():
-         */
-        /*IntentFilter myFilter = new IntentFilter();
-        myFilter.addAction(getString(R.string.SYNC_STATUS_ACTION));
-        LocalBroadcastManager.getInstance(context).registerReceiver(myReceiver, myFilter);*/
     }
 
 
@@ -288,8 +241,6 @@ public class StudentFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
-        /* unregister the */
-        //LocalBroadcastManager.getInstance(getContext()).unregisterReceiver(myReceiver);
     }
 
 
@@ -299,16 +250,6 @@ public class StudentFragment extends Fragment {
         outState.putString("studentList", studentListJson);
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p/>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
     public interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
         void onListFragmentInteraction(Student item);

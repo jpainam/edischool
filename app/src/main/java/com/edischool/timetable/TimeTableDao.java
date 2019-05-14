@@ -4,12 +4,28 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
+import com.edischool.pojo.Student;
 import com.edischool.sql.DatabaseHelper;
 import com.edischool.pojo.Week;
+import com.edischool.utils.Constante;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
+
 import java.util.ArrayList;
 
+import javax.annotation.Nullable;
+
 public class TimeTableDao {
+
+    private Student currentStudent;
+    private static final String TAG = "TimeTableDao";
 
     public DatabaseHelper databaseHelper;
     public static final String TIMETABLE = "timetable";
@@ -25,6 +41,11 @@ public class TimeTableDao {
 
     public TimeTableDao(Context context) {
         databaseHelper = DatabaseHelper.getInstance(context);
+    }
+
+    public TimeTableDao(Context context, Student student){
+        databaseHelper = DatabaseHelper.getInstance(context);
+        this.currentStudent = student;
     }
 
 
@@ -62,7 +83,16 @@ public class TimeTableDao {
         db.close();
     }
 
-    public ArrayList<Week> getWeek(String fragment) {
+    /**
+     *
+     * @param day otbtained from the constante in KEY_TUESDAY_FRAGMENT
+     * @return
+     */
+    public ArrayList<Week> getWeek(String day){
+        return null;
+    }
+
+    public ArrayList<Week> getWeek2(String fragment) {
         SQLiteDatabase db = databaseHelper.getWritableDatabase();
 
         ArrayList<Week> weeklist = new ArrayList<>();
@@ -76,7 +106,7 @@ public class TimeTableDao {
             week.setRoom(cursor.getString(cursor.getColumnIndex(WEEK_ROOM)));
             week.setFromTime(cursor.getString(cursor.getColumnIndex(WEEK_FROM_TIME)));
             week.setToTime(cursor.getString(cursor.getColumnIndex(WEEK_TO_TIME)));
-            week.setColor(cursor.getInt(cursor.getColumnIndex(WEEK_COLOR)));
+            week.setColor(cursor.getString(cursor.getColumnIndex(WEEK_COLOR)));
             weeklist.add(week);
         }
         return weeklist;

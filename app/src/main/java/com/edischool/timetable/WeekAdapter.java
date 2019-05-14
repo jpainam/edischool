@@ -3,6 +3,7 @@ package com.edischool.timetable;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,9 +21,7 @@ import com.edischool.R;
 import java.util.ArrayList;
 
 
-/**
- * Created by Ulan on 08.09.2018.
- */
+
 public class WeekAdapter extends ArrayAdapter<Week> {
 
     private Activity mActivity;
@@ -57,7 +56,7 @@ public class WeekAdapter extends ArrayAdapter<Week> {
         String time_from = (getItem(position)).getFromTime();
         String time_to =(getItem(position)).getToTime();
         String room = (getItem(position)).getRoom();
-        int color = getItem(position).getColor();
+        String color = getItem(position).getColor();
 
         week = new Week(subject, teacher, room, time_from, time_to, color);
         final ViewHolder holder;
@@ -79,11 +78,11 @@ public class WeekAdapter extends ArrayAdapter<Week> {
 
         holder.subject.setText(week.getSubject());
         holder.teacher.setText(week.getTeacher());
-        holder.room.setText(week.getRoom());
-        holder.time.setText(week.getFromTime() + " - " + week.getToTime());
-        holder.cardView.setCardBackgroundColor(week.getColor());
-
-
+        holder.time.setText(week.getRoom());
+        holder.room.setText(week.getFromTime() + " - " + week.getToTime());
+        if(week.getColor() != null) {
+            holder.cardView.setCardBackgroundColor(Color.parseColor(week.getColor()));
+        }
         return convertView;
     }
 
