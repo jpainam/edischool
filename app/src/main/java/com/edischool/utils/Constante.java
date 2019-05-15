@@ -38,4 +38,6 @@ public class Constante {
     public static final String INSTITUTION = "IPW";
     public static final String FINANCES_COLLECTION = "finances";
     public static final String PUNISHMENTS_COLLECTION = "punishments";
+    public static final String NOTIFICATIONS_COLLECTION = "notifications";
+    public static final String USER_NOTIFICATIONS_COLLECTION = "userNotifications";
 }

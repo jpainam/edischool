@@ -91,7 +91,7 @@ public class InnerMenuActivity extends AppCompatActivity implements View.OnClick
     @Override
     protected void onStart() {
         super.onStart();
-        currentStudent = getIntent().getParcelableExtra("student");
+        currentStudent = (Student) getIntent().getSerializableExtra("student");
         Log.i(TAG, "Student id " + currentStudent.getStudentId() + " " + currentStudent.getFormId());
         db.collection(Constante.STUDENTS_COLLECTION).whereEqualTo(Constante.STUDENT_KEY, currentStudent.getStudentId())
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {

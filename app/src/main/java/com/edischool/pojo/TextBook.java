@@ -5,7 +5,7 @@ import android.os.Parcelable;
 
 import java.util.List;
 
-public class TextBook implements Parcelable {
+public class TextBook{
     private String formId;
     private String subject;
     private List<Book> books;
@@ -13,23 +13,6 @@ public class TextBook implements Parcelable {
     public TextBook(){
 
     }
-    protected TextBook(Parcel in) {
-        formId = in.readString();
-        subject = in.readString();
-        books = in.createTypedArrayList(Book.CREATOR);
-    }
-
-    public static final Creator<TextBook> CREATOR = new Creator<TextBook>() {
-        @Override
-        public TextBook createFromParcel(Parcel in) {
-            return new TextBook(in);
-        }
-
-        @Override
-        public TextBook[] newArray(int size) {
-            return new TextBook[size];
-        }
-    };
 
     public String getFormId() {
         return formId;
@@ -55,15 +38,4 @@ public class TextBook implements Parcelable {
         this.books = books;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(formId);
-        dest.writeString(subject);
-        dest.writeTypedList(books);
-    }
 }

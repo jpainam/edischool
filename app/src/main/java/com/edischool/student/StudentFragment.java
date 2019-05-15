@@ -55,7 +55,7 @@ import java.util.List;
 
 import dmax.dialog.SpotsDialog;
 
-public class StudentFragment extends Fragment {
+public class StudentFragment extends Fragment{
     private static final String TAG = "StudentFragment";
 
     AlertDialog dialog = null;

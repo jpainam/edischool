@@ -2,9 +2,10 @@ package com.edischool.pojo;
 
 
 import android.os.Parcel;
-import android.os.Parcelable;
 
-public class Absence implements Parcelable {
+import java.io.Serializable;
+
+public class Absence implements Serializable {
     private String startHour;
     private String endHour;
     private String day;
@@ -14,24 +15,6 @@ public class Absence implements Parcelable {
     public Absence(){
 
     }
-    protected Absence(Parcel in) {
-        startHour = in.readString();
-        endHour = in.readString();
-        day = in.readString();
-        studentId = in.readString();
-    }
-
-    public static final Creator<Absence> CREATOR = new Creator<Absence>() {
-        @Override
-        public Absence createFromParcel(Parcel in) {
-            return new Absence(in);
-        }
-
-        @Override
-        public Absence[] newArray(int size) {
-            return new Absence[size];
-        }
-    };
 
     public String getStartHour() {
         return startHour;
@@ -64,18 +47,5 @@ public class Absence implements Parcelable {
 
     public void setStudentId(String studentId) {
         this.studentId = studentId;
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(startHour);
-        dest.writeString(endHour);
-        dest.writeString(day);
-        dest.writeString(studentId);
     }
 }

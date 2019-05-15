@@ -1,18 +1,26 @@
 package com.edischool.student;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.edischool.R;
 
+import com.edischool.pojo.Notification;
 import com.edischool.pojo.Student;
 import com.edischool.utils.Constante;
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
 
@@ -76,7 +84,7 @@ public class StudentRecyclerViewAdapter extends RecyclerView.Adapter<StudentRecy
         return mValues.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener {
         public final View mView;
         public final SimpleDraweeView mIconView;
         public final TextView mStudentName;
@@ -89,6 +97,7 @@ public class StudentRecyclerViewAdapter extends RecyclerView.Adapter<StudentRecy
         public ViewHolder(View view) {
             super(view);
             mView = view;
+            mView.setOnCreateContextMenuListener(this);
             mIconView = (SimpleDraweeView) view.findViewById(R.id.student_icon);
             mStudentName = (TextView) view.findViewById(R.id.student_name);
             //mStudentDate = (TextView) view.findViewById(R.id.student_date);
@@ -100,5 +109,32 @@ public class StudentRecyclerViewAdapter extends RecyclerView.Adapter<StudentRecy
         public String toString() {
             return super.toString() + " '" + mStudentDescription.getText() + "'";
         }
+
+
+
+        @Override
+        public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+            MenuItem absence = menu.add(0,1,getAdapterPosition(),"Notify the absence");
+            //MenuItem delete = menu.add(0,2,getAdapterPosition(),"Delete");
+            absence.setOnMenuItemClickListener(onChange);
+            //delete.setOnMenuItemClickListener(onChange);
+        }
+        private final MenuItem.OnMenuItemClickListener onChange = new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                Student st = mValues.get(item.getOrder());
+                switch (item.getItemId()){
+                    case 1:
+                        NotifyAction notifyAction = new NotifyAction(context, st);
+                        notifyAction.sentAbsenceNotification();
+                        Snackbar.make(mView, "Absence notification sent", Snackbar.LENGTH_LONG).show();
+                        return true;
+                    case 2:
+                        Toast.makeText(context,"Delete",Toast.LENGTH_LONG).show();
+                        return true;
+                }
+                return false;
+            }
+        };
     }
 }

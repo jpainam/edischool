@@ -5,9 +5,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.edischool.pojo.Notifications;
+import com.edischool.pojo.Notification;
 import com.edischool.sql.DatabaseHelper;
-import com.edischool.user.UserDao;
 
 public class NotificationDao {
     public static final String TABLE_NOTIFICATION = "notification";
@@ -23,7 +22,7 @@ public class NotificationDao {
         databaseHelper = DatabaseHelper.getInstance(context);
     }
 
-    public Notifications insert(String  titre, String message, String typenotification, String datenotification, int notificationlue) {
+    public Notification insert(String  titre, String message, String typenotification, String datenotification, int notificationlue) {
         SQLiteDatabase db = databaseHelper.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(TITRENOTIFICATION, titre);
@@ -38,16 +37,16 @@ public class NotificationDao {
             return getNotification(result);
     }
 
-    public Notifications getNotification(long id) {
+    public Notification getNotification(long id) {
         SQLiteDatabase db = databaseHelper.getWritableDatabase();
         Cursor res = db.rawQuery("select * from " + TABLE_NOTIFICATION + " where " + IDNOTIFICATION + "='" + id + "'", null);
-        Notifications notifications=new Notifications();
+        Notification notifications=new Notification();
         while (res.moveToNext()) {
-            notifications.setTitre(res.getString(1));
-            notifications.setMessage(res.getString(2));
-            notifications.setType(res.getString(3));
-            notifications.setDate(res.getString(4));
-            notifications.setLu(res.getInt(5));
+            notifications.setNotificationTitle(res.getString(1));
+            notifications.setNotificationMessage(res.getString(2));
+            notifications.setNotificationType(res.getString(3));
+            notifications.setCreateAt(res.getString(4));
+            notifications.setRead(false);
         }
         return notifications;
     }

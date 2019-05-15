@@ -45,7 +45,7 @@ public class MondayFragment extends Fragment {
     public static MondayFragment newInstance(Student student) {
         MondayFragment f = new MondayFragment();
         Bundle args = new Bundle();
-        args.putParcelable("student", student);
+        args.putSerializable("student", student);
         f.setArguments(args);
         return f;
     }
@@ -56,7 +56,7 @@ public class MondayFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_monday, container, false);
         listView = view.findViewById(R.id.mondaylist);
         Bundle args = getArguments();
-        currentStudent = args.getParcelable("student");
+        currentStudent = (Student) args.getSerializable("student");
         adapter = new WeekAdapter(getActivity(), listView, R.layout.listview_week_adapter, weekList);
         listView.setAdapter(adapter);
         popup = view.findViewById(R.id.popupbtn);

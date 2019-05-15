@@ -23,7 +23,7 @@ public class SaturdayFragment extends Fragment {
         SaturdayFragment f = new SaturdayFragment();
         // Supply index input as an argument.
         Bundle args = new Bundle();
-        args.putParcelable("student", student);
+        args.putSerializable("student", student);
         f.setArguments(args);
         return f;
     }

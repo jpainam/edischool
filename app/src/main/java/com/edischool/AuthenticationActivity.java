@@ -236,12 +236,12 @@ public class AuthenticationActivity extends AppCompatActivity {
     }
 
     private void verifyVerificationCode(String code){
-        Log.e(TAG, "Verification Code started");
+        Log.e(TAG, "Verification Code started " + code);
         try {
             PhoneAuthCredential credential = PhoneAuthProvider.getCredential(mVerificationId, code);
             signInWithPhoneAuthCredential(credential);
         }catch (Exception e){
-            Snackbar.make(rootView, "Cannot create PhoneAuthCredential", Snackbar.LENGTH_LONG).show();
+            Snackbar.make(rootView, "Cannot create PhoneAuthCredential without either verificationProof", Snackbar.LENGTH_LONG).show();
             dialog.dismiss();
             Log.e(TAG, "Error", e);
         }

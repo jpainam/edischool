@@ -25,6 +25,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.multidex.MultiDex;
 import androidx.viewpager.widget.ViewPager;
 
+import com.crashlytics.android.Crashlytics;
 import com.edischool.news.NewsFragment;
 import com.edischool.pojo.Student;
 import com.edischool.sql.DatabaseHelper;
@@ -39,6 +40,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
 
+import io.fabric.sdk.android.Fabric;
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -68,7 +70,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //Fabric.with(this, new Crashlytics());
+        Fabric.with(this, new Crashlytics());
         SharedPreferences pref = getApplicationContext().getSharedPreferences(
                 getString(R.string.shared_preference_file), Context.MODE_PRIVATE);
         //if (!pref.contains(getString(R.string.visite))) {
@@ -135,56 +137,6 @@ public class MainActivity extends AppCompatActivity
 
             }
         });
-
-        updateTokenAsync();
-
-    }
-
-
-    private void updateTokenAsync(){
-        AsyncTask<Void, Void, Boolean> asyncTask = new AsyncTask<Void, Void, Boolean>() {
-            @Override
-            protected Boolean doInBackground(Void... params) {
-                String url = getString(R.string.update_token_url);
-                SharedPreferences pref = getApplicationContext().getSharedPreferences(
-                        getString(R.string.shared_preference_file), Context.MODE_PRIVATE);
-                String phone = pref.getString(getString(R.string.phone_number), null);
-                String token = pref.getString(getString(R.string.firebase_token), null);
-
-                if(phone != null && token != null){
-                    OkHttpClient client =new OkHttpClient();
-                    Log.e(TAG, url);
-                    RequestBody body =new FormBody.Builder()
-                            .add("phone_number", phone)
-                            .add("token", token)
-                            .build();
-                    Request newReq=new Request.Builder()
-                            .url(url)
-                            .post(body)
-                            .build();
-                    try {
-                        Response response = client.newCall(newReq).execute();
-                        String jsonData = response.body().string();
-                        return true;
-                    }catch (Exception ex){
-                        Log.e(TAG, ex.getMessage());
-                        ex.printStackTrace();
-                    }
-                }
-                return false;
-            }
-
-            @Override
-            protected void onPostExecute(final Boolean sucess) {
-                super.onPostExecute(sucess);
-                if(sucess) {
-                    Log.i(TAG, "Update token in background successful");
-                }else{
-                    Log.i(TAG, "Update token in background failed");
-                }
-            }
-        };
-        asyncTask.execute();
     }
 
 

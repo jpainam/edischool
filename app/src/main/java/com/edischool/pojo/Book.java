@@ -1,9 +1,9 @@
 package com.edischool.pojo;
 
 import android.os.Parcel;
-import android.os.Parcelable;
 
-public class Book implements Parcelable {
+
+public class Book {
     private String authors;
     private String editors;
     private String title;
@@ -14,25 +14,6 @@ public class Book implements Parcelable {
 
     }
 
-    protected Book(Parcel in) {
-        authors = in.readString();
-        editors = in.readString();
-        title = in.readString();
-        price = in.readString();
-        edition = in.readString();
-    }
-
-    public static final Creator<Book> CREATOR = new Creator<Book>() {
-        @Override
-        public Book createFromParcel(Parcel in) {
-            return new Book(in);
-        }
-
-        @Override
-        public Book[] newArray(int size) {
-            return new Book[size];
-        }
-    };
 
     public String getAuthors() {
         return authors;
@@ -64,20 +45,6 @@ public class Book implements Parcelable {
 
     public void setPrice(String price) {
         this.price = price;
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(authors);
-        dest.writeString(editors);
-        dest.writeString(title);
-        dest.writeString(price);
-        dest.writeString(edition);
     }
 
     public String getEdition() {

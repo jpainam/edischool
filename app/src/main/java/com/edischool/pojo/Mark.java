@@ -5,29 +5,16 @@ import android.os.Parcelable;
 
 import java.util.List;
 
-public class Mark implements Parcelable {
+public class Mark {
     private String studentId;
     private List<Grade> grades;
 
     public Mark(){
 
     }
-    protected Mark(Parcel in) {
-        studentId = in.readString();
-        grades = in.createTypedArrayList(Grade.CREATOR);
-    }
 
-    public static final Creator<Mark> CREATOR = new Creator<Mark>() {
-        @Override
-        public Mark createFromParcel(Parcel in) {
-            return new Mark(in);
-        }
 
-        @Override
-        public Mark[] newArray(int size) {
-            return new Mark[size];
-        }
-    };
+
 
     public String getStudentId() {
         return studentId;
@@ -45,14 +32,4 @@ public class Mark implements Parcelable {
         this.grades = grades;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(studentId);
-        dest.writeTypedList(grades);
-    }
 }

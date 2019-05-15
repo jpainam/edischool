@@ -58,7 +58,7 @@ public class FinanceActivity extends AppCompatActivity {
                     .setMessage(getString(R.string.loading_message))
                     .build();
         }
-        currentStudent = (Student) getIntent().getParcelableExtra("student");
+        currentStudent = (Student) getIntent().getSerializableExtra("student");
         if(getSupportActionBar() != null){
             getSupportActionBar().setDisplayHomeAsUpEnabled(false);
             getSupportActionBar().setHomeButtonEnabled(false);

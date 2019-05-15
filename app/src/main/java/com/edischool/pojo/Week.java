@@ -1,6 +1,8 @@
 package com.edischool.pojo;
 
-public class Week implements Comparable{
+import java.io.Serializable;
+
+public class Week implements Comparable, Serializable {
 
     private String subject, fragment, teacher, room, fromTime, toTime, time, color;
     private int id;

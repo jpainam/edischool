@@ -75,7 +75,7 @@ public class NotesActivity extends AppCompatActivity {
                     .build();
         }
         Intent i = getIntent();
-        currentStudent = (Student) i.getParcelableExtra("student");
+        currentStudent = (Student) i.getSerializableExtra("student");
         if(currentStudent == null){
             Log.e(TAG, "Current student null");
             finish();

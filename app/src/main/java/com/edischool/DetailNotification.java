@@ -2,14 +2,14 @@ package com.edischool;
 
 import android.content.Context;
 import android.content.Intent;
+
+import com.edischool.pojo.Notification;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-
-import com.edischool.pojo.Notifications;
 
 public class DetailNotification extends AppCompatActivity {
     TextView message, title,date;
@@ -26,20 +26,20 @@ public class DetailNotification extends AppCompatActivity {
         ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         */
 
-        final Notifications notifications = (Notifications)intent.getSerializableExtra("notifications");
+        final Notification notification = (Notification)intent.getSerializableExtra("notifications");
         message=(TextView)findViewById(R.id.message);
         title=(TextView)findViewById(R.id.title);
         date=(TextView)findViewById(R.id.date);
 
-        message.setText(notifications.getMessage());
-        title.setText(notifications.getTitre());
-        date.setText(notifications.getDate());
+        message.setText(notification.getNotificationMessage());
+        title.setText(notification.getNotificationTitle());
+        date.setText(notification.getCreateAt().toString());
         FloatingActionButton delefloating =findViewById(R.id.deleflating);
         delefloating.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent returnIntent = new Intent();
-                returnIntent.putExtra("notifi",notifications);
+                returnIntent.putExtra("notifi", notification);
                 setResult(RESULT_OK, returnIntent);
                 //overridePendingTransition(android.R.anim.slide_out_right ,android.R.anim.slide_in_left);//transition simple
                 finish();

@@ -43,7 +43,7 @@ public class TuesdayFragment extends Fragment {
         TuesdayFragment f = new TuesdayFragment();
         // Supply index input as an argument.
         Bundle args = new Bundle();
-        args.putParcelable("student", student);
+        args.putSerializable("student", student);
         f.setArguments(args);
         return f;
     }
@@ -54,7 +54,7 @@ public class TuesdayFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_tuesday, container, false);
         Bundle args = getArguments();
-        currentStudent = args.getParcelable("student");
+        currentStudent = (Student) args.getSerializable("student");
         listView = view.findViewById(R.id.tuesdaylist);
         adapter = new WeekAdapter(getActivity(), listView, R.layout.listview_week_adapter, weekList);
         listView.setAdapter(adapter);

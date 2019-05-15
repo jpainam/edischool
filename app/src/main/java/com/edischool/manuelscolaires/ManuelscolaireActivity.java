@@ -60,7 +60,7 @@ public class ManuelscolaireActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(false);
             getSupportActionBar().setHomeButtonEnabled(false);
             getSupportActionBar().setTitle("Textbooks");
-            currentStudent = (Student) i.getParcelableExtra("student");
+            currentStudent = (Student) i.getSerializableExtra("student");
             getSupportActionBar().setSubtitle(currentStudent.getFirstName() + " - " + currentStudent.getForm());
         }
         Log.e(TAG, currentStudent.getFirstName() + " " + currentStudent.getLastName());
