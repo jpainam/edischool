@@ -1,347 +1,375 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fillViewport="true">
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/content_home"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:paddingTop="5dp">
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-    <LinearLayout
-        android:id="@+id/row1"
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:showDividers="end">
+        android:layout_height="match_parent">
 
-        <androidx.cardview.widget.CardView xmlns:cardview="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/noteCard"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginBottom="16dp"
-            android:layout_weight="1"
-            android:background="#09A9FF"
-            android:clickable="true"
-            android:foreground="?android:attr/selectableItemBackground"
-            android:padding="@dimen/padding0"
-            app:cardElevation="8dp"
-            app:cardCornerRadius="8dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="#09A9FF"
-                android:padding="@dimen/padding0"
-                android:orientation="vertical">
-
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="80dp"
-                    android:scaleType="fitCenter"
-                    android:tint="@color/colorWhite"
-                    app:srcCompat="@drawable/ic_note_black_24dp" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:text="Notes"
-                    android:textColor="@color/colorBlack"
-                    android:textSize="14sp" />
-            </LinearLayout>
-
-
-        </androidx.cardview.widget.CardView>
-
-        <androidx.cardview.widget.CardView xmlns:cardview="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/bulletinCard"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginBottom="16dp"
-            android:layout_weight="1"
-            android:clickable="true"
-            android:background="#3E51B1"
-            android:foreground="?android:attr/selectableItemBackground"
-            app:cardElevation="8dp"
-            app:cardCornerRadius="8dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="#3E51B1"
-                android:orientation="vertical">
-
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="80dp"
-                    android:scaleType="fitCenter"
-                    android:tint="@color/colorWhite"
-                    app:srcCompat="@drawable/ic_bulletin_black_24dp" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:text="Bulletin"
-                    android:textColor="@color/colorBlack"
-                    android:textSize="14sp" />
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
-    </LinearLayout>
-
-
-    <LinearLayout
-        android:id="@+id/row2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/row1"
-        android:orientation="horizontal"
-        android:showDividers="end">
-
-        <androidx.cardview.widget.CardView xmlns:cardview="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/absenceCard"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginBottom="16dp"
-            android:layout_weight="1"
-            android:clickable="true"
-            android:foreground="?android:attr/selectableItemBackground"
-            app:cardElevation="8dp"
-            app:cardCornerRadius="8dp">
+            android:layout_height="match_parent"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#673BB7"
-                android:padding="@dimen/padding0"
+                android:background="@color/colorWhite"
                 android:orientation="vertical">
 
-                <ImageView
+                <ListView
+                    android:id="@+id/dashboard_noticeList"
                     android:layout_width="match_parent"
-                    android:layout_height="80dp"
-                    android:scaleType="fitCenter"
-                    android:tint="@color/colorWhite"
-                    app:srcCompat="@drawable/ic_absence_black_24dp" />
+                    android:layout_height="wrap_content" />
 
-                <TextView
+                <ListView
+                    android:id="@+id/dashboard_messageList"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:text="Absence"
-                    android:textColor="@color/colorBlack"
-                    android:textSize="14sp" />
+                    android:layout_height="wrap_content" />
+
+                <ListView
+                    android:id="@+id/dashboard_holidayList"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
             </LinearLayout>
-
-
-        </androidx.cardview.widget.CardView>
-
-        <androidx.cardview.widget.CardView xmlns:cardview="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/punitionCard"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginBottom="16dp"
-            android:layout_weight="1"
-            android:clickable="true"
-            android:foreground="?android:attr/selectableItemBackground"
-            app:cardElevation="8dp"
-            app:cardCornerRadius="8dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="#4BAA50"
-                android:orientation="vertical">
-
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="80dp"
-                    android:scaleType="fitCenter"
-                    android:tint="@color/colorWhite"
-                    app:srcCompat="@drawable/ic_punition_black_24dp" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:text="Punitions"
-                    android:textColor="@color/colorBlack"
-                    android:textSize="13sp" />
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
-    </LinearLayout>
-
-
-    <LinearLayout
-        android:id="@+id/row3"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/row2"
-        android:orientation="horizontal"
-        android:showDividers="end">
-
-        <androidx.cardview.widget.CardView xmlns:cardview="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/financeCard"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginBottom="16dp"
-            android:layout_weight="1"
-            android:clickable="true"
-            android:foreground="?android:attr/selectableItemBackground"
-            app:cardElevation="8dp"
-            app:cardCornerRadius="8dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="#F94336"
-                android:orientation="vertical">
-
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="80dp"
-                    android:scaleType="fitCenter"
-                    android:tint="@color/colorWhite"
-                    app:srcCompat="@drawable/ic_attach_money_black_24dp" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:text="Finances"
-                    android:textColor="@color/colorBlack"
-                    android:textSize="14sp" />
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
-
-        <androidx.cardview.widget.CardView xmlns:cardview="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/emploiCard"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginBottom="16dp"
-            android:layout_weight="1"
-            android:clickable="true"
-            android:foreground="?android:attr/selectableItemBackground"
-            app:cardElevation="8dp"
-            app:cardCornerRadius="8dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="#0A9B88"
-                android:orientation="vertical">
-
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="80dp"
-                    android:scaleType="fitCenter"
-                    android:tint="@color/colorWhite"
-                    app:srcCompat="@drawable/ic_emplois_black_24dp" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="Emplois"
-                    android:textColor="@color/colorBlack"
-                    android:textSize="14sp" />
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
-    </LinearLayout>
-
-
-    <LinearLayout
-        android:id="@+id/row4"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/row3"
-        android:orientation="horizontal">
-
-        <androidx.cardview.widget.CardView xmlns:cardview="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/convocationCard"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginBottom="16dp"
-            android:layout_weight="1"
-            android:clickable="true"
-            android:foreground="?android:attr/selectableItemBackground"
-            app:cardElevation="8dp"
-            app:cardCornerRadius="8dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#458"
-                android:orientation="vertical">
+                android:layout_marginTop="@dimen/_15sdp"
+                android:orientation="horizontal">
 
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="80dp"
-                    android:scaleType="fitCenter"
-                    android:tint="@color/colorWhite"
-                    app:srcCompat="@drawable/ic_convocation_black_24dp" />
-
-                <TextView
-                    android:layout_width="match_parent"
+                <LinearLayout
+                    android:id="@+id/profile"
+                    android:layout_width="0.0dip"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1.0"
+                    android:background="@drawable/ripple1"
                     android:gravity="center"
-                    android:text="Convocations"
-                    android:textColor="@color/colorWhite"
-                    android:textSize="14sp" />
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
+                    android:orientation="vertical">
 
-        <androidx.cardview.widget.CardView xmlns:cardview="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/manuelCard"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginBottom="16dp"
-            android:layout_weight="1"
-            android:clickable="true"
-            android:foreground="?android:attr/selectableItemBackground"
-            app:cardElevation="8dp"
-            app:cardCornerRadius="8dp">
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/circleImageView3"
+                        android:layout_width="@dimen/circle"
+                        android:layout_height="@dimen/circle"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:src="@drawable/profile" />
+
+                    <TextView
+                        android:id="@+id/textView5"
+
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:layout_marginBottom="@dimen/_10sdp"
+                        android:gravity="center"
+                        android:text="Profile"
+                        android:textColor="@color/colorDarkGray"
+                        android:textSize="@dimen/_12sdp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/timetable"
+                    android:layout_width="0.0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.0"
+                    android:background="@drawable/ripple1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:layout_width="@dimen/circle"
+                        android:layout_height="@dimen/circle"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:src="@drawable/timetable" />
+
+                    <TextView
+
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:layout_marginBottom="@dimen/_10sdp"
+                        android:gravity="center"
+                        android:text="Time Table"
+                        android:textColor="@color/colorDarkGray"
+                        android:textSize="@dimen/_12sdp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/exam"
+                    android:layout_width="0.0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.0"
+                    android:background="@drawable/ripple1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:layout_width="@dimen/circle"
+                        android:layout_height="@dimen/circle"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:src="@drawable/exam" />
+
+                    <TextView
+
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:layout_marginBottom="@dimen/_10sdp"
+                        android:gravity="center"
+                        android:text="Exams"
+                        android:textColor="@color/colorDarkGray"
+                        android:textSize="@dimen/_12sdp" />
+                </LinearLayout>
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#117"
-                android:orientation="vertical">
+                android:layout_marginTop="@dimen/_5sdp"
+                android:orientation="horizontal">
 
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="80dp"
-                    android:scaleType="fitCenter"
-                    android:tint="@color/colorWhite"
-                    app:srcCompat="@drawable/ic_manuel_black_24dp" />
-
-                <TextView
-                    android:layout_width="match_parent"
+                <FrameLayout
+                    android:id="@+id/messageframe"
+                    android:layout_width="0.0dip"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="Manuels"
-                    android:textColor="@color/colorWhite"
-                    android:textSize="14sp" />
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
-    </LinearLayout>
+                    android:layout_weight="1.0">
 
+                    <LinearLayout
+                        android:id="@id/message"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/ripple1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:layout_width="@dimen/circle"
+                            android:layout_height="@dimen/circle"
+                            android:layout_marginTop="@dimen/_10sdp"
+                            android:src="@drawable/message1" />
+
+                        <TextView
+
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="@dimen/_5sdp"
+                            android:layout_marginBottom="@dimen/_10sdp"
+                            android:gravity="center"
+                            android:text="Messages"
+                            android:textColor="@color/colorDarkGray"
+                            android:textSize="@dimen/_12sdp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/messageLiner"
+                        android:layout_width="@dimen/_15sdp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_64sdp"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:background="@drawable/notificationradius"
+                        android:gravity="end"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:id="@+id/messageCount"
+
+                            android:layout_width="@dimen/_15sdp"
+                            android:layout_height="match_parent"
+                            android:gravity="end|center|top"
+                            android:singleLine="true"
+                            android:text="10"
+                            android:textAlignment="center"
+                            android:textColor="@color/colorWhite"
+                            android:textSize="@dimen/_10sdp" />
+                    </LinearLayout>
+                </FrameLayout>
+
+                <LinearLayout
+                    android:id="@+id/result"
+                    android:layout_width="0.0dip"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1.0"
+                    android:background="@drawable/ripple1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/circleImageView"
+                        android:layout_width="@dimen/circle"
+                        android:layout_height="@dimen/circle"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:src="@drawable/result" />
+
+                    <TextView
+                        android:id="@+id/textView2"
+
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:layout_marginBottom="@dimen/_10sdp"
+                        android:gravity="center"
+                        android:text="Results"
+                        android:textColor="@color/colorDarkGray"
+                        android:textSize="@dimen/_12sdp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/attendance"
+                    android:layout_width="0.0dip"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1.0"
+                    android:background="@drawable/ripple1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:layout_width="@dimen/circle"
+                        android:layout_height="@dimen/circle"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:src="@drawable/attendance" />
+
+                    <TextView
+                        android:id="@+id/openSenseTextView3"
+
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:layout_marginBottom="@dimen/_10sdp"
+                        android:gravity="center"
+                        android:text="Attendance"
+                        android:textColor="@color/colorDarkGray"
+                        android:textSize="@dimen/_12sdp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:orientation="horizontal"
+                android:weightSum="3.0">
+
+                <FrameLayout
+                    android:id="@+id/noticeframe"
+                    android:layout_width="0.0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.0">
+
+                    <LinearLayout
+                        android:id="@+id/notification"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:background="@drawable/ripple1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:id="@+id/circleImageView4"
+                            android:layout_width="@dimen/circle"
+                            android:layout_height="@dimen/circle"
+                            android:layout_marginTop="@dimen/_10sdp"
+                            android:src="@drawable/notification" />
+
+                        <TextView
+                            android:id="@+id/openSenseTextView10"
+
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="@dimen/_5sdp"
+                            android:layout_marginBottom="@dimen/_10sdp"
+                            android:gravity="center"
+                            android:text="Notifications"
+                            android:textColor="@color/colorDarkGray"
+                            android:textSize="@dimen/_12sdp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/noticeLiner"
+                        android:layout_width="@dimen/_15sdp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_64sdp"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:background="@drawable/notificationradius"
+                        android:gravity="end"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:id="@+id/noticeCount"
+
+                            android:layout_width="@dimen/_15sdp"
+                            android:layout_height="match_parent"
+                            android:gravity="end|center|top"
+                            android:singleLine="true"
+                            android:text="10"
+                            android:textAlignment="center"
+                            android:textColor="@color/colorWhite"
+                            android:textSize="@dimen/_10sdp" />
+                    </LinearLayout>
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="0.0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.0">
+
+                    <LinearLayout
+                        android:id="@+id/holiday"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/ripple1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:layout_width="@dimen/circle"
+                            android:layout_height="@dimen/circle"
+                            android:layout_marginTop="@dimen/_10sdp"
+                            android:src="@drawable/holiday" />
+
+                        <TextView
+
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="@dimen/_5sdp"
+                            android:layout_marginBottom="@dimen/_10sdp"
+                            android:gravity="center"
+                            android:text="Holiday"
+                            android:textColor="@color/colorDarkGray"
+                            android:textSize="@dimen/_12sdp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/holidayLiner"
+                        android:layout_width="@dimen/_15sdp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_64sdp"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:background="@drawable/notificationradius"
+                        android:gravity="end"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:id="@+id/holidayCount"
+
+                            android:layout_width="@dimen/_15sdp"
+                            android:layout_height="match_parent"
+                            android:gravity="end|center|top"
+                            android:singleLine="true"
+                            android:text="10"
+                            android:textAlignment="center"
+                            android:textColor="@color/colorWhite"
+                            android:textSize="@dimen/_10sdp" />
+                    </LinearLayout>
+                </FrameLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
 </RelativeLayout>
-</ScrollView>
