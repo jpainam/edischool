@@ -1,9 +1,6 @@
 package com.edischool.student;
 
-import android.accounts.Account;
-import android.accounts.AccountManager;
 import android.app.AlertDialog;
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -20,7 +17,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -32,20 +28,12 @@ import com.edischool.SettingsActivity;
 import com.edischool.pojo.Student;
 import com.edischool.pojo.User;
 import com.edischool.utils.Constante;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.FirebaseFirestoreSettings;
-import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -159,6 +147,10 @@ public class StudentFragment extends Fragment{
         if (!swipeEnabled) {
             dialog.show();
         }
+        if(studentList == null){
+            studentList = new ArrayList<>();
+            getActivity().recreate();
+        }
         userDoc.addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot snapshot, @Nullable FirebaseFirestoreException e) {
@@ -166,15 +158,18 @@ public class StudentFragment extends Fragment{
                     Log.w(TAG, "Error getting documents.", e);
                     return;
                 }
-                User user = snapshot.toObject(User.class);
-                Log.d(TAG, snapshot.getId() + " => " + snapshot.getData());
-                studentList.clear();
-                if(user.getStudents() != null) {
-                    studentList.addAll(user.getStudents());
-                    studentRecyclerViewAdapter.notifyDataSetChanged();
-                    Gson gson = new Gson();
-                    studentListJson = gson.toJson(studentList);
+                User user = snapshot != null ? snapshot.toObject(User.class) : null;
+                if(null != user) {
+                    Log.d(TAG, snapshot.getId() + " => " + snapshot.getData());
+                    studentList.clear();
+                    if(user.getStudents() != null) {
+                        studentList.addAll(user.getStudents());
+                        studentRecyclerViewAdapter.notifyDataSetChanged();
+                        Gson gson = new Gson();
+                        studentListJson = gson.toJson(studentList);
+                    }
                 }
+
                 if (swipeEnabled) {
                     swipeRefreshLayout.setRefreshing(false);
                     Toast.makeText(getContext(), getString(R.string.refreshed_message), Toast.LENGTH_SHORT).show();
@@ -188,12 +183,10 @@ public class StudentFragment extends Fragment{
 
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        if (studentList.isEmpty()) {
-            Log.i(TAG, "Enter onview created");
-            readData(phoneNumber);
-        }
+    public void onStart() {
+        super.onStart();
+        Log.i(TAG, "Enter onview created");
+        readData(phoneNumber);
     }
 
     @Override
@@ -227,9 +220,6 @@ public class StudentFragment extends Fragment{
             case R.id.action_settings:
                 Intent intent = new Intent(getActivity().getApplicationContext(), SettingsActivity.class);
                 startActivity(intent);
-                return true;
-            case R.id.action_crash:
-                Crashlytics.getInstance().crash(); // Force a crash
                 return true;
             default:
                 break;

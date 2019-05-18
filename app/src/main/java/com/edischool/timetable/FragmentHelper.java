@@ -9,8 +9,8 @@ import android.view.MenuItem;
 import android.widget.AbsListView;
 import android.widget.ListView;
 
-import com.edischool.pojo.Week;
 import com.edischool.R;
+import com.edischool.pojo.Week;
 
 import java.util.ArrayList;
 

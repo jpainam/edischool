@@ -1,11 +1,9 @@
 package com.edischool;
 
-import android.app.UiModeManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.util.Log;
 
 import androidx.appcompat.app.ActionBar;
@@ -14,10 +12,10 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceManager;
-import androidx.preference.SwitchPreference;
 import androidx.preference.SwitchPreferenceCompat;
 
 import com.edischool.sql.DatabaseHelper;
+import com.edischool.utils.ActivityUtils;
 
 public class SettingsActivity extends AppCompatActivity {
     private static final String TAG = "SettingsActivity";
@@ -58,6 +56,15 @@ public class SettingsActivity extends AppCompatActivity {
                     Intent intent = new Intent(getContext(), LoginActivity.class);
                     startActivity(intent);
                     getActivity().finish();
+                    return true;
+                }
+            });
+
+            Preference aboutPref = findPreference("about_preference");
+            aboutPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    ActivityUtils.showAboutDialog(getActivity());
                     return true;
                 }
             });

@@ -8,8 +8,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import com.edischool.pojo.Manuelscolaire;
-import com.edischool.pojo.Note;
 import com.edischool.sql.DatabaseHelper;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

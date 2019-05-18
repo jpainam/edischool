@@ -40,4 +40,8 @@ public class Constante {
     public static final String PUNISHMENTS_COLLECTION = "punishments";
     public static final String NOTIFICATIONS_COLLECTION = "notifications";
     public static final String USER_NOTIFICATIONS_COLLECTION = "userNotifications";
+    public static final String GRADEBOOKS_COLLECTION = "gradebooks";
+    public static final String SUBDIVISIONS_COLLECTION = "subdivisions";
+    public static final String MESSAGES_COLLECTION = "messages";
+    public static final String EXAMS_COLLECTION = "exams";
 }

@@ -1,7 +1,6 @@
 package com.edischool.emplois;
 
 
-
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -10,6 +9,7 @@ import android.util.Log;
 
 import com.edischool.pojo.Emploi;
 import com.edischool.sql.DatabaseHelper;
+
 import java.util.ArrayList;
 import java.util.List;
 

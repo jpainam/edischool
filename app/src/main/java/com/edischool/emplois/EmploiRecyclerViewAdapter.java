@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.edischool.R;
 import com.edischool.pojo.Emploi;
 
-
 import java.util.List;
 
 public class EmploiRecyclerViewAdapter  extends RecyclerView.Adapter<EmploiRecyclerViewAdapter.ViewHolder>  {

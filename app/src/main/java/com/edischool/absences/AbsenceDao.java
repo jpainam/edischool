@@ -3,15 +3,11 @@ package com.edischool.absences;
 
 import android.content.ContentValues;
 import android.content.Context;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import com.edischool.pojo.Absence;
-import com.edischool.pojo.Note;
 import com.edischool.sql.DatabaseHelper;
-import java.util.ArrayList;
-import java.util.List;
 
 public class AbsenceDao {
     public static final String TABLE_ABSENCE = "absences";

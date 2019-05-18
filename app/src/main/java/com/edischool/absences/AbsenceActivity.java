@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.edischool.R;
 import com.edischool.pojo.Absence;
-import com.edischool.pojo.AbsenceListWrapper;
 import com.edischool.pojo.Student;
 import com.edischool.utils.Constante;
 import com.google.firebase.firestore.CollectionReference;
@@ -21,7 +20,6 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
@@ -77,26 +75,23 @@ public class AbsenceActivity extends AppCompatActivity {
         if(dialog != null){
             dialog.show();
         }
-        CollectionReference absencesRef = db.collection(Constante.ABSENCES_COLLECTION);
-        Query query = absencesRef.whereEqualTo(Constante.STUDENT_KEY, currentStudent.getStudentId());
-        query.addSnapshotListener(new EventListener<QuerySnapshot>() {
-            @Override
-            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException e) {
-                if (e != null) {
-                    Log.w(TAG, "Error getting documents.", e);
-                    return;
-                }
-                absenceList.clear();
-                for (DocumentSnapshot doc : value) {
-                    Log.d(TAG, doc.getId() + " => " + doc.getData());
-                    AbsenceListWrapper wrapper = doc.toObject(AbsenceListWrapper.class);
-                    absenceList.addAll(wrapper.getAbsences());
-                }
-                mAdapter.notifyDataSetChanged();
-                if(dialog != null){
-                    dialog.dismiss();
-                }
-            }
-        });
+
+        db.collection(Constante.ABSENCES_COLLECTION).document(currentStudent.getStudentId()).collection("studentAbsences")
+                .addSnapshotListener((snapshots, e) -> {
+                    if (e != null) {
+                        Log.d(TAG, "Error getting documents.", e);
+                        return;
+                    }
+                    absenceList.clear();
+                    for (DocumentSnapshot doc : snapshots) {
+                        Log.d(TAG, doc.getId() + " => " + doc.getData());
+                        Absence ab = doc.toObject(Absence.class);
+                        absenceList.add(ab);
+                    }
+                    mAdapter.notifyDataSetChanged();
+                    if(dialog != null){
+                        dialog.dismiss();
+                    }
+                });
     }
 }

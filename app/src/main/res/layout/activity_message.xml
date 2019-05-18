@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefreshLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingStart="@dimen/horizontal_margin"
+        android:paddingEnd="@dimen/horizontal_margin">
+        <androidx.recyclerview.widget.RecyclerView
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/recyclerView"
+            android:name="com.edischool.messages.MessageActivity"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:scrollbars="vertical"
+            tools:context=".messages.MessageActivity"
+            tools:listitem="@layout/message_item"
+            android:layout_above="@id/fab_delete"/>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+    <ImageButton
+        android:id="@+id/fab_delete"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_40sdp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="end|bottom|center"
+        android:animateLayoutChanges="true"
+        android:background="@color/colorMainLight"
+        android:src="@drawable/ic_delete"
+        android:visibility="gone" />
+</RelativeLayout>

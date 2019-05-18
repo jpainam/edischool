@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/msg_recycle"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/ripple"
+    android:clickable="true">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorWhite"
+        android:paddingTop="@dimen/vertical_margin"
+        android:paddingBottom="@dimen/vertical_margin">
+
+        <TextView
+            android:id="@+id/usertext"
+
+            android:layout_width="@dimen/_50sdp"
+            android:layout_height="@dimen/_50sdp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/circle_textview"
+            android:gravity="center"
+            android:text="Hello"
+            android:textAllCaps="true"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/_20sdp" />
+
+        <LinearLayout
+            android:id="@+id/aaa"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/vertical_margin"
+            android:layout_toRightOf="@id/usertext"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/msg_person"
+                    style="@style/fp_detail"
+                    android:maxLines="1"
+                    android:textColor="@color/colorDarkGray"
+                    android:textSize="@dimen/textsize" />
+
+                <View
+                    android:layout_width="0.0dip"
+                    android:layout_height="1.0dip"
+                    android:layout_weight="1.0" />
+
+                <TextView
+                    android:id="@+id/msg_date"
+                    style="@style/fp_title"
+                    android:textColor="@color/colorDarkGray"
+                    android:textSize="@dimen/_12sdp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/msg_subject"
+                    style="@style/inv_detail"
+
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:textColor="@color/colorDarkGray"
+                    android:textSize="@dimen/textsizemediam" />
+
+                <View
+                    android:layout_width="0.0dip"
+                    android:layout_height="1.0dip"
+                    android:layout_weight="1.0" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/msg_body"
+                style="@style/fp_title"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textColor="@color/tt"
+                android:textSize="@dimen/textsizemediam" />
+        </LinearLayout>
+    </RelativeLayout>
+</FrameLayout>

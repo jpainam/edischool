@@ -5,16 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 <androidx.recyclerview.widget.RecyclerView
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/recyclerView"
-    android:name="com.edis.eschool.StudentFragment"
+    android:name="com.edischool.student.StudentFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginLeft="16dp"
     android:layout_marginRight="16dp"
     android:scrollbars="vertical"
-    app:layoutManager="LinearLayoutManager"
     tools:context=".student.StudentFragment"
     tools:listitem="@layout/fragment_student" />
 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

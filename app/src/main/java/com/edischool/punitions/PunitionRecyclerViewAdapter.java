@@ -1,20 +1,19 @@
 package com.edischool.punitions;
 
 
-
 import android.content.Context;
-import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.edischool.R;
 import com.edischool.pojo.Punishment;
-
 
 import java.util.List;
 
@@ -55,7 +54,10 @@ public class PunitionRecyclerViewAdapter extends RecyclerView.Adapter<PunitionRe
 
     @Override
     public int getItemCount() {
-        return punishmentList.size();
+        if(punishmentList != null) {
+            return punishmentList.size();
+        }
+        return 0;
     }
 
     public static  class ViewHolder extends RecyclerView.ViewHolder{

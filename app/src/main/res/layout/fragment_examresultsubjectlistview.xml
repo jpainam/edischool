@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/subjectcolor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:stretchColumns="1">
+
+        <View
+            android:layout_width="1.0dip"
+            android:layout_height="match_parent"
+            android:background="@color/colorLightGray" />
+
+        <TextView
+            android:id="@+id/subject"
+            android:layout_width="0.0dip"
+            android:layout_height="@dimen/_30sdp"
+            android:layout_weight="1.0"
+            android:gravity="center"
+            android:singleLine="true"
+            android:text="Subject"
+            android:textSize="@dimen/_10sdp"
+            android:textStyle="bold" />
+
+        <View
+            android:layout_width="@dimen/_1sdp"
+            android:layout_height="match_parent"
+            android:background="@color/colorLightGray" />
+
+        <TextView
+            android:id="@+id/marks"
+            android:layout_width="0.0dip"
+            android:layout_height="@dimen/_30sdp"
+            android:layout_weight="1.0"
+            android:gravity="center"
+            android:singleLine="true"
+            android:text="Marks"
+            android:textSize="@dimen/_10sdp"
+            android:textStyle="bold" />
+
+        <View
+            android:layout_width="@dimen/_1sdp"
+            android:layout_height="match_parent"
+            android:background="@color/colorLightGray" />
+
+        <TextView
+            android:id="@+id/grade"
+            android:layout_width="1.0dip"
+            android:layout_height="@dimen/_30sdp"
+            android:layout_weight="1.0"
+            android:gravity="center"
+            android:singleLine="true"
+            android:text="Grade"
+            android:textSize="@dimen/_10sdp"
+            android:textStyle="bold" />
+
+        <View
+            android:layout_width="@dimen/_1sdp"
+            android:layout_height="match_parent"
+            android:background="@color/colorLightGray" />
+
+        <TextView
+            android:id="@+id/comment"
+            android:layout_width="0.0dip"
+            android:layout_height="@dimen/_30sdp"
+            android:layout_weight="1.0"
+            android:gravity="center"
+            android:singleLine="true"
+            android:text="Comment"
+            android:textSize="@dimen/_10sdp" />
+
+        <View
+            android:layout_width="1.0dip"
+            android:layout_height="match_parent"
+            android:background="@color/colorLightGray" />
+    </LinearLayout>
+</LinearLayout>

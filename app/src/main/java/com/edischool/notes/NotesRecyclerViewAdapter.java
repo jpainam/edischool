@@ -1,21 +1,22 @@
 package com.edischool.notes;
 
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.edischool.R;
-import com.edischool.pojo.Grade;
-import com.edischool.pojo.Note;
+import com.edischool.pojo.Mark;
 
 import java.util.List;
 
 public class NotesRecyclerViewAdapter extends RecyclerView.Adapter<NotesRecyclerViewAdapter.ViewHolder> {
 
-    private final List<Grade> mValues;
+    private final List<Mark> mValues;
 
-    public NotesRecyclerViewAdapter(List<Grade> items) {
+    public NotesRecyclerViewAdapter(List<Mark> items) {
         mValues = items;
     }
 
@@ -29,9 +30,9 @@ public class NotesRecyclerViewAdapter extends RecyclerView.Adapter<NotesRecycler
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
-        Grade n = mValues.get(position);
+        Mark n = mValues.get(position);
         holder.tvMatiere.setText(n.getSubject());
-        holder.tvNote.setText(n.getMark() + " " + n.getObservation());
+        holder.tvNote.setText(n.getMark() + " " + n.getComment());
         holder.tvSequence.setText(n.getSequence());
     }
 
@@ -45,7 +46,7 @@ public class NotesRecyclerViewAdapter extends RecyclerView.Adapter<NotesRecycler
         public final TextView tvMatiere;
         public final TextView tvNote;
         public final TextView tvSequence;
-        public Grade mItem;
+        public Mark mItem;
 
         public ViewHolder(View view) {
             super(view);

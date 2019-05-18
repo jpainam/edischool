@@ -30,7 +30,7 @@
             app:title="@string/change_language"
             app:useSimpleSummaryProvider="true"
             />
-        <Preference android:title="@string/pref_about"
+        <Preference android:title="@string/about_preference"
             app:key="about_preference"
             app:iconSpaceReserved="false"
             app:summary="Edischool - App"

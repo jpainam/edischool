@@ -1,4 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <array name="androidcolors" >
+        <item>#800000</item>
+        <item>#4682B4</item>
+        <item>#7FFF00</item>
+        <item>#C71585</item>
+        <item>#4169E1</item>
+        <item>#A52A2A</item>
+        <item>#8B4513</item>
+        <item>#556B2F</item>
+        <item>#708090</item>
+        <item>#DC143C</item>
+        <item>#7FFFD4</item>
+        <item>#7B68EE</item>
+        <item>#00008B</item>
+    </array>
     <!-- Reply Preference -->
     <string-array name="reply_entries">
         <item>Reply</item>
@@ -31,4 +47,5 @@
         <item>3eme Trimestre</item>
         <item>Annuelle</item>
     </string-array>
+
 </resources>

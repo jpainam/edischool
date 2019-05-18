@@ -1,20 +1,14 @@
 package com.edischool;
 
 import android.accounts.Account;
-import android.accounts.AccountManager;
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.net.Uri;
-import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.WindowManager;
 
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -28,9 +22,8 @@ import androidx.viewpager.widget.ViewPager;
 import com.crashlytics.android.Crashlytics;
 import com.edischool.news.NewsFragment;
 import com.edischool.pojo.Student;
-import com.edischool.sql.DatabaseHelper;
 import com.edischool.student.StudentFragment;
-import com.edischool.utils.Constante;
+import com.edischool.utils.ActivityUtils;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
@@ -40,12 +33,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
 
+
 import io.fabric.sdk.android.Fabric;
-import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, StudentFragment.OnListFragmentInteractionListener,
@@ -70,7 +59,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Fabric.with(this, new Crashlytics());
+        //Fabric.with(this, new Crashlytics());
         SharedPreferences pref = getApplicationContext().getSharedPreferences(
                 getString(R.string.shared_preference_file), Context.MODE_PRIVATE);
         //if (!pref.contains(getString(R.string.visite))) {
@@ -138,6 +127,7 @@ public class MainActivity extends AppCompatActivity
             }
         });
     }
+
 
 
     /*@Override
@@ -208,6 +198,8 @@ public class MainActivity extends AppCompatActivity
             Intent intent = new Intent(getApplicationContext(), AuthenticationActivity.class);
             startActivity(intent);
             finish();
+        }else if (id == R.id.nav_about){
+            ActivityUtils.showAboutDialog(MainActivity.this);
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);

@@ -7,14 +7,14 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.edischool.pojo.Bulletin;
+import com.edischool.pojo.GradeBook;
 
 import java.util.List;
 
 
 public class BulletinRecyclerViewAdapter extends RecyclerView.Adapter<BulletinRecyclerViewAdapter.ViewHolder> {
 
-    public BulletinRecyclerViewAdapter(Context context, List<Bulletin> bulletinList){
+    public BulletinRecyclerViewAdapter(Context context, List<GradeBook> gradeBookList){
 
     }
     @NonNull

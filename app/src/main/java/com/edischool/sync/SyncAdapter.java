@@ -11,8 +11,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SyncResult;
 import android.os.Bundle;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import android.util.Log;
+
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.edischool.R;
 import com.edischool.absences.AbsenceDao;
@@ -24,8 +25,8 @@ import com.edischool.pojo.Emploi;
 import com.edischool.pojo.Manuelscolaire;
 import com.edischool.pojo.Note;
 import com.edischool.pojo.Student;
-import com.edischool.student.StudentDao;
 import com.edischool.pojo.Week;
+import com.edischool.student.StudentDao;
 import com.edischool.timetable.TimeTableDao;
 import com.edischool.utils.Constante;
 

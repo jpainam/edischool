@@ -2,15 +2,12 @@ package com.edischool.timetable;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
-
 import android.preference.PreferenceManager;
-
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
 import com.edischool.R;
-
 import com.edischool.pojo.Student;
 import com.google.android.material.tabs.TabLayout;
 

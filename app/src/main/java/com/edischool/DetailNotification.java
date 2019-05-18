@@ -2,14 +2,15 @@ package com.edischool;
 
 import android.content.Context;
 import android.content.Intent;
-
-import com.edischool.pojo.Notification;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.edischool.pojo.Notification;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class DetailNotification extends AppCompatActivity {
     TextView message, title,date;

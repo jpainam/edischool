@@ -3,13 +3,12 @@ package com.edischool.manuelscolaires;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
-
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ExpandableListView;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.edischool.R;
 import com.edischool.pojo.Book;

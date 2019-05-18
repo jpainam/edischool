@@ -1,8 +1,5 @@
 package com.edischool.pojo;
 
-import android.os.Parcel;
-
-
 public class Book {
     private String authors;
     private String editors;

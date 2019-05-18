@@ -1,20 +1,17 @@
 package com.edischool.innermenu;
 
 
-
-import android.content.Intent;
 import android.graphics.Color;
-
 import android.os.Bundle;
-
 import android.util.Log;
 import android.view.View;
 import android.widget.GridLayout;
-
 import android.widget.Toast;
-import com.edischool.R;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+
+import com.edischool.R;
 
 public class InnerBlueActivity extends AppCompatActivity {
 

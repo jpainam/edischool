@@ -46,7 +46,7 @@
                 android:orientation="horizontal">
 
                 <LinearLayout
-                    android:id="@+id/profile"
+                    android:id="@+id/grade"
                     android:layout_width="0.0dip"
                     android:layout_height="wrap_content"
                     android:layout_weight="1.0"
@@ -59,7 +59,7 @@
                         android:layout_width="@dimen/circle"
                         android:layout_height="@dimen/circle"
                         android:layout_marginTop="@dimen/_10sdp"
-                        android:src="@drawable/profile" />
+                        android:src="@drawable/grades" />
 
                     <TextView
                         android:id="@+id/textView5"
@@ -69,7 +69,7 @@
                         android:layout_marginTop="@dimen/_5sdp"
                         android:layout_marginBottom="@dimen/_10sdp"
                         android:gravity="center"
-                        android:text="Profile"
+                        android:text="Marks"
                         android:textColor="@color/colorDarkGray"
                         android:textSize="@dimen/_12sdp" />
                 </LinearLayout>
@@ -142,7 +142,7 @@
                     android:layout_weight="1.0">
 
                     <LinearLayout
-                        android:id="@id/message"
+                        android:id="@+id/message"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="@drawable/ripple1"
@@ -263,7 +263,7 @@
                     android:layout_weight="1.0">
 
                     <LinearLayout
-                        android:id="@+id/notification"
+                        android:id="@+id/punishment"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -276,7 +276,7 @@
                             android:layout_width="@dimen/circle"
                             android:layout_height="@dimen/circle"
                             android:layout_marginTop="@dimen/_10sdp"
-                            android:src="@drawable/notification" />
+                            android:src="@drawable/punishment" />
 
                         <TextView
                             android:id="@+id/openSenseTextView10"
@@ -286,7 +286,7 @@
                             android:layout_marginTop="@dimen/_5sdp"
                             android:layout_marginBottom="@dimen/_10sdp"
                             android:gravity="center"
-                            android:text="Notifications"
+                            android:text="Punishment"
                             android:textColor="@color/colorDarkGray"
                             android:textSize="@dimen/_12sdp" />
                     </LinearLayout>
@@ -321,7 +321,7 @@
                     android:layout_weight="1.0">
 
                     <LinearLayout
-                        android:id="@+id/holiday"
+                        android:id="@+id/payment"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@drawable/ripple1"
@@ -332,7 +332,7 @@
                             android:layout_width="@dimen/circle"
                             android:layout_height="@dimen/circle"
                             android:layout_marginTop="@dimen/_10sdp"
-                            android:src="@drawable/holiday" />
+                            android:src="@drawable/payment" />
 
                         <TextView
 
@@ -341,7 +341,7 @@
                             android:layout_marginTop="@dimen/_5sdp"
                             android:layout_marginBottom="@dimen/_10sdp"
                             android:gravity="center"
-                            android:text="Holiday"
+                            android:text="Payment"
                             android:textColor="@color/colorDarkGray"
                             android:textSize="@dimen/_12sdp" />
                     </LinearLayout>
@@ -369,6 +369,32 @@
                             android:textSize="@dimen/_10sdp" />
                     </LinearLayout>
                 </FrameLayout>
+                <LinearLayout
+                    android:id="@+id/textbook"
+                    android:layout_width="0.0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.0"
+                    android:background="@drawable/ripple1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:layout_width="@dimen/circle"
+                        android:layout_height="@dimen/circle"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:src="@drawable/textbooks" />
+
+                    <TextView
+
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:layout_marginBottom="@dimen/_10sdp"
+                        android:gravity="center"
+                        android:text="Textbooks"
+                        android:textColor="@color/colorDarkGray"
+                        android:textSize="@dimen/_12sdp" />
+                </LinearLayout>
             </LinearLayout>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

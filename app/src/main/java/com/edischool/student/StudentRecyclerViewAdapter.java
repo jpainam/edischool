@@ -1,22 +1,18 @@
 package com.edischool.student;
 
 import android.content.Context;
-import android.content.Intent;
 import android.net.Uri;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.edischool.R;
+import androidx.recyclerview.widget.RecyclerView;
 
-import com.edischool.pojo.Notification;
+import com.edischool.R;
 import com.edischool.pojo.Student;
 import com.edischool.utils.Constante;
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -81,7 +77,10 @@ public class StudentRecyclerViewAdapter extends RecyclerView.Adapter<StudentRecy
 
     @Override
     public int getItemCount() {
-        return mValues.size();
+        if(mValues != null) {
+            return mValues.size();
+        }
+        return 0;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener {

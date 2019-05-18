@@ -2,7 +2,6 @@ package com.edischool.timetable;
 
 import android.app.AlertDialog;
 import android.os.Bundle;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,7 +24,6 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import javax.annotation.Nullable;
 

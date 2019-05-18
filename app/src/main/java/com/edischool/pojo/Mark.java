@@ -1,35 +1,53 @@
 package com.edischool.pojo;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
-import java.util.List;
-
 public class Mark {
-    private String studentId;
-    private List<Grade> grades;
+    private String grade; // A+ or B
+    private String comment;
+    private String mark;
+    private String subject;
+    private String sequence;
 
     public Mark(){
 
     }
 
-
-
-
-    public String getStudentId() {
-        return studentId;
+    public String getGrade() {
+        return grade;
     }
 
-    public void setStudentId(String studentId) {
-        this.studentId = studentId;
+    public void setGrade(String grade) {
+        this.grade = grade;
     }
 
-    public List<Grade> getGrades() {
-        return grades;
+    public String getComment() {
+        return comment;
     }
 
-    public void setGrades(List<Grade> grades) {
-        this.grades = grades;
+    public void setComment(String comment) {
+        this.comment = comment;
     }
 
+    public String getMark() {
+        return mark;
+    }
+
+    public void setMark(String mark) {
+        this.mark = mark;
+    }
+
+    public String getSubject() {
+        return subject;
+    }
+
+    public void setSubject(String subject) {
+        this.subject = subject;
+    }
+
+    public String getSequence() {
+        return sequence;
+    }
+
+    public void setSequence(String sequence) {
+        this.sequence = sequence;
+    }
 }

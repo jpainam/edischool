@@ -98,7 +98,7 @@
     <string name="attachment_summary_off">Only download attachments when manually requested</string>
 
     <string name="pref_account_name">Account Name</string>
-    <string name="pref_about">About</string>
+    <string name="about_preference">About</string>
     <string name="sync_summary_off">Only sync when manually requested</string>
     <string name="sync_summary_on">Automatically sync data</string>
     <string name="menu_notifs">Notifications</string>
@@ -117,6 +117,18 @@
     <string name="select_snackbar">Please, select one item.</string>
     <string name="selected">Selected</string>
     <string name="firestore_user_id">firestore_user_id</string>
+    <string name="about_author"># AUTHORS</string>
+    <string name="about_author_name">&lt;a href=\\\"https://jpainam.github.io\\\">Jean-Paul Ainam on GitHub&lt;/a></string>
+    <string name="about_contact"># Contact</string>
+    <string name="edischool_app_email">edischool@gmail.com</string>
+    <string name="about_acknowledgement"># Acknowledgements</string>
+    <string name="about_acknowledgement_name"></string>
+    <string name="menu_about">About</string>
+    <string name="about_copyright">Copyright © %1$s</string>
+    <string name="about_contact_name">&lt;a href=\"mailto:%1$s\">%1$s&lt;/a></string>
+    <string name="about_app_version">Version 1.4.1</string>
+    <string name="activity_about_title">About</string>
+    <string name="dialog_ok_answer">Ok</string>
 
     <!-- TABLE REFERENCE -->
 </resources>

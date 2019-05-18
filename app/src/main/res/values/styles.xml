@@ -24,4 +24,46 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <style name="fp_detail">
+        <item name="android:textSize">20.0sp</item>
+        <item name="android:typeface">monospace</item>
+        <item name="android:textColor">@color/colorGray</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="compose_tv" parent="@style/fp_detail">
+        <item name="android:layout_marginBottom">@dimen/_5sdp</item>
+    </style>
+    <style name="edittext">
+        <item name="android:textSize">12dp</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textColor">@color/colorGray</item>
+        <item name="android:textColorHint">@color/colorGray</item>
+    </style>
+
+    <style name="fp_title">
+        <item name="android:textSize">15.0sp</item>
+        <item name="android:textColor">@color/colorDarkGray</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="inv_title" parent="@style/fp_title">
+        <item name="android:layout_alignParentLeft">true</item>
+    </style>
+    <style name="inv_detail" parent="@style/fp_title">
+        <item name="android:textColor">@color/colorWhite</item>
+        <item name="android:layout_alignParentRight">true</item>
+    </style>
+    <style name="TextLarge" parent="@style/fp_detail">
+        <item name="android:textSize">25.0sp</item>
+    </style>
+    <color name="colorGray">#ff9d9d9d</color>
+
+    <style name="payment">
+        <item name="android:background">@color/colorWhite</item>
+        <item name="android:layout_marginTop">@dimen/_5sdp</item>
+        <item name="android:layout_marginBottom">@dimen/_5sdp</item>
+    </style>
 </resources>

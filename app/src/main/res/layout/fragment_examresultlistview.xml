@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_20sdp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:id="@+id/r1"
+            android:layout_width="@dimen/_70sdp"
+            android:layout_height="@dimen/_70sdp"
+            android:background="@drawable/present_circle"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/marks_available"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="512"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/TextMed" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1.0dip"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_marginTop="@dimen/_2sdp"
+                android:layout_marginEnd="@dimen/_5sdp"
+                android:layout_marginBottom="@dimen/_2sdp"
+                android:background="@color/a6" />
+
+            <TextView
+                android:id="@+id/marks_total"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="800"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/TextMed" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/r2"
+            android:layout_width="@dimen/_70sdp"
+            android:layout_height="@dimen/_70sdp"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:background="@drawable/present_circle"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="GPA"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/TextMed" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1.0dip"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_marginTop="@dimen/_2sdp"
+                android:layout_marginEnd="@dimen/_5sdp"
+                android:layout_marginBottom="@dimen/_2sdp"
+                android:background="@color/a6" />
+
+            <TextView
+                android:id="@+id/marks_gpa"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0.0"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/TextMed" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/r3"
+            android:layout_width="@dimen/_70sdp"
+            android:layout_height="@dimen/_70sdp"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:background="@drawable/present_circle"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/fail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Fail"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/TextMed" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_20sdp"
+        android:layout_marginTop="@dimen/_20sdp"
+        android:layout_marginEnd="@dimen/_20sdp"
+        android:layout_marginBottom="@dimen/_20sdp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="GPA: Grade Point Average"
+            android:textSize="@dimen/_11sdp" />
+    </LinearLayout>
+</LinearLayout>

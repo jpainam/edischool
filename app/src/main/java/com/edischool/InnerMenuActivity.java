@@ -2,31 +2,29 @@ package com.edischool;
 
 import android.content.Context;
 import android.content.Intent;
-import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import androidx.cardview.widget.CardView;
-
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.edischool.absences.AbsenceActivity;
 import com.edischool.bulletins.BulletinActivity;
-import com.edischool.convocations.ConvocationActivity;
+import com.edischool.exams.ExamActivity;
 import com.edischool.finances.FinanceActivity;
 import com.edischool.manuelscolaires.ManuelscolaireActivity;
+import com.edischool.messages.MessageActivity;
 import com.edischool.notes.NotesActivity;
 import com.edischool.pojo.Student;
 import com.edischool.punitions.PunitionActivity;
 import com.edischool.timetable.TimeTableActivity;
 import com.edischool.utils.Constante;
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import javax.annotation.Nullable;
@@ -37,14 +35,15 @@ public class InnerMenuActivity extends AppCompatActivity implements View.OnClick
 
     Student currentStudent;
 
-    CardView noteCard;
-    CardView bulletinCard;
-    CardView absenceCard;
-    CardView manuelCard;
-    CardView punitionCard;
-    CardView emploiCard;
-    CardView financeCard;
-    CardView convocationCard;
+    LinearLayout llGrade;
+    LinearLayout llResult;
+    LinearLayout llAttendance;
+    LinearLayout llTextbook;
+    LinearLayout llPunishment;
+    LinearLayout llTimetable;
+    LinearLayout llPayment;
+    LinearLayout llMessage;
+    LinearLayout llExam;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     @Override
@@ -59,23 +58,25 @@ public class InnerMenuActivity extends AppCompatActivity implements View.OnClick
             getSupportActionBar().setTitle("Details");
         }
 
-        noteCard = findViewById(R.id.noteCard);
-        bulletinCard = findViewById(R.id.bulletinCard);
-        absenceCard = findViewById(R.id.absenceCard);
-        manuelCard = findViewById(R.id.manuelCard);
-        punitionCard = findViewById(R.id.punitionCard);
-        financeCard = findViewById(R.id.financeCard);
-        convocationCard = findViewById(R.id.convocationCard);
-        emploiCard = findViewById(R.id.emploiCard);
+        llGrade = findViewById(R.id.grade);
+        llResult = findViewById(R.id.result);
+        llAttendance = findViewById(R.id.attendance);
+        llTextbook = findViewById(R.id.textbook);
+        llPunishment = findViewById(R.id.punishment);
+        llPayment = findViewById(R.id.payment);
+        llMessage = findViewById(R.id.message);
+        llTimetable = findViewById(R.id.timetable);
+        llExam = findViewById(R.id.exam);
 
-        noteCard.setOnClickListener(this);
-        manuelCard.setOnClickListener(this);
-        absenceCard.setOnClickListener(this);
-        punitionCard.setOnClickListener(this);
-        bulletinCard.setOnClickListener(this);
-        financeCard.setOnClickListener(this);
-        emploiCard.setOnClickListener(this);
-        convocationCard.setOnClickListener(this);
+        llGrade.setOnClickListener(this);
+        llTextbook.setOnClickListener(this);
+        llAttendance.setOnClickListener(this);
+        llPunishment.setOnClickListener(this);
+        llResult.setOnClickListener(this);
+        llPayment.setOnClickListener(this);
+        llTimetable.setOnClickListener(this);
+        llMessage.setOnClickListener(this);
+        llExam.setOnClickListener(this);
     }
     @Override
     public boolean onSupportNavigateUp(){
@@ -127,29 +128,32 @@ public class InnerMenuActivity extends AppCompatActivity implements View.OnClick
         Intent intent = null;
 
         switch (v.getId()){
-            case R.id.noteCard:
+            case R.id.grade:
                 intent = new Intent(context, NotesActivity.class);
                 break;
-            case R.id.bulletinCard:
+            case R.id.result:
                 intent = new Intent(context, BulletinActivity.class);
                 break;
-            case R.id.absenceCard:
+            case R.id.attendance:
                 intent = new Intent(context, AbsenceActivity.class);
                 break;
-            case R.id.punitionCard:
+            case R.id.punishment:
                 intent = new Intent(context, PunitionActivity.class);
                 break;
-            case R.id.financeCard:
+            case R.id.payment:
                 intent = new Intent(context, FinanceActivity.class);
                 break;
-            case R.id.emploiCard:
+            case R.id.timetable:
                 intent = new Intent(context, TimeTableActivity.class);
                 break;
-            case R.id.convocationCard:
-                intent = new Intent(context, ConvocationActivity.class);
+            case R.id.message:
+                intent = new Intent(context, MessageActivity.class);
                 break;
-            case R.id.manuelCard:
+            case R.id.textbook:
                 intent = new Intent(context, ManuelscolaireActivity.class);
+                break;
+            case  R.id.exam:
+                intent = new Intent(context, ExamActivity.class);
                 break;
         }
         if(intent != null) {

@@ -1,12 +1,14 @@
 package com.edischool.absences;
 
 import android.content.Context;
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.edischool.R;
 import com.edischool.pojo.Absence;
 
@@ -39,7 +41,10 @@ public class AbsenceRecyclerViewAdapter extends RecyclerView.Adapter<AbsenceRecy
 
     @Override
     public int getItemCount() {
-        return absenceList.size();
+        if(null != absenceList){
+            return absenceList.size();
+        }
+        return 0;
     }
 
     public static  class ViewHolder extends RecyclerView.ViewHolder{

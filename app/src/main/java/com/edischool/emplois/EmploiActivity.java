@@ -1,22 +1,19 @@
 package com.edischool.emplois;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.edischool.R;
-import com.edischool.notes.NotesDao;
 import com.edischool.pojo.Emploi;
-import com.edischool.pojo.Note;
 import com.edischool.pojo.Student;
 
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 

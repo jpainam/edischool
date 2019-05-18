@@ -4,23 +4,12 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
 import com.edischool.pojo.Student;
-import com.edischool.sql.DatabaseHelper;
 import com.edischool.pojo.Week;
-import com.edischool.utils.Constante;
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QuerySnapshot;
+import com.edischool.sql.DatabaseHelper;
 
 import java.util.ArrayList;
-
-import javax.annotation.Nullable;
 
 public class TimeTableDao {
 

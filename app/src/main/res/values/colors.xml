@@ -8,4 +8,12 @@
     <color name="bkg_card">#8C9EFF</color>
     <color name="colorBlack">#000</color>
     <color name="colorWhite">#FFF</color>
+    <color name="colorDarkGray">#ff666666</color>
+    <color name="colorPresent">#ff0099cb</color>
+    <color name="a6">#ffacdee7</color>
+    <color name="colorLightBlue">#ff0099cc</color>
+    <color name="row">#fff6f6f6</color>
+    <color name="colorAbsent">#fffe0000</color>
+    <color name="tt">#ffa2a2a2</color>
+    <color name="colorMainLight">#ff2b3c58</color>
 </resources>

@@ -29,7 +29,10 @@ public class ManuelExpandableListAdapter extends BaseExpandableListAdapter {
 
     @Override
     public int getGroupCount() {
-        return this.subjectList.size();
+        if(this.subjectList != null) {
+            return this.subjectList.size();
+        }
+        return 0;
     }
 
     @Override

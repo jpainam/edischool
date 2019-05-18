@@ -2,7 +2,6 @@ package com.edischool.timetable;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,8 +14,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 
-import com.edischool.pojo.Week;
 import com.edischool.R;
+import com.edischool.pojo.Week;
 
 import java.util.ArrayList;
 

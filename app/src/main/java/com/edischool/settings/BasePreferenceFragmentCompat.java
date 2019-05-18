@@ -12,6 +12,7 @@ import androidx.preference.PreferenceGroupAdapter;
 import androidx.preference.PreferenceScreen;
 import androidx.preference.PreferenceViewHolder;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.edischool.R;
 
 public abstract class BasePreferenceFragmentCompat extends PreferenceFragmentCompat {

@@ -6,8 +6,9 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
 import com.edischool.R;
+
+import java.util.ArrayList;
 
 public class InnerActivity extends AppCompatActivity implements RecyclerViewAdapter.ItemListener {
 
