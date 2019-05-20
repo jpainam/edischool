@@ -16,21 +16,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.edischool.R;
-import com.edischool.pojo.GradeBook;
 import com.edischool.pojo.Grade;
+import com.edischool.pojo.GradeBook;
 import com.edischool.pojo.Student;
 import com.edischool.utils.Constante;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
-import javax.annotation.Nullable;
 
 public class BulletinActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     private static final String TAG = "BulletinActivity";
@@ -80,24 +75,21 @@ public class BulletinActivity extends AppCompatActivity implements AdapterView.O
     protected void onStart() {
         super.onStart();
         db.collection(Constante.SUBDIVISIONS_COLLECTION).document(Constante.INSTITUTION)
-                .addSnapshotListener(new EventListener<DocumentSnapshot>() {
-                    @Override
-                    public void onEvent(@Nullable DocumentSnapshot snapshot, @Nullable FirebaseFirestoreException e) {
-                        if(e != null) {
-                            Log.e(TAG, "Error requesting subdivisions ", e);
-                            return;
-                        }
-                        Map<String, Object> map = snapshot != null ? snapshot.getData() : null;
-                        if(null == map) return;
-                        for(Map.Entry<String, Object> entry : map.entrySet()){
-                            if((boolean)entry.getValue()) {
-                                spinnerList.add(entry.getKey());
-                            }
-                            Log.d(TAG, entry.getKey() + " " + entry.getValue());
-                        }
-                        spinnerAdapter.notifyDataSetChanged();
-
+                .addSnapshotListener((snapshot, e) -> {
+                    if(e != null) {
+                        Log.e(TAG, "Error requesting subdivisions ", e);
+                        return;
                     }
+                    Map<String, Object> map = snapshot != null ? snapshot.getData() : null;
+                    if(null == map) return;
+                    for(Map.Entry<String, Object> entry : map.entrySet()){
+                        if((boolean)entry.getValue()) {
+                            spinnerList.add(entry.getKey());
+                        }
+                        Log.d(TAG, entry.getKey() + " " + entry.getValue());
+                    }
+                    spinnerAdapter.notifyDataSetChanged();
+
                 });
     }
 

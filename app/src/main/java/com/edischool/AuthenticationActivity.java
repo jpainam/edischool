@@ -22,6 +22,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.chaos.view.PinView;
 import com.edischool.utils.Constante;
+import com.edischool.utils.Utils;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
@@ -62,6 +63,7 @@ public class AuthenticationActivity extends AppCompatActivity {
     ConstraintLayout rootView;
     private EditText phoneNum;
     private PinView verifyCodeET;
+    private TextView tvReceivedNot;
     private TextView phonenumberText;
     CountryCodePicker ccp;
     private String mVerificationId;
@@ -95,6 +97,7 @@ public class AuthenticationActivity extends AppCompatActivity {
         ccp = findViewById(R.id.ccp);
         ccp.registerCarrierNumberEditText(phoneNum);
         stepView = findViewById(R.id.step_view);
+        tvReceivedNot = findViewById(R.id.tvReceivedNot);
         stepView.setStepsNumber(3);
         stepView.go(0, true);
         layout1.setVisibility(View.VISIBLE);
@@ -112,7 +115,11 @@ public class AuthenticationActivity extends AppCompatActivity {
                 //String phoneNumber = phoneNum.getText().toString();
                 String phoneNumber = ccp.getFullNumberWithPlus();
                 phonenumberText.setText(phoneNumber);
-
+                if(!Utils.isConnected(AuthenticationActivity.this)){
+                    Snackbar.make(layout1, "You are not connected. " +
+                            "Check your Internet connection", Snackbar.LENGTH_LONG).show();
+                    return;
+                }
                 if (TextUtils.isEmpty(phoneNumber)) {
                     phoneNum.setError("Enter a Phone Number");
                     phoneNum.requestFocus();
@@ -144,6 +151,10 @@ public class AuthenticationActivity extends AppCompatActivity {
                 String verificationCode = verifyCodeET.getText().toString();
                 if (verificationCode.isEmpty()) {
                     Toast.makeText(AuthenticationActivity.this, "Enter verification code", Toast.LENGTH_SHORT).show();
+                }else if(!Utils.isConnected(AuthenticationActivity.this)){
+                    Snackbar.make(layout1, "You are not connected. " +
+                            "Check your Internet connection", Snackbar.LENGTH_LONG).show();
+                    return;
                 } else {
                     dialog.show();
                     verifyVerificationCode(verificationCode);
@@ -151,6 +162,23 @@ public class AuthenticationActivity extends AppCompatActivity {
             }
         });
 
+        tvReceivedNot.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!Utils.isConnected(AuthenticationActivity.this)) {
+                    Snackbar.make(layout1, "You are not connected. " +
+                            "Check your Internet connection", Snackbar.LENGTH_LONG).show();
+                    return;
+                }
+                Toast.makeText(AuthenticationActivity.this, "Retrying... Wait at least 2min", Toast.LENGTH_LONG).show();
+                PhoneAuthProvider.getInstance().verifyPhoneNumber(
+                        phonenumberText.getText().toString(),        // Phone number to verify
+                        60,                 // Timeout duration
+                        TimeUnit.SECONDS,   // Unit of timeout
+                        AuthenticationActivity.this,               // Activity (for callback binding)
+                        mCallbacks);
+            }
+        });
 
     }
 

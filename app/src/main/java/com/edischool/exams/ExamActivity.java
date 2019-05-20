@@ -14,20 +14,15 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.edischool.R;
-import com.edischool.finances.FinanceRecyclerViewAdapter;
 import com.edischool.pojo.Exam;
-import com.edischool.pojo.Finance;
-import com.edischool.pojo.FinanceListWrapper;
 import com.edischool.pojo.Student;
 import com.edischool.utils.Constante;
 import com.edischool.utils.EdisDividerItemDecoration;
 import com.edischool.utils.EdisRecyclerTouchListener;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;

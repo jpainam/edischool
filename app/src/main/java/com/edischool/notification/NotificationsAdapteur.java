@@ -27,16 +27,23 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class NotificationsAdapteur extends RecyclerView.Adapter<NotificationsAdapteur.ViewHolder> {
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     private static final String TAG = "NotificationAdapter";
     private Context mContext;
     private List<Notification> mDataSeach= new ArrayList<>();
-    private List<Notification> notificationsList;// table qui permet la sauvegarde des donnée l
+    private List<Notification> notificationsList;
+    private List<Notification> mDataSave;// table qui permet la sauvegarde des donnée l
+
+
     private static final int DELEITEM=104;
     public NotificationsAdapteur(Context mContext, List<Notification> notifications) {
         this.mContext = mContext;
         this.notificationsList = notifications;
+        this. mDataSave= notifications;
 
     }
 
@@ -57,30 +64,16 @@ public class NotificationsAdapteur extends RecyclerView.Adapter<NotificationsAda
 
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
-           final  Notification n = notificationsList.get(position);
-           holder.icone.setText(n.getNotificationType().substring(0, 1));
+        final  Notification n = notificationsList.get(position);
+        holder.notif = n;
+        holder.icone.setText(n.getNotificationType().substring(0, 1));
 
-            holder.titre.setText(n.getNotificationTitle());
-            holder.message.setText(n.getNotificationMessage());
-            holder.date.setText(n.getCreateAt().toString());
-            if(n.isRead()) {
-                holder.notiflu.setImageResource(R.drawable.ic_check_red_24dp);
-            }
-             holder.itemnotification.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent detailNotifi= new Intent(mContext, DetailNotification.class);
-                     detailNotifi.putExtra("notifications", n);
-                    ((Activity) mContext).startActivityForResult(detailNotifi,DELEITEM);
-                   // mContext.startActivity(detailNotifi);
-                    //((Activity)mContext).overridePendingTransition(android.R.anim.slide_in_left,android.R.anim.slide_out_right);//transition simple
-                  // ((Activity)mContext).finish();
-                }
-            });
-
-
-
-
+        holder.titre.setText(n.getNotificationTitle());
+        holder.message.setText(n.getNotificationMessage());
+        holder.date.setText(n.getCreateAt());
+        if(n.isRead()) {
+            holder.notiflu.setImageResource(R.drawable.ic_check_red_24dp);
+        }
     }
 
     @Override
@@ -103,26 +96,29 @@ public class NotificationsAdapteur extends RecyclerView.Adapter<NotificationsAda
 
     public void removeNotification(int position) {
         final Notification notif = notificationsList.get(position);
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        db.collection(Constante.NOTIFICATIONS_COLLECTION).document(user.getPhoneNumber())
-                .collection(Constante.USER_NOTIFICATIONS_COLLECTION).document(notif.getNotificationId()).delete()
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Log.d(TAG, "Notification delete " + notif.getNotificationTitle());
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.e(TAG, "Error deleting document " + e);
-                    }
-                });
+        if(notif!=null){
+            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+            db.collection(Constante.NOTIFICATIONS_COLLECTION).document(user.getPhoneNumber())
+                    .collection(Constante.USER_NOTIFICATIONS_COLLECTION).document(notif.getNotificationId()).delete()
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Log.d(TAG, "Notification delete " + notif.getNotificationTitle());
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.e(TAG, "Error deleting document " + e);
+                        }
+                    });
+        }
+
     }
     public boolean existe(Notification notification ,List<Notification> liste){
         for(Notification item:liste){
             if((item.getNotificationId() == notification.getNotificationId()) ){
-               return true;
+                return true;
             }
         }
         return false ;
@@ -131,44 +127,50 @@ public class NotificationsAdapteur extends RecyclerView.Adapter<NotificationsAda
 
     public void serchNotifi(String texte) {
         mDataSeach.removeAll( mDataSeach);
-        for(Notification item: notificationsList){
+        for(Notification item: mDataSave){
             if((item.getCreateAt().toString().toLowerCase().toLowerCase().contains(texte.toLowerCase()))
                     ||(item.getNotificationTitle().toLowerCase().toLowerCase().contains(texte.toLowerCase()))
                     ||(item.getNotificationMessage().toLowerCase().toLowerCase().contains(texte.toLowerCase()))
                     ||(item.getNotificationType().toLowerCase().toLowerCase().contains(texte.toLowerCase()))){
 
                 if(!existe(item, mDataSeach))
-                   mDataSeach.add(0, item);
+                    mDataSeach.add(0, item);
             }
         }
-       /// mData.retainAll( mData);
-       // mData=mDataSeach;
+        /// mData.retainAll( mData);
+        // mData=mDataSeach;
         // if(mDataSeach.size()>0){
-            notificationsList = mDataSeach;
+        notificationsList = mDataSeach;
         Log.e("seach","seachs");
-      //    }
+        //    }
         if(texte.isEmpty()){
-            // mData = notificationsList;
+            notificationsList = mDataSave;
         }
         notifyDataSetChanged();
     }
 
-    public static class ViewHolder extends  RecyclerView.ViewHolder{
-        TextView icone;
-        TextView titre;
+    public class ViewHolder extends  RecyclerView.ViewHolder{
+        @BindView(R.id.icone) TextView icone;
+        @BindView(R.id.titre) TextView titre;
         TextView message;
         TextView date;
-        RelativeLayout itemnotification;
+        @BindView(R.id.itemnotification) RelativeLayout itemnotification;
         ImageView notiflu;
+        Notification notif;
+
         public ViewHolder(View itemView) {
             super(itemView);
-            icone=(TextView)itemView.findViewById(R.id.icone);
-            titre=(TextView)itemView.findViewById(R.id.titre);
+            ButterKnife.bind(this, itemView);
+
             message=(TextView)itemView.findViewById(R.id.message);
             date=(TextView)itemView.findViewById(R.id.date);
             notiflu=(ImageView)itemView.findViewById(R.id.notiflu);
-            itemnotification=(RelativeLayout)itemView.findViewById(R.id.itemnotification);
 
+            itemnotification.setOnClickListener(v -> {
+                Intent detailNotifi= new Intent(mContext, DetailNotification.class);
+                detailNotifi.putExtra("notification", notif);
+                ((Activity) mContext).startActivityForResult(detailNotifi,DELEITEM);
+            });
         }
     }
 

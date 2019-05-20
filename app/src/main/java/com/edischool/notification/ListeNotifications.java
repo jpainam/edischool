@@ -25,6 +25,8 @@ import com.edischool.R;
 import com.edischool.SettingsActivity;
 import com.edischool.pojo.Notification;
 import com.edischool.utils.Constante;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
@@ -38,8 +40,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dmax.dialog.SpotsDialog;
-
-import static android.app.Activity.RESULT_OK;
 
 
 public class ListeNotifications extends Fragment {
@@ -220,13 +220,11 @@ public class ListeNotifications extends Fragment {
                 public boolean onQueryTextChange(String newText) {
                     Log.e("onQueryTextSubmit", newText);
                     filterNotification(newText);
-
                     return true;
                 }
                 @Override
                 public boolean onQueryTextSubmit(String query) {
                     Log.e("onQueryTextSubmit", query);
-
                     return true;
                 }
             };
@@ -253,11 +251,40 @@ public class ListeNotifications extends Fragment {
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
+   /* @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        Log.e(TAG, "Notification delete ");
         if(requestCode==DELEITEM&&resultCode==RESULT_OK){
+            Log.d(TAG, "Notification delete ");
             Notification notif=(Notification)data.getSerializableExtra("notifi");
+            removeNotification(notif);
+
+
         }
+    }*/
+
+
+    public void removeNotification(final Notification notif) {
+        if(notif!=null){
+            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+            db.collection(Constante.NOTIFICATIONS_COLLECTION).document(user.getPhoneNumber())
+                    .collection(Constante.USER_NOTIFICATIONS_COLLECTION).document(notif.getNotificationId()).delete()
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Log.d(TAG, "Notification delete " + notif.getNotificationTitle());
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.e(TAG, "Error deleting document " + e);
+                        }
+                    });
+        }
+
     }
+
+
 }

@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.edischool.R;
 import com.edischool.pojo.Exam;
 
-
 import java.util.List;
 
 public class ExamRecyclerViewAdapter extends RecyclerView.Adapter<ExamRecyclerViewAdapter.ViewHolder> {

@@ -5,8 +5,6 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
 
-import com.edischool.MainActivity;
-
 public class Utils {
     public static boolean hasNougat() {
         return Build.VERSION.SDK_INT >= 24;

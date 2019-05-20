@@ -2,7 +2,6 @@ package com.edischool.messages;
 
 
 import android.content.Context;
-
 import android.graphics.drawable.GradientDrawable;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -29,7 +28,8 @@ public class MessageRecyclerViewAdapter extends RecyclerView.Adapter<MessageRecy
     private List<Message> messageList;
     public PopupWindow popupWindow;
     private int[] androidColors;
-    public MessageRecyclerViewAdapter(Context context, List<Message> absenceList){
+
+    public MessageRecyclerViewAdapter(Context context, List<Message> absenceList) {
         this.context = context;
         this.messageList = absenceList;
 
@@ -47,11 +47,11 @@ public class MessageRecyclerViewAdapter extends RecyclerView.Adapter<MessageRecy
     public void onBindViewHolder(@NonNull MessageRecyclerViewAdapter.ViewHolder holder, int position) {
         holder.mItem = messageList.get(position);
         Message m = messageList.get(position);
-       holder.tvBody.setText(m.getBody());
-       holder.tvSubject.setText(m.getSubject());
-       holder.tvSender.setText(m.getSender());
-       holder.tvDate.setText(m.getDate());
-       holder.tvUserText.setText(m.getSender().charAt(0) + "");
+        holder.tvBody.setText(m.getBody());
+        holder.tvSubject.setText(m.getSubject());
+        holder.tvSender.setText(m.getSender());
+        holder.tvDate.setText(m.getDate());
+        holder.tvUserText.setText(m.getSender().charAt(0) + "");
         this.androidColors = context.getResources().getIntArray(R.array.androidcolors);
         int i2 = this.androidColors[position % this.androidColors.length];
         GradientDrawable gradientDrawable = new GradientDrawable();
@@ -63,7 +63,7 @@ public class MessageRecyclerViewAdapter extends RecyclerView.Adapter<MessageRecy
     @Override
     public void onViewDetachedFromWindow(@NonNull ViewHolder holder) {
         super.onViewDetachedFromWindow(holder);
-        if(popupWindow != null && popupWindow.isShowing()){
+        if (popupWindow != null && popupWindow.isShowing()) {
             popupWindow.dismiss();
         }
     }
@@ -71,14 +71,14 @@ public class MessageRecyclerViewAdapter extends RecyclerView.Adapter<MessageRecy
     @Override
     public void onDetachedFromRecyclerView(@NonNull RecyclerView recyclerView) {
         super.onDetachedFromRecyclerView(recyclerView);
-        if(popupWindow != null && popupWindow.isShowing()){
+        if (popupWindow != null && popupWindow.isShowing()) {
             popupWindow.dismiss();
         }
     }
 
     @Override
     public int getItemCount() {
-        if(messageList != null) {
+        if (messageList != null) {
             return messageList.size();
         }
         return 0;
@@ -86,12 +86,12 @@ public class MessageRecyclerViewAdapter extends RecyclerView.Adapter<MessageRecy
 
     @Override
     public void onClick(View v) {
-        if(popupWindow != null){
+        if (popupWindow != null) {
             popupWindow.dismiss();
         }
     }
 
-    public  class ViewHolder extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder {
 
         public TextView tvBody;
         public TextView tvDate;
@@ -100,7 +100,8 @@ public class MessageRecyclerViewAdapter extends RecyclerView.Adapter<MessageRecy
         public TextView tvUserText;
         public FrameLayout frameLayout;
         public Message mItem;
-        public ViewHolder(View v){
+
+        public ViewHolder(View v) {
             super(v);
             tvBody = v.findViewById(R.id.msg_body);
             tvDate = v.findViewById(R.id.msg_date);
@@ -115,6 +116,7 @@ public class MessageRecyclerViewAdapter extends RecyclerView.Adapter<MessageRecy
         public String toString() {
             return tvSubject.getText() + " '" + tvBody.getText();
         }
+
         private final View.OnClickListener openPopup = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -125,7 +127,7 @@ public class MessageRecyclerViewAdapter extends RecyclerView.Adapter<MessageRecy
                 TextView tvSubject = inflate.findViewById(R.id.popup_subject);
                 TextView tvName = inflate.findViewById(R.id.popup_name);
                 TextView tvDetail = inflate.findViewById(R.id.popup_detail);
-                TextView tvDate =  inflate.findViewById(R.id.popup_date);
+                TextView tvDate = inflate.findViewById(R.id.popup_date);
                 RelativeLayout relativeLayout = (RelativeLayout) inflate.findViewById(R.id.popup_close);
                 tvDate.setText(mItem.getDate());
                 tvDetail.setText(mItem.getBody());
@@ -136,7 +138,7 @@ public class MessageRecyclerViewAdapter extends RecyclerView.Adapter<MessageRecy
                 relativeLayout.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if(popupWindow != null){
+                        if (popupWindow != null) {
                             popupWindow.dismiss();
                         }
                     }

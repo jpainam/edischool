@@ -14,19 +14,11 @@ import androidx.fragment.app.Fragment;
 import com.edischool.R;
 import com.edischool.pojo.Student;
 import com.edischool.pojo.Week;
-import com.edischool.pojo.WeekListWrapper;
 import com.edischool.utils.Constante;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
-
-import javax.annotation.Nullable;
 
 import dmax.dialog.SpotsDialog;
 
@@ -75,29 +67,29 @@ public class MondayFragment extends Fragment {
         if(dialog != null){
             dialog.show();
         }
+        ///timetables/1/classTimetables/Monday/dayTimetables
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        CollectionReference timeRef = db.collection(Constante.TIMETABLE_COLLECTION)
-                .document(Constante.INSTITUTION).collection(KEY_MONDAY_FRAGMENT);
-        Query query = timeRef.whereEqualTo(Constante.FORM_KEY, currentStudent.getStudentId());
-        query.addSnapshotListener(new EventListener<QuerySnapshot>() {
-            @Override
-            public void onEvent(@Nullable QuerySnapshot snapshots, @Nullable FirebaseFirestoreException e) {
-                if (e != null) {
-                    Log.w(TAG, "Error getting documents.", e);
-                    return;
-                }
-                weekList.clear();
-                for (DocumentSnapshot doc : snapshots) {
-                    Log.d(TAG, doc.getId() + " => " + doc.getData());
-                    WeekListWrapper wrapper = doc.toObject(WeekListWrapper.class);
-                    weekList.addAll(wrapper.getTimetables());
-                }
-                adapter.notifyDataSetChanged();
-                if(dialog != null){
-                    dialog.dismiss();
-                }
-            }
-        });
+        db.collection(Constante.TIMETABLE_COLLECTION)
+                .document(Constante.INSTITUTION + currentStudent.getFormId())
+                .collection(Constante.CLASS_TIMETABLES_COLLECTION)
+                .document(KEY_MONDAY_FRAGMENT).collection(Constante.DAY_TIMETABLES_COLLECTION)
+                .addSnapshotListener((snapshots, e) -> {
+                    if (e != null) {
+                        Log.w(TAG, "Error getting documents.", e);
+                        return;
+                    }
+                    weekList.clear();
+                    for (DocumentSnapshot doc : snapshots) {
+                        Log.d(TAG, doc.getId() + " => " + doc.getData());
+                        Week wrapper = doc.toObject(Week.class);
+                        weekList.add(wrapper);
+                    }
+                    adapter.notifyDataSetChanged();
+                    if(dialog != null){
+                        dialog.dismiss();
+                    }
+                });
+
     }
 
     private void setupAdapter(View view) {

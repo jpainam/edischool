@@ -6,6 +6,20 @@ public class TextBook{
     private String formId;
     private String subject;
     private List<Book> books;
+    private String subjectId;
+
+
+    public String getSubjectId() {
+        return subjectId;
+    }
+
+    public void setSubjectId(String subjectId) {
+        this.subjectId = subjectId;
+    }
+
+
+
+
 
     public TextBook(){
 

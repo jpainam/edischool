@@ -21,13 +21,16 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.crashlytics.android.Crashlytics;
 import com.edischool.LoginActivity;
 import com.edischool.R;
 import com.edischool.SettingsActivity;
+import com.edischool.pojo.Publicite;
 import com.edischool.pojo.Student;
 import com.edischool.pojo.User;
+import com.edischool.publicite.PubAdapteur;
 import com.edischool.utils.Constante;
+import com.edischool.utils.Utils;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -40,25 +43,42 @@ import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import dmax.dialog.SpotsDialog;
 
-public class StudentFragment extends Fragment{
+public class StudentFragment extends Fragment {
     private static final String TAG = "StudentFragment";
 
     AlertDialog dialog = null;
     private static final String ARG_COLUMN_COUNT = "column-count";
     private OnListFragmentInteractionListener mListener;
 
-    RecyclerView recyclerView;
+    @BindView(R.id.recyclerView) RecyclerView recyclerView;
     public List<Student> studentList = new ArrayList<>();
     public String studentListJson = new String();
     public StudentRecyclerViewAdapter studentRecyclerViewAdapter = null;
+    @BindView(R.id.swipeRefreshLayout)
     SwipeRefreshLayout swipeRefreshLayout;
     boolean swipeEnabled = false;
     private String phoneNumber;
 
     FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+    /**
+     * Pub
+     */
+    public PubAdapteur pubAdapteur = null;
+    public String publicitesJson = new String();
+    public List<Publicite> publiciteList = new ArrayList<>();
+    @BindView(R.id.pub_list)
+    RecyclerView recyclerViewPub;
+    private LinearLayoutManager PLinearLayout;
+    Timer timer = null;
+
     public StudentFragment() {
     }
 
@@ -112,33 +132,69 @@ public class StudentFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_student_list, container, false);
+        ButterKnife.bind(this, view);
+        final Context context = view.getContext();
+        recyclerView.setLayoutManager(new LinearLayoutManager(context));
 
-        // Set the adapter
-        if (view instanceof SwipeRefreshLayout) {
-            final Context context = view.getContext();
-            swipeRefreshLayout = (SwipeRefreshLayout) view;
-            recyclerView = view.findViewById(R.id.recyclerView);
-            recyclerView.setLayoutManager(new LinearLayoutManager(context));
-
-            if (studentRecyclerViewAdapter == null) {
-                studentRecyclerViewAdapter = new StudentRecyclerViewAdapter(context,
-                        studentList, mListener);
-            }
-            recyclerView.setAdapter(studentRecyclerViewAdapter);
-            swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-                @Override
-                public void onRefresh() {
-                    swipeEnabled = true;
-                    readData(phoneNumber);
-                }
-            });
-            swipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
-                    android.R.color.holo_green_light,
-                    android.R.color.holo_orange_light,
-                    android.R.color.holo_red_light);
-
+        if (studentRecyclerViewAdapter == null) {
+            studentRecyclerViewAdapter = new StudentRecyclerViewAdapter(context,
+                    studentList, mListener);
         }
+        recyclerView.setAdapter(studentRecyclerViewAdapter);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                swipeEnabled = true;
+                readData(phoneNumber);
+            }
+        });
+        swipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
+
+        PLinearLayout = new LinearLayoutManager(context,LinearLayoutManager.HORIZONTAL,false);
+        recyclerViewPub.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                if(newState==RecyclerView.SCROLL_STATE_IDLE){
+                    cursor=PLinearLayout.findLastVisibleItemPosition();
+                    //  PLinearLayout.scrollToPosition(cursor);
+                }
+            }
+        });
+        recyclerViewPub.setLayoutManager(PLinearLayout);
+        pubAdapteur = new PubAdapteur(getContext(), publiciteList);
+        recyclerViewPub.setAdapter(pubAdapteur);
+        pubAdapteur.notifyDataSetChanged();
+
         return view;
+    }
+
+    private void readPub(String phoneNumber) {
+        Publicite pub = new Publicite();
+        publiciteList.clear();
+        pub.setId(1);
+        pub.setText("pub1");
+        pub.setImage("image i");
+        pub.setType("simple");
+        publiciteList.add(pub);
+        publiciteList.add(pub);
+        publiciteList.add(pub);
+        publiciteList.add(pub);
+        publiciteList.add(pub);
+        publiciteList.add(pub);
+        publiciteList.add(pub);
+        publiciteList.add(pub);
+        publiciteList.add(pub);
+
+        Log.e(TAG, "ajoute");
+
+        pubAdapteur.notifyDataSetChanged();
+        Gson gson = new Gson();
+        publicitesJson = gson.toJson(publiciteList);
+
     }
 
     private void readData(String phoneNumber) {
@@ -147,22 +203,22 @@ public class StudentFragment extends Fragment{
         if (!swipeEnabled) {
             dialog.show();
         }
-        if(studentList == null){
+        if (studentList == null) {
             studentList = new ArrayList<>();
             getActivity().recreate();
         }
         userDoc.addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot snapshot, @Nullable FirebaseFirestoreException e) {
-                if (e != null){
+                if (e != null) {
                     Log.w(TAG, "Error getting documents.", e);
                     return;
                 }
                 User user = snapshot != null ? snapshot.toObject(User.class) : null;
-                if(null != user) {
+                if (null != user) {
                     Log.d(TAG, snapshot.getId() + " => " + snapshot.getData());
                     studentList.clear();
-                    if(user.getStudents() != null) {
+                    if (user.getStudents() != null) {
                         studentList.addAll(user.getStudents());
                         studentRecyclerViewAdapter.notifyDataSetChanged();
                         Gson gson = new Gson();
@@ -186,7 +242,26 @@ public class StudentFragment extends Fragment{
     public void onStart() {
         super.onStart();
         Log.i(TAG, "Enter onview created");
+        if( swipeEnabled && !Utils.isConnected(getContext())) {
+            Snackbar.make(swipeRefreshLayout, "You are not connected. " +
+                    "Check your Internet connection", Snackbar.LENGTH_LONG).show();
+            return;
+        }
         readData(phoneNumber);
+        //readPub(phoneNumber);
+        //int itemCountOfAdvertisement = recyclerViewPub.getAdapter().getItemCount();
+        //timer = new Timer();
+        //timer.schedule(new AdvertisementTimerTask(itemCountOfAdvertisement),
+        //        0, 2*1000);
+
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if(timer != null){
+            timer.cancel();
+        }
     }
 
     @Override
@@ -243,5 +318,27 @@ public class StudentFragment extends Fragment{
     public interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
         void onListFragmentInteraction(Student item);
+    }
+
+    int cursor = 0;
+    class AdvertisementTimerTask extends TimerTask {
+        final int count;
+
+        public AdvertisementTimerTask(int count) {
+            this.count=count;
+        }
+
+        @Override
+        public void run() {
+            if(cursor<count){
+                getActivity().runOnUiThread(() -> {
+                    recyclerViewPub.scrollToPosition(cursor);
+                    cursor++;
+                });
+            }
+            if(cursor>count){
+                cursor=0;
+            }
+        }
     }
 }

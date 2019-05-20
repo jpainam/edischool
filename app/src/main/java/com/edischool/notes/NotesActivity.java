@@ -16,18 +16,11 @@ import com.edischool.R;
 import com.edischool.pojo.Mark;
 import com.edischool.pojo.Student;
 import com.edischool.utils.Constante;
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.annotation.Nullable;
 
 import dmax.dialog.SpotsDialog;
 

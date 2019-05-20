@@ -31,7 +31,7 @@ public class Constante {
     public static final String MARKS_COLLECTION = "marks";
     public static final String STUDENT_KEY = "studentId";
     public static final String STUDENTS_COLLECTION = "students";
-    public static final String TEXTBOOKS_COLLECTION = "textbooks";
+    public static final String TEXTBOOKS_COLLECTION = "textbooks_r";
     public static final String FORM_KEY = "formId";
     public static final String ABSENCES_COLLECTION = "absences";
     public static final String TIMETABLE_COLLECTION = "timetables";
@@ -44,4 +44,6 @@ public class Constante {
     public static final String SUBDIVISIONS_COLLECTION = "subdivisions";
     public static final String MESSAGES_COLLECTION = "messages";
     public static final String EXAMS_COLLECTION = "exams";
+    public static final String CLASS_TIMETABLES_COLLECTION = "classTimetables";
+    public static final String DAY_TIMETABLES_COLLECTION = "dayTimetables";
 }

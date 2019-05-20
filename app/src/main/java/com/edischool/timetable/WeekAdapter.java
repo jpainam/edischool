@@ -28,6 +28,7 @@ public class WeekAdapter extends ArrayAdapter<Week> {
     private ArrayList<Week> weeklist;
     private Week week;
     private ListView mListView;
+    int[] androidColors;
 
     private static class ViewHolder {
         TextView subject;
@@ -81,6 +82,10 @@ public class WeekAdapter extends ArrayAdapter<Week> {
         holder.room.setText(week.getFromTime() + " - " + week.getToTime());
         if(week.getColor() != null) {
             holder.cardView.setCardBackgroundColor(Color.parseColor(week.getColor()));
+        }else{
+            this.androidColors = getContext().getResources().getIntArray(R.array.androidcolors);
+            int i2 = this.androidColors[position % this.androidColors.length];
+            holder.cardView.setCardBackgroundColor(i2);
         }
         return convertView;
     }

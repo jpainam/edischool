@@ -22,15 +22,7 @@
         android:textColor="@color/colorLightBlue"
         android:textSize="25sp"
         android:text="You have no news!!!" />
-        <ImageView
-            android:layout_width="50dp"
-            android:src="@drawable/emoji"
-            android:layout_height="50dp" />
-        <pl.droidsonroids.gif.GifImageView
-            android:layout_width="300dp"
-            android:layout_height="260dp"
-            
-            android:background="@drawable/verifing"/>
+
     </LinearLayout>
 
 </FrameLayout>

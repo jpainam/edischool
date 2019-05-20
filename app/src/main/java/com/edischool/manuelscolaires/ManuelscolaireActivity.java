@@ -15,7 +15,6 @@ import com.edischool.pojo.Book;
 import com.edischool.pojo.Student;
 import com.edischool.pojo.TextBook;
 import com.edischool.utils.Constante;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
@@ -75,35 +74,34 @@ public class ManuelscolaireActivity extends AppCompatActivity {
             dialog.show();
         }
 
-        CollectionReference textBooksRef = db.collection(Constante.TEXTBOOKS_COLLECTION);
-        Query query = textBooksRef.whereEqualTo(Constante.FORM_KEY, currentStudent.getFormId());
-        query.addSnapshotListener(new EventListener<QuerySnapshot>() {
-            @Override
-            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException e) {
-                if (e != null) {
-                    Log.w(TAG, "Error getting documents.", e);
-                    return;
+        ///textbooks_r/1/classBooks/subjectId
+        db.collection(Constante.TEXTBOOKS_COLLECTION).document(Constante.INSTITUTION + currentStudent.getFormId())
+                .collection("classBooks").addSnapshotListener(
+                (snapshots, e) -> {
+                    if (e != null) {
+                        Log.w(TAG, "Error getting documents.", e);
+                        return;
+                    }
+                    manualscolaires.clear();
+                    subjects.clear();
+                    for (QueryDocumentSnapshot doc : snapshots){
+                        Log.d(TAG, doc.getId() + " => " + doc.getData());
+                        TextBook textBook = doc.toObject(TextBook.class);
+                        String subject = textBook.getSubject();
+                        subjects.add(subject);
+                        List<Book> books = textBook.getBooks();
+                        manualscolaires.put(subject, books);
+                    }
+                    manuelExpandableListAdapter.notifyDataSetChanged();
+                    // Expand the first group
+                    if (manualscolaires.size() > 0) {
+                        expandableListView.expandGroup(0, true);
+                    }
+                    if (dialog != null) {
+                        dialog.dismiss();
+                    }
                 }
-                manualscolaires.clear();
-                subjects.clear();
-                for (QueryDocumentSnapshot doc : value) {
-                    Log.d(TAG, doc.getId() + " => " + doc.getData());
-                    String subject = doc.getString("subject");
-                    subjects.add(subject);
-                    TextBook textBook = doc.toObject(TextBook.class);
-                    List<Book> books = textBook.getBooks();
-                    manualscolaires.put(subject, books);
-                }
-                manuelExpandableListAdapter.notifyDataSetChanged();
-                // Expand the first group
-                if (manualscolaires.size() > 0) {
-                    expandableListView.expandGroup(0, true);
-                }
-                if (dialog != null) {
-                    dialog.dismiss();
-                }
-            }
-        });
+        );
     }
 
 

@@ -1,21 +1,15 @@
 package com.edischool.utils;
-import com.afollestad.materialdialogs.MaterialDialog;
-import com.afollestad.materialdialogs.Theme;
-import com.edischool.MainActivity;
-import com.edischool.R;
-import android.content.Context;
 
+import android.content.Context;
 import android.os.Build;
 import android.text.method.LinkMovementMethod;
 import android.view.View;
 import android.widget.TextView;
 
-
 import androidx.appcompat.app.AppCompatDelegate;
 
-import org.jetbrains.annotations.NotNull;
-
-import butterknife.internal.Utils;
+import com.afollestad.materialdialogs.MaterialDialog;
+import com.edischool.R;
 
 public class ActivityUtils {
 
