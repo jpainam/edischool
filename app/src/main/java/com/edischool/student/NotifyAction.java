@@ -58,10 +58,12 @@ public class NotifyAction {
                     List<String> destinataires = currentStudent.getResponsables();
                     if(destinataires != null && !destinataires.isEmpty()) {
                         for (String phoneNumber : destinataires) {
-                            db.collection(Constante.NOTIFICATIONS_COLLECTION).document(phoneNumber)
-                                    .collection(Constante.USER_NOTIFICATIONS_COLLECTION).document()
-                                    .set(notif);
-                            Log.i(TAG, "Notification set for " + phoneNumber);
+                            if(!phoneNumber.equals(connectedUser.getPhoneNumber())) {
+                                db.collection(Constante.NOTIFICATIONS_COLLECTION).document(phoneNumber)
+                                        .collection(Constante.USER_NOTIFICATIONS_COLLECTION).document()
+                                        .set(notif);
+                                Log.i(TAG, "Notification set for " + phoneNumber);
+                            }
                         }
                     }else{
                         Log.e(TAG, "No destination phone number found in " + currentStudent.getFirstName());

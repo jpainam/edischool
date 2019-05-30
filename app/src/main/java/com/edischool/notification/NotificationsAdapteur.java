@@ -18,6 +18,7 @@ import com.edischool.DetailNotification;
 import com.edischool.R;
 import com.edischool.pojo.Notification;
 import com.edischool.utils.Constante;
+import com.edischool.utils.DateUtils;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -66,11 +67,19 @@ public class NotificationsAdapteur extends RecyclerView.Adapter<NotificationsAda
     public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
         final  Notification n = notificationsList.get(position);
         holder.notif = n;
-        holder.icone.setText(n.getNotificationType().substring(0, 1));
+        if(n.getNotificationType() != null) {
+            holder.icone.setText(n.getNotificationType().substring(0, 1));
+        }else{
+            holder.icone.setText("N");
+        }
 
         holder.titre.setText(n.getNotificationTitle());
         holder.message.setText(n.getNotificationMessage());
-        holder.date.setText(n.getCreateAt());
+        if(n.getCreateAt() != null) {
+            holder.date.setText(n.getCreateAt());
+        }else{
+            holder.date.setText(DateUtils.getCurrentDate());
+        }
         if(n.isRead()) {
             holder.notiflu.setImageResource(R.drawable.ic_check_red_24dp);
         }

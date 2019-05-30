@@ -32,6 +32,7 @@ import com.edischool.utils.Constante;
 import com.edischool.utils.Utils;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
@@ -235,6 +236,11 @@ public class StudentFragment extends Fragment {
                 }
             }
         });
+        SharedPreferences pref = getContext().getSharedPreferences(
+                getString(R.string.shared_preference_file), Context.MODE_PRIVATE);
+        String token = pref.getString(getString(R.string.firebase_token), null);
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        Utils.sendRegistrationToPhpServer(getContext(), token, user.getPhoneNumber());
     }
 
 

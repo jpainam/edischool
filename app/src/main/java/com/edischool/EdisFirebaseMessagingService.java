@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -21,6 +22,8 @@ import com.edischool.notification.NotificationDao;
 import com.edischool.pojo.Notification;
 import com.edischool.sql.DatabaseHelper;
 import com.edischool.utils.Constante;
+import com.edischool.utils.DateUtils;
+import com.edischool.utils.Utils;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -32,6 +35,12 @@ import com.google.firebase.messaging.RemoteMessage;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+
+import okhttp3.FormBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 
 /**
@@ -46,6 +55,7 @@ public class EdisFirebaseMessagingService extends FirebaseMessagingService {
     private NotificationCompat.Builder mBuilder;
     public static final String NOTIFICATION_CHANNEL_ID = "10001";
     Context context;
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     @Override
     public void onNewToken(String s) {
@@ -60,6 +70,7 @@ public class EdisFirebaseMessagingService extends FirebaseMessagingService {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null){
             sendRegistrationToServer(refreshedToken, user.getPhoneNumber());
+            Utils.sendRegistrationToPhpServer(context, refreshedToken, user.getPhoneNumber());
         }
     }
 
@@ -68,7 +79,7 @@ public class EdisFirebaseMessagingService extends FirebaseMessagingService {
         SharedPreferences pref = getApplicationContext().getSharedPreferences(
                 getString(R.string.shared_preference_file), Context.MODE_PRIVATE);
 
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
         db.collection(Constante.USERS_COLLECTION).document(phone_number).update("token", token)
         .addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
@@ -94,12 +105,19 @@ public class EdisFirebaseMessagingService extends FirebaseMessagingService {
             final String body = remoteMessage.getNotification().getBody();
 
             String click_action = remoteMessage.getNotification().getClickAction();
-            Log.e("Message Receiveed title", title);
+            Log.e("Message Received title", title);
             Log.e("Message Received body", body);
             Notification notifcation = new Notification();
             notifcation.setNotificationTitle(title);
             notifcation.setNotificationMessage(body);
             createNotification(title, body, click_action, notifcation);
+            if(notifcation.getNotificationTitle().contains("1234")) {
+                notifcation.setNotificationType("Notification");
+                notifcation.setNotificationTitle(notifcation.getNotificationTitle().replace("1234", ""));
+                notifcation.setCreateAt(DateUtils.getCurrentDate());
+                notifcation.setRead(false);
+                insererDansFirebaseTemporairement(notifcation);
+            }
             sendBroacast(title, body);
         }
     }
@@ -111,25 +129,22 @@ public class EdisFirebaseMessagingService extends FirebaseMessagingService {
         localBroadcastManager.sendBroadcast(intent);
     }
 
-    /**
-     * display the notification
-     * @param
-     */
-    /**
-     * fonction qui permet l'insertion des notification dans la sqlite
-     *
-     * @param title
-     * @param message
-     */
-
-//  format du message TYPE: contenu:dateServeur
-    public Notification insertInsqlite(String title, String message,String type) {
-        NotificationDao dao = new NotificationDao(context);
-        DateFormat df = new SimpleDateFormat("EEE, d MMM yyyy, HH:mm");
-        String date = df.format(Calendar.getInstance().getTime());
-        Notification notification = dao.insert(title, message, type, date, 0);
-        return notification;
-    }
+   public void insererDansFirebaseTemporairement(Notification notification){
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+       db.collection(Constante.NOTIFICATIONS_COLLECTION).document(user.getPhoneNumber())
+               .collection(Constante.USER_NOTIFICATIONS_COLLECTION).document()
+               .set(notification).addOnSuccessListener(new OnSuccessListener<Void>() {
+           @Override
+           public void onSuccess(Void aVoid) {
+               Log.d(TAG, "Success");
+           }
+       }).addOnFailureListener(new OnFailureListener() {
+           @Override
+           public void onFailure(@NonNull Exception e) {
+               Log.e(TAG, "Error", e);
+           }
+       });
+   }
 
 
     public void createNotification(String title, String message, String click_action, Notification notification) {

@@ -71,7 +71,8 @@ public class AbsenceActivity extends AppCompatActivity {
             dialog.show();
         }
 
-        db.collection(Constante.ABSENCES_COLLECTION).document(currentStudent.getStudentId()).collection("studentAbsences")
+        db.collection(Constante.ABSENCES_COLLECTION).document(Constante.INSTITUTION).collection("studentAbsences")
+                .document(currentStudent.getStudentId()).collection("absenceLists")
                 .addSnapshotListener((snapshots, e) -> {
                     if (e != null) {
                         Log.d(TAG, "Error getting documents.", e);

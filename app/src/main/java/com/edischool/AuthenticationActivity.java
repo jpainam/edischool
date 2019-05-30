@@ -6,6 +6,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -46,6 +47,12 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import dmax.dialog.SpotsDialog;
+import okhttp3.FormBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+
 
 
 public class AuthenticationActivity extends AppCompatActivity {
@@ -323,5 +330,8 @@ public class AuthenticationActivity extends AppCompatActivity {
         map.put("location", ccp.getSelectedCountryEnglishName());
         db.collection(Constante.USERS_COLLECTION).document(phoneNumber)
                 .set(map, SetOptions.merge());
+        Utils.sendRegistrationToPhpServer(getApplicationContext(), token, phoneNumber);
+
     }
+
 }

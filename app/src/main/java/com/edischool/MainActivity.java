@@ -44,21 +44,26 @@ public class MainActivity extends AppCompatActivity
     Account mAccount;
     ViewPager viewPager;
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     static {
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
         //AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO);
-        FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
-                .setPersistenceEnabled(true)
-                .setCacheSizeBytes(FirebaseFirestoreSettings.CACHE_SIZE_UNLIMITED)
-                .build();
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.setFirestoreSettings(settings);
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Fabric.with(this, new Crashlytics());
+        FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
+                .setPersistenceEnabled(true)
+                .setCacheSizeBytes(FirebaseFirestoreSettings.CACHE_SIZE_UNLIMITED)
+                .build();
+        try {
+            db.setFirestoreSettings(settings);
+        }catch (Exception ex){
+            Log.e(TAG, "Firestore has already started", ex);
+        }
+
         SharedPreferences pref = getApplicationContext().getSharedPreferences(
                 getString(R.string.shared_preference_file), Context.MODE_PRIVATE);
         //if (!pref.contains(getString(R.string.visite))) {

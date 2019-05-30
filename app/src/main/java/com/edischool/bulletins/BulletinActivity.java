@@ -105,6 +105,7 @@ public class BulletinActivity extends AppCompatActivity implements AdapterView.O
                     }
                     markList.clear();
                     for (DocumentSnapshot doc : snapshots) {
+                        Log.i(TAG, doc.getId() + "=>" + doc.getData());
                         Grade mark = doc.toObject(Grade.class);
                         markList.add(mark);
                     }

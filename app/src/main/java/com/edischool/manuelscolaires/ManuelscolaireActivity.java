@@ -15,6 +15,7 @@ import com.edischool.pojo.Book;
 import com.edischool.pojo.Student;
 import com.edischool.pojo.TextBook;
 import com.edischool.utils.Constante;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
@@ -108,7 +109,8 @@ public class ManuelscolaireActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        Query query = db.collection(Constante.TEXTBOOKS_COLLECTION).whereEqualTo(Constante.FORM_KEY, currentStudent.getFormId());
+        CollectionReference query = db.collection(Constante.TEXTBOOKS_COLLECTION).document(Constante.INSTITUTION + currentStudent.getFormId())
+                .collection("classBooks");
         ListenerRegistration registration = query.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot snapshots, @Nullable FirebaseFirestoreException e) {

@@ -1,5 +1,6 @@
 package com.edischool.utils;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -29,5 +30,11 @@ public class DateUtils {
         Calendar instance = Calendar.getInstance();
         instance.setTime(new Date());
         return instance.get(1);
+    }
+
+    public static String getCurrentDate() {
+        DateFormat df = new SimpleDateFormat("dd-MM-yyyy, HH:mm");
+        String date = df.format(Calendar.getInstance().getTime());
+        return date;
     }
 }

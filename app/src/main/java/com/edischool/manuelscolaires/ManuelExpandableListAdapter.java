@@ -37,7 +37,10 @@ public class ManuelExpandableListAdapter extends BaseExpandableListAdapter {
 
     @Override
     public int getChildrenCount(int groupPosition) {
-        return this.manualList.get(this.subjectList.get(groupPosition)).size();
+        if(this.manualList.get(this.subjectList.get(groupPosition)) != null) {
+            return this.manualList.get(this.subjectList.get(groupPosition)).size();
+        }
+        return 0;
     }
 
     @Override

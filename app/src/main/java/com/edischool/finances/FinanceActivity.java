@@ -95,9 +95,10 @@ public class FinanceActivity extends AppCompatActivity {
         if(dialog != null){
             dialog.show();
         }
-        CollectionReference absencesRef = db.collection(Constante.FINANCES_COLLECTION);
-        Query query = absencesRef.whereEqualTo(Constante.STUDENT_KEY, currentStudent.getStudentId());
-        query.addSnapshotListener(new EventListener<QuerySnapshot>() {
+        db.collection(Constante.FINANCES_COLLECTION)
+                .document(Constante.INSTITUTION).collection("studentFinances")
+                .document(currentStudent.getStudentId()).collection("transactions")
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException e) {
                 if (e != null) {
@@ -107,8 +108,8 @@ public class FinanceActivity extends AppCompatActivity {
                 financeList.clear();
                 for (DocumentSnapshot doc : value) {
                     Log.d(TAG, doc.getId() + " => " + doc.getData());
-                    FinanceListWrapper wrapper = doc.toObject(FinanceListWrapper.class);
-                    financeList.addAll(wrapper.getTransactions());
+                    Finance wrapper = doc.toObject(Finance.class);
+                    financeList.add(wrapper);
                 }
                 mAdapter.notifyDataSetChanged();
                 if(dialog != null){

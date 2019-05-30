@@ -2,6 +2,7 @@ package com.edischool.student;
 
 import android.content.Context;
 import android.net.Uri;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -22,6 +23,7 @@ import java.util.List;
 
 
 public class StudentRecyclerViewAdapter extends RecyclerView.Adapter<StudentRecyclerViewAdapter.ViewHolder> {
+    private static final String TAG = "StudentAdapter";
 
     private final List<Student> mValues;
     private final StudentFragment.OnListFragmentInteractionListener mListener;
@@ -51,7 +53,7 @@ public class StudentRecyclerViewAdapter extends RecyclerView.Adapter<StudentRecy
                    holder.mIconView.setImageResource(R.drawable.female_avatar);
             }
         }else {
-
+            Log.e(TAG, st.getPhoto());
             //ContextWrapper cw = new ContextWrapper(context);
             //File directory = cw.getDir(Constante.IMG_DIR, Context.MODE_PRIVATE);
             //File studentPhoto = new File(directory, st.getPhoto());
